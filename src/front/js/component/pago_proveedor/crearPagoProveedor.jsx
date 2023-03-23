@@ -8,16 +8,43 @@ export const CrearPagoProveedor = () => {
   const { store, actions } = useContext(Context);
 
   const [busqueda, setBusqueda] = useState("");
+
   const [proveedor, setProveedor] = useState("");
   const [fechaPago, setFechaPago] = useState("");
   const [factura, setFactura] = useState("");
   const [monto, setMonto] = useState("");
   const [idmetodo, setIdMetodo] = useState("");
+  const [observaciones, setObservaciones] = useState("")
 
   useEffect(() => {
     actions.obtenerProveedores();
     actions.obtenerMetodos();
   }, []);
+
+  const guardar = (e) => {
+    e.preventDefault();
+
+    // console.log(fechaPago, factura, monto, proveedor, idmetodo, observaciones)
+
+    if (actions.crearPagoProveedores(fechaPago, factura, monto, proveedor, idmetodo, observaciones)) {
+      toast.success("💪 Guardado con éxito", {
+        position: toast.POSITION.TOP_RIGHT,
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
+    }
+    /* Limpiar el formulario */
+    setFechaPago("");
+    setFactura("");
+    setMonto("")
+    setObservaciones("")
+  };
+
 
   return (
     <>
@@ -137,12 +164,30 @@ export const CrearPagoProveedor = () => {
           </div>
           <br />
 
+
+          <div className="row">
+            {/* Observaciones */}
+            <div className="col">
+              <label htmlFor="observaciones" style={{ marginBottom: "10px" }}>
+                Observaciones:
+              </label>
+              <input
+                type="text"
+                className="form-control"
+                placeholder="Observaciones"
+                value={observaciones}
+                onChange={(e) => setObservaciones(e.target.value)}
+              />
+            </div>
+          </div>
+          <br />
+
           <div className="row">
             <div style={{ marginTop: "15px" }}>
               <button
                 type="submit"
                 className="btn btn-outline-danger float-end w-25"
-                //onClick={(e) => guardar(e)}
+                onClick={(e) => guardar(e)}
               >
                 Guardar pago
               </button>

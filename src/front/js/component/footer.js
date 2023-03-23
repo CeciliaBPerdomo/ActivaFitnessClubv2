@@ -11,7 +11,7 @@ export const Footer = () => (
 			</div>
 			<div className="col"></div>
 			<div className="col"></div>
-			<div className="col">Diseñado por Cecilia Perdomo</div>
+			<div className="col">Desarrollado por Cecilia Perdomo</div>
   		</div>
 	</div>
 );

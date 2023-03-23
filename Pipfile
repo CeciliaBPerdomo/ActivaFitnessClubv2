@@ -18,7 +18,8 @@ gunicorn = "*"
 cloudinary = "*"
 flask-admin = "*"
 typing-extensions = "*"
-mariadb = "*"
+psycopg2 = "*"
+pygresql = "*"
 
 [requires]
 python_version = "3.8"

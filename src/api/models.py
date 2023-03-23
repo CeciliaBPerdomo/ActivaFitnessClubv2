@@ -163,6 +163,7 @@ class Metodospago(db.Model):
 
     # FK 
     mensualidades = db.relationship('Mensualidades', backref="metodospago", cascade="all, delete-orphan", lazy=True)
+#    pagoproveedores = db.relationship('Pagoproveedores', backref="metodospago", cascade="all, delete-orphan", lazy=True)
 
     def __repr__(self):
         return f'<MetodosPago {self.tipo}>'
@@ -213,6 +214,8 @@ class Proveedores(db.Model):
     mail = db.Column(db.String(120), unique=False)
     observaciones = db.Column(db.String(120), unique=False)
 
+    pagos = db.relationship("Pagoproveedores", backref="proveedores", cascade="all, delete-orphan", lazy=True)
+
     def __repr__(self):
         return f'<Proveedores {self.nombre}>'
 
@@ -237,10 +240,7 @@ class Pagoproveedores(db.Model):
     observaciones = db.Column(db.String(120), unique=False)
 
     # FK 
-    proveedor = db.relationship('Proveedores', backref="pagoproveedores")
     idproveedor = db.Column(db.Integer, db.ForeignKey("proveedores.id"))
-
-    metodo = db.relationship('Metodospago', backref="pagoproveedores")
     idmetodo = db.Column(db.Integer, db.ForeignKey("metodospago.id"))
 
     def __repr__(self):
@@ -257,17 +257,17 @@ class Pagoproveedores(db.Model):
             "idmetodo": self.idmetodo,
         }
 
-    def serializeMetodo(self):
-        results = Metodospago.query.filter_by(id = self.id).first()
-        return {
-            "metodosInfo": results.serialize(),
-        }
+    # def serializeMetodo(self):
+    #     results = Metodospago.query.filter_by(id = self.id).first()
+    #     return {
+    #         "metodosInfo": results.serialize(),
+    #     }
     
-    def serializeProveedor(self):
-        results = Proveedores.query.filter_by(id = self.id).first()
-        return {
-            "proveedorInfo": results.serialize(),
-        }
+    # def serializeProveedor(self):
+    #     results = Proveedores.query.filter_by(id = self.id).first()
+    #     return {
+    #         "proveedorInfo": results.serialize(),
+    #     }
 
 # Productos
 class Productos(db.Model):
@@ -280,7 +280,7 @@ class Productos(db.Model):
     observaciones = db.Column(db.String(500), unique=False)
 
     # FK 
-    proveedor = db.relationship('Proveedores', backref="productos")
+    #proveedor = db.relationship('Proveedores', backref="productos")
     proveedorid = db.Column(db.Integer, db.ForeignKey("proveedores.id"))
 
     def __repr__(self):

@@ -739,3 +739,10 @@ def addPagoProveedores():
     db.session.commit()
 
     return jsonify(new_pagoproveedor.serialize()), 200
+
+# Muestra todos los pagos realizados a proveedores
+@api.route('/pagoproveedores', methods=['GET'])
+def getPagoProveedores():
+    pagoproveedores = Pagoproveedores.query.all()
+    results = list(map(lambda x: x.serialize(), pagoproveedores))
+    return jsonify(results), 200

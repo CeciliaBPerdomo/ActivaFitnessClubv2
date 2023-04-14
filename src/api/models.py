@@ -46,6 +46,7 @@ class Usuarios(db.Model):
     altura = db.Column(db.String(10))
     fechaingreso  =  db.Column(db.String(15), unique=False)
     activo  = db.Column(db.String(10), unique=False, nullable=False)
+    proximovencimiento = db.Column(db.String(15))
     
     # FK
     cuota = db.relationship('Cuota', back_populates="usuarios")
@@ -82,6 +83,7 @@ class Usuarios(db.Model):
             "activo": self.activo,
             "idcuota": self.idcuota,
             "idmutualista": self.idmutualista,
+            "proximovencimiento": self.proximovencimiento
         }
 
     def serializeCuotas(self):

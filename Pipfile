@@ -20,9 +20,11 @@ flask-admin = "*"
 typing-extensions = "*"
 psycopg2 = "*"
 pygresql = "*"
+pyscopg2 = "*"
+postgres = "*"
 
 [requires]
-python_version = "3.11.2"
+python_version = "3.8"
 
 [scripts]
 start="flask run -p 3001 -h 0.0.0.0"

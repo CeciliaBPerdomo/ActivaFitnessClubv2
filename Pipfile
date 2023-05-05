@@ -24,7 +24,7 @@ pyscopg2 = "*"
 postgres = "*"
 
 [requires]
-python_version = "3.11.2"
+python_version = "*"
 
 [scripts]
 start="flask run -p 3001 -h 0.0.0.0"

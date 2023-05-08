@@ -11,13 +11,15 @@ import { Navbar } from "./component/navbar";
 import { Footer } from "./component/footer";
 
 
-// Cuotas
+// Cuotas - Modalidades de Entrenamiento
 import { CrearCuota } from "./component/cuotas/crearCuota.jsx";
 import { ModificarCuota } from "./component/cuotas/modificarCuota.jsx"
+import { ListadoCuotas } from "./component/cuotas/ListadoCuotas.jsx"
 
 //Metodos de pago
 import { CrearMetodos } from "./component/metodospago/crearMetodos.jsx"
 import { ModificarMetodos } from "./component/metodospago/modificarMetodos.jsx"
+import { ListadoMetodos} from "./component/metodospago/ListadoMetodos.jsx"
 
 // Mutualista
 import { CrearMutualista } from "./component/mutualista/crearMutualista.jsx"
@@ -70,10 +72,12 @@ const Layout = () => {
                         {/* Cuotas */}
                         <Route element={<CrearCuota />} path="/CrearCuota" />
                         <Route element={<ModificarCuota />} path="/ModificarCuota/:theid" />
+                        <Route element={<ListadoCuotas />} path="/ListadoCuotas" />
 
                         {/* Metodos de pagos */}
                         <Route element={<CrearMetodos />} path="/MetodosPago" />
                         <Route element={<ModificarMetodos />} path="/ModificarMetodos/:theid" />
+                        <Route element={<ListadoMetodos />} path="/ListadoMetodos" />
 
                         {/* Mutualista */}
                         <Route element={<CrearMutualista />} path="/Mutualista" />

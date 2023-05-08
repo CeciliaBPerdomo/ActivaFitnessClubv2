@@ -18,7 +18,10 @@ export const HomeAdministrador = () => {
             {/*  Modalidades / Cuotas */}
             <h4> Modalidades / Cuotas:</h4>
             <p style={{fontSize: "18px"}}>
-            <Link to="/CrearCuota" style={{textDecoration: "none", color: "white"}}> Ingresar modalidades de entrenamiento </Link>
+            <Link to="/CrearCuota" style={{textDecoration: "none", color: "white"}}> Ingresar modalidades de entrenamiento </Link> ||
+            <Link to="/ListadoCuotas" style={{textDecoration: "none", color: "white", marginLeft: "5px"}}>
+                Listado de modalidades de entrenamiento
+            </Link>
             </p>
 
 
@@ -29,7 +32,7 @@ export const HomeAdministrador = () => {
             <Link to="/Mutualista" style={{textDecoration: "none", color: "white"}}>
 				Ingresar nueva mutualista
 			</Link> ||
-            <Link to="/ListadoMutualista"style={{textDecoration: "none", color: "white", marginLeft: "5px"}}>
+            <Link to="/ListadoMutualista" style={{textDecoration: "none", color: "white", marginLeft: "5px"}}>
                 Listado de mutualistas
             </Link>
             </p>
@@ -41,7 +44,8 @@ export const HomeAdministrador = () => {
             <p style={{fontSize: "18px"}}>
             <Link to="/MetodosPago" style={{textDecoration: "none", color: "white"}}>
 			    Ingresar nuevo método de pago
-			</Link>
+			</Link> || 
+            <Link to="/ListadoMetodos" style={{textDecoration: "none", color: "white", marginLeft: "5px"}}>Listado de métodos de pago</Link>
             </p>
 
 

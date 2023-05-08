@@ -8,10 +8,12 @@ export const Footer = () => (
 				<b>
 				Activa Fitness Club
 				</b>
+				<br/>
+				v. 1.0.0
 			</div>
 			<div className="col"></div>
 			<div className="col"></div>
-			<div className="col">Desarrollado por Cecilia Perdomo</div>
+			<div className="col" style={{marginTop: "10px"}}>Desarrollado por Cecilia Perdomo</div>
   		</div>
 	</div>
 );

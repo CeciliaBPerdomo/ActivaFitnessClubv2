@@ -1,22 +1,29 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Context } from "../../store/appContext";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import dateFormat from "dateformat";
 
-export const ListadoMensualidades = () => {
+export const ListadoCuotas = () => {
   const { store, actions } = useContext(Context);
-
   const [busqueda, setBusqueda] = useState("");
 
   useEffect(() => {
-    actions.obtenerMensualidades();
+    actions.obtenerCuotas();
   }, []);
+
+  // Buscador
+  const buscar = async (valor) => {
+    if (busqueda === "") {
+      actions.obtenerCuotas();
+    } else {
+      await actions.buscadorCuota(valor);
+    }
+  };
 
   const borrar = (e, id) => {
     e.preventDefault();
-    if (actions.borrarMensualidad(id)) {
+    if (actions.borrarCuotas(id)) {
       toast.error("🤚 Borrado con éxito", {
         position: toast.POSITION.TOP_RIGHT,
         autoClose: 3000,
@@ -30,15 +37,6 @@ export const ListadoMensualidades = () => {
     }
   };
 
-  // Buscador
-    const buscar = async (valor) => {
-      if (busqueda === "") {
-          actions.obtenerMensualidades();
-       } else {
-     await actions.buscadorMensualidad(valor);
-   }
-  };
-
   return (
     <>
       <div className="container">
@@ -46,9 +44,9 @@ export const ListadoMensualidades = () => {
           <input
             type="text"
             className="form-control "
-            placeholder="🔎 Buscar factura..."
+            placeholder="🔎 Buscar disciplina"
             onChange={(e) => setBusqueda(e.target.value)}
-            value={busqueda}
+						value={busqueda}
           />
           <button
             className="btn btn-outline-danger"
@@ -59,36 +57,30 @@ export const ListadoMensualidades = () => {
             Buscar
           </button>
         </div>
-        <h3 style={{ marginBottom: "25px" }}>Pago de mensualidades</h3>
+
+        <h3 style={{ marginBottom: "25px" }}>Modalidades de entrenamiento:</h3>
         <hr />
         <br />
-
-        {/* Listado de mensualidades */}
+      
         <div style={{ marginTop: "35px" }}>
           <table className="table" style={{ color: "white" }}>
             <thead>
               <tr>
-                <th scope="col">Fecha de pago</th>
-                <th scope="col">Alumno</th>
-                <th scope="col">Factura</th>
-                <th scope="col">Monto</th>
-                <th scope="col">Observaciones</th>
-                <th scope="col" className="text-center"></th>
+                <th scope="col">Descripción</th>
+                <th scope="col">Precio</th>
+                <th scope="col"></th>
                 <th scope="col"></th>
               </tr>
             </thead>
             <tbody>
-              {store.pagos.map((item, id) => (
+              {store.cuotas.map((item, id) => (
                 <tr key={id}>
-                  <td>{dateFormat(item.fechapago, "dd / mm / yy")}</td>
-                  <td>{item.alumnoInfo.nombre} {item.alumnoInfo.apellido}</td>
-                  <td>{item.factura}</td>
-                  <td>$ {item.monto}</td>
-                  <td>{item.observaciones}</td>
+                  <td>{item.descripcion}</td>
+                  <td>$ {item.precio}</td>
                   <td>
-                    <Link to ={"/ModificarMensualidad/" + item.id} style={{color: "white"}}>
+                    <Link to={"/ModificarCuota/" + item.id} style={{color: "white"}}>
                       <i className="fa fa-pen"></i>
-                      </Link>
+                    </Link>
                   </td>
                   <td>
                     <i
@@ -101,9 +93,10 @@ export const ListadoMensualidades = () => {
               ))}
             </tbody>
           </table>
+
         </div>
         <ToastContainer />
       </div>
-    </>
-  );
-};
+      </>
+  )
+}

@@ -2,7 +2,9 @@ import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import ScrollToTop from "./component/scrollToTop";
 
+// Home
 import { Home } from "./pages/home";
+import { HomeAdministrador } from "./pages/homeAdministrador.jsx"
 import injectContext from "./store/appContext";
 
 import { Navbar } from "./component/navbar";
@@ -20,6 +22,7 @@ import { ModificarMetodos } from "./component/metodospago/modificarMetodos.jsx"
 // Mutualista
 import { CrearMutualista } from "./component/mutualista/crearMutualista.jsx"
 import { ModificarMutualistas } from "./component/mutualista/modificarMutualista.jsx"
+import { ListadoMutualista } from "./component/mutualista/ListadoMutualista.jsx"
 
 // Alumnos
 import { CrearAlumno } from "./component/alumnos/crearAlumno.jsx"
@@ -60,7 +63,9 @@ const Layout = () => {
                 <ScrollToTop>
                     <Navbar />
                     <Routes>
+                        {/* Homes */}
                         <Route element={<Home />} path="/" />
+                        <Route element={<HomeAdministrador />} path="/homeAdministrador" />
 
                         {/* Cuotas */}
                         <Route element={<CrearCuota />} path="/CrearCuota" />
@@ -73,6 +78,7 @@ const Layout = () => {
                         {/* Mutualista */}
                         <Route element={<CrearMutualista />} path="/Mutualista" />
                         <Route element={<ModificarMutualistas />} path="/ModificarMutualista/:theid" />
+                        <Route element={<ListadoMutualista />} path="/ListadoMutualista" />
 
                         {/* Alumnos */}
                         <Route element={<CrearAlumno />} path="/CrearAlumno" />

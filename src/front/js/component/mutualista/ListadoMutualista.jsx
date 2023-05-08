@@ -58,7 +58,7 @@ return (
               Buscar
             </button>
         
-
+            </div>
           <h3 style={{ marginBottom: "25px" }}>Mutualistas</h3>
           <hr />
           <br />
@@ -101,7 +101,7 @@ return (
 
           <ToastContainer />
         <br />
-          </div>
+         
         </div>
     </>
     )

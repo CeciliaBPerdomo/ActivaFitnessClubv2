@@ -307,6 +307,7 @@ def addAlumnos():
         rol=body["rol"],
         activo=body["activo"],
         observaciones=body["observaciones"],
+        foto=body["foto"]
         )
 
         db.session.add(new_alumno)
@@ -411,6 +412,9 @@ def usersModif_porId(user_id):
     
     if "observaciones" in body:
         usuario.observaciones = body["observaciones"]
+    
+    if "foto" in body:
+        usuario.foto = body["foto"]
 
     db.session.commit()
 

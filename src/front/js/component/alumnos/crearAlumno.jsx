@@ -185,6 +185,24 @@ export const CrearAlumno = () => {
 
           <br />
           <div className="row">
+
+            {/* Genero */}
+            <div className="col">
+              <label htmlFor="Estado" style={{ marginBottom: "10px" }}>
+                Género:
+              </label>
+              <select
+                className="form-select"
+                aria-label="Default select example"
+                value={activo}
+                onChange={(e) => setActivo(e.target.value)}
+              >
+                <option>Género</option>
+                <option value="Femenino">Femenino</option>
+                <option value="Masculino">Masculino</option>
+              </select>
+            </div>
+
             {/* Peso */}
             <div className="col">
               <label htmlFor="Peso" style={{ marginBottom: "10px" }}>
@@ -378,22 +396,7 @@ export const CrearAlumno = () => {
               </select>
             </div>
 
-            {/* Estado */}
-            <div className="col">
-              <label htmlFor="Estado" style={{ marginBottom: "10px" }}>
-                Estado:
-              </label>
-              <select
-                className="form-select"
-                aria-label="Default select example"
-                value={activo}
-                onChange={(e) => setActivo(e.target.value)}
-              >
-                <option>Estado</option>
-                <option value="Activo">Activo</option>
-                <option value="Inactivo">Inactivo</option>
-              </select>
-            </div>
+            
           </div>
 
           <br />

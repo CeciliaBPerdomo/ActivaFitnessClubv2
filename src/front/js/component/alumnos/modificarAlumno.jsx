@@ -6,7 +6,6 @@ import "react-toastify/dist/ReactToastify.css";
 
 export const ModificarAlumno = () => {
   const { store, actions } = useContext(Context);
-  let navegacion = useNavigate();
   const params = useParams();
 
   const [cedula, setCedula] = useState(store.alumno[0]?.cedula);
@@ -29,7 +28,7 @@ export const ModificarAlumno = () => {
   const [motivo, setMotivo] = useState(store.alumno[0]?.motivo);
   const [cuota, setCuota] = useState(store.alumno[0]?.idcuota);
   const [rol, setRol] = useState(store.alumno[0]?.rol);
-  const [activo, setActivo] = useState(store.alumno[0]?.activo);
+  const [activo, setActivo] = useState(store.alumno[0]?.activo); // Genero
   const [observaciones, setObservaciones] = useState(
     store.alumno[0]?.observaciones,
   );
@@ -191,6 +190,23 @@ export const ModificarAlumno = () => {
 
           <br />
           <div className="row">
+            {/* Genero */}
+            <div className="col">
+              <label htmlFor="Estado" style={{ marginBottom: "10px" }}>
+                Género:
+              </label>
+              <select
+                className="form-select"
+                aria-label="Default select example"
+                defaultValue={store.alumno[0]?.activo}
+                onChange={(e) => setActivo(e.target.value)}
+              >
+                <option>{store.alumno[0]?.activo}</option>
+                <option value="Femenino">Femenino</option>
+                <option value="Masculino">Masculino</option>
+              </select>
+            </div>
+
             {/* Peso */}
             <div className="col">
               <label htmlFor="Peso" style={{ marginBottom: "10px" }}>
@@ -383,22 +399,7 @@ export const ModificarAlumno = () => {
               </select>
             </div>
 
-            {/* Estado */}
-            <div className="col">
-              <label htmlFor="Estado" style={{ marginBottom: "10px" }}>
-                Estado:
-              </label>
-              <select
-                className="form-select"
-                aria-label="Default select example"
-                defaultValue={store.alumno[0]?.activo}
-                onChange={(e) => setActivo(e.target.value)}
-              >
-                <option>{store.alumno[0]?.activo}</option>
-                <option value="Activo">Activo</option>
-                <option value="Inactivo">Inactivo</option>
-              </select>
-            </div>
+            
           </div>
 
           <br />

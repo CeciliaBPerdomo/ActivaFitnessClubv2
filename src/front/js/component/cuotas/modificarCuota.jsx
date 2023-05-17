@@ -8,7 +8,6 @@ import "react-toastify/dist/ReactToastify.css";
 export const ModificarCuota = () => {
     const params = useParams();
     const {store, actions} = useContext(Context);
-    let navegacion = useNavigate();
   
     const [descripcion, setDescripcion] = useState(store.cuota.descripcion);
     const [precio, setPrecio] = useState(store.cuota.precio);

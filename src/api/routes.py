@@ -750,3 +750,64 @@ def getPagoProveedores():
     pagoproveedores = Pagoproveedores.query.all()
     results = list(map(lambda x: x.serialize(), pagoproveedores))
     return jsonify(results), 200
+
+# Muestra el pago al proveedor por id
+@api.route('/pagoproveedores/<int:pago_id>', methods=['GET'])
+def get_pagoproveedorid(pago_id):
+    pago = Pagoproveedores.query.filter_by(id=pago_id).all()
+    #results = list(map(lambda x: {**x.serializeProveedor(), **x.serialize()}, products))
+    results = list(map(lambda x: x.serialize(), pago))
+
+    if results is None: 
+        response_body = {"msg": "Producto no encontrado"}
+        return jsonify(response_body), 400
+
+    return jsonify(results), 200
+
+# Elimina el pago realizado a un proveedor
+@api.route('/pagoproveedores/<int:pago_id>', methods=['DELETE'])
+def deletePagoProveedores(pago_id):
+    pago = Pagoproveedores.query.filter_by(id=pago_id).first()
+  
+    if pago is None: 
+        response_body = {"msg": "No existe el pago seleccionado"}
+        return jsonify(response_body), 400
+
+    db.session.delete(pago)
+    db.session.commit()
+
+    response_body = {"msg": "Pago borrado"}
+    return jsonify(response_body), 200 
+
+# Modifica un proveedor por id
+@api.route('/pagoproveedores/<int:pago_id>', methods=['PUT'])
+def pagoProveedorModif_porId(pago_id):
+    pago = Pagoproveedores.query.filter_by(id=pago_id).first()
+    body = json.loads(request.data)
+
+    if pago is None:
+        response_body = {"msg": "No existe ese pago."}
+        return jsonify(response_body), 400    
+
+    if "fechapago" in body: 
+        pago.fechapago = body["fechapago"]
+
+    if "numfactura" in body:
+        pago.numfactura = body["numfactura"]
+
+    if "monto" in body:
+        pago.monto = body["monto"]
+
+    if "observaciones" in body:
+        pago.observaciones = body["observaciones"]
+    
+    if "idproveedor" in body:
+        pago.idproveedor = body["idproveedor"]
+    
+    if "idmetodo" in body:
+        pago.idmetodo = body["idmetodo"]
+
+    db.session.commit()
+
+    response_body = {"msg": "Pago a proveedor modificado"}
+    return jsonify(response_body), 200

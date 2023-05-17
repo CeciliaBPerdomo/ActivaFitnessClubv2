@@ -59,7 +59,7 @@ export const HomeAdministrador = () => {
                     </div>
                     <div className="col border border-danger">
                         {/* Mensualidades */}
-                        <h4 style={{padding: "5px"}}>Mensualidades:</h4>
+                        <h4 style={{padding: "5px"}}>Mensualidades</h4>
                         <p style={{fontSize: "18px"}}>
                             <Link to="/CrearMensualidad" style={{textDecoration: "none", color: "white"}}>
                                 Ingresar pago de mensualidad
@@ -95,6 +95,17 @@ export const HomeAdministrador = () => {
                     </div>
 
                     <div className="col border border-danger">
+                        {/* Pago Provedores */}
+                        <h4 style={{padding: "5px"}}>Pago proveedores</h4>
+                        <p style={{fontSize: "18px"}}>
+                            <Link to="/CrearPagoProveedor" style={{textDecoration: "none", color: "white"}}>
+                                Ingresar pago a proveedores ||
+                            </Link> 
+                            <Link to="/ListadoPagoProveedores" style={{textDecoration: "none", color: "white", marginLeft: "5px"}}>
+                                Listado de pago a proveedores
+                            </Link>  
+                        </p>
+  
                     </div>
 
                 </div>

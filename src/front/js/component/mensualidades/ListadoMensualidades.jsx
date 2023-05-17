@@ -1,13 +1,12 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Context } from "../../store/appContext";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import dateFormat from "dateformat";
 
 export const ListadoMensualidades = () => {
   const { store, actions } = useContext(Context);
-
   const [busqueda, setBusqueda] = useState("");
 
   useEffect(() => {

@@ -18,6 +18,8 @@ const getState = ({ getStore, getActions, setStore }) => {
       productos: [],
       proveedores: [],
       proveedor: {},
+      pagoProveedores: [],
+      pagoProveedor: {},
     },
     actions: {
       ////////////////////////////////////
@@ -868,22 +870,90 @@ const getState = ({ getStore, getActions, setStore }) => {
         }
       },
 
+      /* Listar todos los pagos a proveedores */
+      obtenerPagoAProveedores: async () => {
+        try {
+          const response = await axios.get(direccion + "/api/pagoproveedores", {});
+          setStore({
+            pagoProveedores: response.data,
+          });
+        } catch (error) {
+          if (error.code === "ERR_BAD_REQUEST") {
+            console.error(error.response.data.msg);
+          }
+        }
+      },
       
+      /* Borrar Pago proveedores */
+      borrarPagoProveedores: async (id) => {
+        try {
+          await axios.delete(direccion + "/api/pagoproveedores/" + id, {});
+          getActions().obtenerPagoAProveedores();
+          return true;
+        } catch (error) {
+          console.log(error);
+        }
+      },
+
+      // Modificar Pago a proveedores
+      modificarPagoProveedores: async (
+        id,
+        fechapago,
+        numfactura,
+        monto,
+        observaciones,
+        idproveedor,
+        idmetodo,
+      ) => {
+        try {
+          await axios.put(direccion + "/api/pagoproveedores/" + id, {
+            id: id,
+            fechapago: fechapago,
+            numfactura: numfactura,
+            monto: monto,
+            observaciones: observaciones,
+            idproveedor: idproveedor,
+            idmetodo: idmetodo,
+          });
+          return true;
+        } catch (error) {
+          if (error.code === "ERR_BAD_REQUEST") {
+            console.log(error.response.data.msg);
+          }
+        }
+      },
+
+      // Obtener proveedor por id
+      obtenerPagoProveedorId: async (id) => {
+        try {
+          const response = await axios.get(
+            direccion + "/api/pagoproveedores/" + id,
+            {},
+          );
+          setStore({
+            pagoProveedor: response.data,
+          });
+        } catch (error) {
+          if (error.code === "ERR_BAD_REQUEST") {
+            console.log(error.response.data.msg);
+          }
+        }
+      },
       ////////////////////////////////////
       //       Por defecto             ///
       ////////////////////////////////////
-      getMessage: async () => {
-        try {
-          // fetching data from the backend
-          const resp = await fetch(process.env.BACKEND_URL + "/api/hello");
-          const data = await resp.json();
-          setStore({ message: data.message });
-          // don't forget to return something, that is how the async resolves
-          return data;
-        } catch (error) {
-          console.log("Error loading message from backend", error);
-        }
-      },
+      // getMessage: async () => {
+      //   try {
+      //     // fetching data from the backend
+      //     const resp = await fetch(process.env.BACKEND_URL + "/api/hello");
+      //     const data = await resp.json();
+      //     setStore({ message: data.message });
+      //     // don't forget to return something, that is how the async resolves
+      //     return data;
+      //   } catch (error) {
+      //     console.log("Error loading message from backend", error);
+      //   }
+      // },
       changeColor: (index, color) => {
         //get the store
         const store = getStore();

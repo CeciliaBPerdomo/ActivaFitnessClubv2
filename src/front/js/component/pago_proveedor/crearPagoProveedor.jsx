@@ -162,9 +162,9 @@ export const CrearPagoProveedor = () => {
               </select>
             </div>
           </div>
+
+
           <br />
-
-
           <div className="row">
             {/* Observaciones */}
             <div className="col">
@@ -180,8 +180,9 @@ export const CrearPagoProveedor = () => {
               />
             </div>
           </div>
+          
+          
           <br />
-
           <div className="row">
             <div style={{ marginTop: "15px" }}>
               <button

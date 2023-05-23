@@ -7,7 +7,6 @@ import dateFormat from "dateformat";
 
 export const ListadoPagoProveedores = () => {
     const { store, actions } = useContext(Context);
-    const [busqueda, setBusqueda] = useState("");
   
     useEffect(() => {
         actions.obtenerPagoAProveedores()
@@ -57,9 +56,9 @@ export const ListadoPagoProveedores = () => {
                                 <td>{item.idmetodo}</td>
                                 <td>{item.observaciones}</td>
                                 <td>
-                                    {/* <Link to={"/ModificarPagoProveedor/" + item.id} style={{color: "white"}}> */}
+                                    <Link to={"/ModificarPagoProveedor/" + item.id} style={{color: "white"}}>
                                         <i className="fa fa-pen"></i>
-                                    {/* </Link> */}
+                                    </Link>
                                 </td>
                                 <td>
                                     <i className="fa fa-trash" onClick={(e) => borrar(e, item.id)}>

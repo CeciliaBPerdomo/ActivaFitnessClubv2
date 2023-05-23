@@ -19,6 +19,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       proveedores: [],
       proveedor: {},
       pagoProveedores: [],
+      pagoPorProveedor: [],
       pagoProveedor: {},
     },
     actions: {
@@ -939,6 +940,24 @@ const getState = ({ getStore, getActions, setStore }) => {
           }
         }
       },
+
+      // Obtener pagos segun proveedor 
+      obtenerPagoPorProveedor: async (idProveedor) => {
+        try {
+          const response = await axios.get(
+            direccion + "/api/pagoproveedoresid/" + idProveedor,
+            {},
+          );
+          setStore({
+            pagoPorProveedor: response.data,
+          });
+        } catch (error) {
+          if (error.code === "ERR_BAD_REQUEST") {
+            console.log(error.response.data.msg);
+          }
+        }
+      },
+
       ////////////////////////////////////
       //       Por defecto             ///
       ////////////////////////////////////

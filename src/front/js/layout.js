@@ -54,6 +54,7 @@ import { ModificarProveedor } from "./component/proveedores/modificarProveedor.j
 import { CrearPagoProveedor } from "./component/pago_proveedor/crearPagoProveedor.jsx"
 import { ListadoPagoProveedores } from "./component/pago_proveedor/listadoPagoProveedores.jsx"
 import { ModificarPagoProveedor } from "./component/pago_proveedor/modificarPagoProveedor.jsx"
+import { ListadoPagoPorProveedor } from "./component/pago_proveedor/listadoPorProveedor.jsx"
 
 //create your first component
 const Layout = () => {
@@ -114,6 +115,7 @@ const Layout = () => {
                         <Route element={<CrearPagoProveedor />} path="/CrearPagoProveedor" />
                         <Route element={<ListadoPagoProveedores />} path="/ListadoPagoProveedores" />
                         <Route element={<ModificarPagoProveedor />} path="/ModificarPagoProveedor/:theid" />
+                        <Route element={<ListadoPagoPorProveedor />} path="/ListadoPagoPorProveedor" />
 
                         <Route element={<h1>Not found!</h1>} />
                     </Routes>

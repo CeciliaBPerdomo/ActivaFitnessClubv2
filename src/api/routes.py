@@ -744,25 +744,78 @@ def addPagoProveedores():
 
     return jsonify(new_pagoproveedor.serialize()), 200
 
-# Muestra todos los pagos realizados a proveedores
+# Visualizar todos los pagos de proveedores
 @api.route('/pagoproveedores', methods=['GET'])
 def getPagoProveedores():
-    pagoproveedores = Pagoproveedores.query.all()
-    results = list(map(lambda x: x.serialize(), pagoproveedores))
-    return jsonify(results), 200
+    prov = db.session.query(Pagoproveedores, Proveedores, Metodospago).join(Proveedores).join(Metodospago).all()
+
+    if prov is None: 
+        response_body = {"msg": "No hay pago a proveedores"}
+        return jsonify(response_body), 400
+    
+    info_pagos = (list(map(lambda pagos: {
+        # Pagoproveedores
+        "id": pagos[0].id,
+        "fechapago": pagos[0].fechapago,
+        "numfactura": pagos[0].numfactura,
+        "monto": pagos[0].monto,
+        "observaciones": pagos[0].observaciones,
+        # Proveedores
+        "idproveedor": pagos[1].nombre,
+        #Metodospago
+        "idmetodo": pagos[2].tipo
+    }, prov)))
+    return jsonify(info_pagos), 200
 
 # Muestra el pago al proveedor por id
 @api.route('/pagoproveedores/<int:pago_id>', methods=['GET'])
 def get_pagoproveedorid(pago_id):
-    pago = Pagoproveedores.query.filter_by(id=pago_id).all()
-    #results = list(map(lambda x: {**x.serializeProveedor(), **x.serialize()}, products))
-    results = list(map(lambda x: x.serialize(), pago))
+    pago = db.session.query(Pagoproveedores, Proveedores, Metodospago).join(Proveedores).join(Metodospago).filter_by(id=pago_id).all()
 
-    if results is None: 
-        response_body = {"msg": "Producto no encontrado"}
+    if pago is None: 
+        response_body = {"msg": "No hay pago a este proveedor"}
         return jsonify(response_body), 400
+    
+    info_pago = (list(map(lambda pagos: {
+        # Pagoproveedores
+        "id": pagos[0].id,
+        "fechapago": pagos[0].fechapago,
+        "numfactura": pagos[0].numfactura,
+        "monto": pagos[0].monto,
+        "observaciones": pagos[0].observaciones,
+        "idproveedor": pagos[0].idproveedor,
+        "idmetodo": pagos[0].idmetodo,
+        # Proveedores
+        "proveedor": pagos[1].nombre,
+        #Metodospago
+        "metodo": pagos[2].tipo
+    }, pago)))
+    return jsonify(info_pago), 200
 
-    return jsonify(results), 200
+# Muestra el pago al proveedor por id
+@api.route('/pagoproveedoresid/<int:proveedor_id>', methods=['GET'])
+def get_pagosproveedores(proveedor_id):
+    pago = db.session.query(Pagoproveedores, Proveedores, Metodospago).filter_by(idproveedor=proveedor_id).join(Proveedores).join(Metodospago).all()
+
+    if pago is None: 
+        response_body = {"msg": "No hay pago a este proveedor"}
+        return jsonify(response_body), 400
+    
+    info_pago = (list(map(lambda pagos: {
+        # Pagoproveedores
+        "id": pagos[0].id,
+        "fechapago": pagos[0].fechapago,
+        "numfactura": pagos[0].numfactura,
+        "monto": pagos[0].monto,
+        "observaciones": pagos[0].observaciones,
+        "idproveedor": pagos[0].idproveedor,
+        "idmetodo": pagos[0].idmetodo,
+        # Proveedores
+        "proveedor": pagos[1].nombre,
+        #Metodospago
+        "metodo": pagos[2].tipo
+    }, pago)))
+    return jsonify(info_pago), 200
 
 # Elimina el pago realizado a un proveedor
 @api.route('/pagoproveedores/<int:pago_id>', methods=['DELETE'])

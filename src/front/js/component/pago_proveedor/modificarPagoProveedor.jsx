@@ -3,6 +3,7 @@ import { Context } from "../../store/appContext";
 import { useParams } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import dateFormat from "dateformat";
 
 export const ModificarPagoProveedor = () => {
     const params = useParams();
@@ -20,6 +21,31 @@ export const ModificarPagoProveedor = () => {
         actions.obtenerMetodos()
         actions.obtenerProveedores();
     }, []);
+
+    const modificar = (e) => {
+        e.preventDefault();
+        let id = parseInt(params.theid)
+    
+        if (actions.modificarPagoProveedores(
+            id,
+            fechaPago,
+            factura,
+            monto,
+            observaciones,
+            proveedor,
+            idmetodo)) {
+          toast.success("💪 Modificado con éxito", {
+            position: toast.POSITION.TOP_RIGHT,
+            autoClose: 1000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+          });
+        }
+      };
 
     return(
         <>
@@ -40,7 +66,7 @@ export const ModificarPagoProveedor = () => {
                         defaultValue={store.pagoProveedor[0]?.idproveedor}
                         onChange={(e) => setProveedor(e.target.value)}
                     >
-                        <option selected>{store.pagoProveedor[0]?.idproveedor}</option>
+                        <option selected>{store.pagoProveedor[0]?.proveedor}</option>
                         {store.proveedores.map((item, id) => (
                         <option key={id} value={item.id}>{item.nombre}</option>
                         ))}
@@ -53,9 +79,9 @@ export const ModificarPagoProveedor = () => {
                         Fecha de pago:
                     </label>
                     <input
-                        type="date"
+                        type="text"
                         className="form-control"
-                        defaultValue={store.pagoProveedor[0]?.fechapago}
+                        defaultValue={dateFormat(store.pagoProveedor[0]?.fechapago, "dd / mm / yy")}
                         onChange={(e) => setFechaPago(e.target.value)}
                     />
                     </div>
@@ -98,10 +124,10 @@ export const ModificarPagoProveedor = () => {
                     </label>
                     <select
                         className="form-select"
-                        value={idmetodo}
+                        defaultValue={store.pagoProveedor[0]?.idmetodo}
                         onChange={(e) => setIdMetodo(e.target.value)}
                     >
-                        <option selected>Método de pago</option>
+                        <option selected>{store.pagoProveedor[0]?.metodo}</option>
                         {store.metodos.map((item, id) => (
                         <option key={id} value={item.id}>{item.tipo}</option>
                         ))}
@@ -132,7 +158,7 @@ export const ModificarPagoProveedor = () => {
                     <button
                         type="submit"
                         className="btn btn-outline-danger float-end w-25"
-                        // onClick={(e) => guardar(e)}
+                        onClick={(e) => modificar(e)}
                     >
                         Modificar info de pago
                     </button>

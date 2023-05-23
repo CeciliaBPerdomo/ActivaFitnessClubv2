@@ -24,12 +24,10 @@ export const CrearPagoProveedor = () => {
   const guardar = (e) => {
     e.preventDefault();
 
-    // console.log(fechaPago, factura, monto, proveedor, idmetodo, observaciones)
-
     if (actions.crearPagoProveedores(fechaPago, factura, monto, proveedor, idmetodo, observaciones)) {
       toast.success("💪 Guardado con éxito", {
         position: toast.POSITION.TOP_RIGHT,
-        autoClose: 3000,
+        autoClose: 1000,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
@@ -89,15 +87,6 @@ export const CrearPagoProveedor = () => {
                   <option key={id} value={item.id}>{item.nombre}</option>
                 ))}
               </select>
-              {
-                /* <input
-                type="text"
-                className="form-control"
-                placeholder="Descripción"
-                //value={descripcion}
-                //onChange={(e) => setDescripcion(e.target.value)}
-              /> */
-              }
             </div>
 
             {/* Fecha de pago */}

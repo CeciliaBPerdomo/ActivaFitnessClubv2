@@ -76,7 +76,7 @@ export const CrearProveedor = () => {
             {/* RUT */}
             <div className="col">
               <label htmlFor="RUT" style={{ marginBottom: "10px" }}>
-                RUT:
+                RUT <i style={{color: "red"}}>(Obligatorio)</i>:
               </label>
               <input
                 type="text"

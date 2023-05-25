@@ -56,6 +56,9 @@ import { ListadoPagoProveedores } from "./component/pago_proveedor/listadoPagoPr
 import { ModificarPagoProveedor } from "./component/pago_proveedor/modificarPagoProveedor.jsx"
 import { ListadoPagoPorProveedor } from "./component/pago_proveedor/listadoPorProveedor.jsx"
 
+// Caja Diaria
+import { CajaDiaria } from "./component/caja_diaria/cajaDiaria.jsx"   
+
 //create your first component
 const Layout = () => {
     //the basename is used when your project is published in a subdirectory and not in the root of the domain
@@ -116,6 +119,9 @@ const Layout = () => {
                         <Route element={<ListadoPagoProveedores />} path="/ListadoPagoProveedores" />
                         <Route element={<ModificarPagoProveedor />} path="/ModificarPagoProveedor/:theid" />
                         <Route element={<ListadoPagoPorProveedor />} path="/ListadoPagoPorProveedor" />
+
+                        {/* Caja Diaria */}
+                        <Route element={<CajaDiaria />} path="/movimientosDiarios" />
 
                         <Route element={<h1>Not found!</h1>} />
                     </Routes>

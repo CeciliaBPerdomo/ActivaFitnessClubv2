@@ -44,7 +44,7 @@ export const ListadoPagoPorProveedor = () => {
 
                 <div className="container text-start">
                     <div className="row">
-                        <div className="col-2">Seleccione el proveedor:</div>
+                        <div className="col-3">Seleccione el proveedor:</div>
                         <div className="col-4 d-flex justify-content-start">
                             <select
                                 className="form-select"

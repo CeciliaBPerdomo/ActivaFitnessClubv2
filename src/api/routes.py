@@ -864,3 +864,74 @@ def pagoProveedorModif_porId(pago_id):
 
     response_body = {"msg": "Pago a proveedor modificado"}
     return jsonify(response_body), 200
+
+#####################################################################################
+#####################################################################################
+###                                                                               ###
+###                   CAJA DIARIA                                                 ###
+###                                                                               ###
+#####################################################################################
+#####################################################################################
+
+# Muestra todos los movimientos de la caja Diaria
+@api.route('/cajadiaria', methods=['GET'])
+def CajaDiaria():
+    cajaDiaria = CajaDiaria.query.all()
+    results = list(map(lambda x: x.serialize(), cajaDiaria))
+    return jsonify(results), 200
+
+
+# Muestra todos los ingresos de Mensualidades de la caja Diaria
+@api.route('/cajadiariaingreso', methods=['POST'])
+def CajaDiariaIngresos():
+    body = json.loads(request.data)
+    fecha = body ["fecha"]
+    print (fecha)
+
+    caja = db.session.query(Mensualidades, Metodospago).filter_by(fechapago=fecha).join(Metodospago).all()
+   
+    if caja is None: 
+         response_body = {"msg": "No hay movimientos este dia"}
+         return jsonify(response_body), 400
+    
+    results = list(map(lambda movimientos: {
+        "id": movimientos[0].id,
+        "fechapago": movimientos[0].fechapago,
+        "monto": movimientos[0].monto,
+        "factura": movimientos[0].factura,
+        "observaciones": movimientos[0].observaciones,
+         #Metodospago
+         "metodo": movimientos[1].tipo
+    }, caja))
+    return jsonify(results), 200
+
+# Alta de un dia de la caja diaria
+@api.route('/cajadiaria', methods=['POST'])
+def addCajaDiaria():
+    body = json.loads(request.data)
+
+    new_caja = CajaDiaria(
+    fecha = body ["fecha"], 
+    totalmensualidades = body["totalmensualidades"],
+    cantidadalumnos = body["cantidadalumnos"],
+    # P E N D I E N T E
+    totalventas = body["totalventas"],
+    totalpagoprov = body["totalpagoprov"],
+    observaciones  = body["observaciones"])
+
+    db.session.add(new_caja)
+    db.session.commit()
+
+    return jsonify(new_caja.serialize()), 200
+
+# Muestra un movimiento de la caja Diaria por id
+@api.route('/cajadiaria/<int:cajadiaria_id>', methods=['GET'])
+def get_Cajaid(cajadiaria_id):
+    caja = CajaDiaria.query.filter_by(id=cajadiaria_id).all()
+    results = list(map(lambda x: x.serialize(), caja))
+
+    if results is None: 
+        response_body = {"msg": "Caja no encontrada"}
+        return jsonify(response_body), 400
+
+    return jsonify(results), 200

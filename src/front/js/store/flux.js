@@ -21,6 +21,9 @@ const getState = ({ getStore, getActions, setStore }) => {
       pagoProveedores: [],
       pagoPorProveedor: [],
       pagoProveedor: {},
+      cajaDiaria: [], 
+      movimiento: {},
+      diarios: [], 
     },
     actions: {
       ////////////////////////////////////
@@ -957,6 +960,77 @@ const getState = ({ getStore, getActions, setStore }) => {
           }
         }
       },
+
+      ////////////////////////////////////
+      //          Caja diaria         ///
+      ////////////////////////////////////
+      /* Agregar caja diaria */
+      cerrarCajaDiaria: async (
+        fecha,
+        totalmensualidades,
+        cantidadalumnos,
+        totalventas,
+        totalpagoprov,
+        observaciones,
+      ) => {
+        try {
+          await axios.post(direccion + "/api/cajadiaria", {
+            fecha: fecha,
+            totalmensualidades: totalmensualidades,
+            cantidadalumnos: cantidadalumnos,
+            totalventas: totalventas,
+            totalpagoprov: totalpagoprov,
+            observaciones: observaciones,
+          });
+          return true;
+        } catch (error) {
+          console.log(error);
+        }
+      },
+
+      /* Listar todos los movimientos de la caja */
+      obtenerMovimientosCajaDiaria: async () => {
+        try {
+          const response = await axios.get(direccion + "/api/cajadiaria", {});
+          setStore({
+            cajaDiaria: response.data,
+          });
+        } catch (error) {
+          if (error.code === "ERR_BAD_REQUEST") {
+            console.error(error.response.data.msg);
+          }
+        }
+      },
+
+      obtenerMovimientoCaja: async (id) => {
+        try {
+          const response = await axios.get(
+            direccion + "/api/cajadiaria/" + id,
+            {},
+          );
+          setStore({
+            movimiento: response.data,
+          });
+        } catch (error) {
+          if (error.code === "ERR_BAD_REQUEST") {
+            console.log(error.response.data.msg);
+          }
+        }
+      },
+
+      // Movimientos diarios
+      obtenerMovimientosDiarios: async (fecha) => {
+        try {
+          const response = await axios.post(direccion + "/api/cajadiariaingreso", {
+            fecha: fecha,
+          });
+          setStore({
+            diarios: response.data
+          });
+        } catch (error) {
+          console.log(error);
+        }        
+      }, 
 
       ////////////////////////////////////
       //       Por defecto             ///

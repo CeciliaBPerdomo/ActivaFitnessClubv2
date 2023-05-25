@@ -1,17 +1,21 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import fondo from "../../img/fondo.jpg"
+import logoActiva from "../../img/LogoSinFondo.png"
 
 
 export const HomeAdministrador = () => {
 	return (
 		<>
 		<div className="container">
+         
             <br />
             <div className="container text-center">
                 <div className="row">
                     {/* Calendario */}
                     <div className="col border border-danger">
+                        <img src={logoActiva} style={{width: "25%", 
+                        marginTop: "10px", 
+                        marginBottom: "10px"}}/>
                     </div>
                     <div className="col border border-danger">
                         {/* Alumnos */}

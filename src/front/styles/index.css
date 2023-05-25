@@ -3,6 +3,7 @@
 */
 
 body {
-    background: rgb(254,59,63);
-    background: radial-gradient(circle, rgba(254,59,63,1) 0%, rgba(8,8,8,1) 100%); 
+    /* background: rgb(254,59,63); */
+    /* background: radial-gradient(circle, rgba(254,59,63,1) 0%, rgba(8,8,8,1) 100%);  */
+    background-image: url("../img/fondo.jpg");
 }

@@ -6,6 +6,6 @@
     on that page only (the ones not reused in other pages).
 */
 body {
-    background: black;
+    background-color: black;
     color: white;
 }

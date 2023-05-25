@@ -82,7 +82,15 @@ export const ListaAlumnos = () => {
             <tbody>
               {store.alumnos.map((item, id) => (
                 <tr key={id}>
-                  <td>{item.fechaingreso}</td>
+                  <td>
+                    {
+                    (new Date(item.fechaingreso).getDate() + 1)
+                    + "/" + 
+                    (new Date(item.fechaingreso).getMonth() + 1)
+                    + "/" + 
+                    (new Date(item.fechaingreso).getFullYear())
+                    }
+                    </td>
                   <td>{item.nombre} {item.apellido}</td>
                   <td>{item.direccion}</td>
                   <td>{item.cuotasInfo.descripcion}</td>

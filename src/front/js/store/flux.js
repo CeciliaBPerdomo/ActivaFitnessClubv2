@@ -24,6 +24,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       cajaDiaria: [], 
       movimiento: {},
       diarios: [], 
+      egresosDiarios: [],
     },
     actions: {
       ////////////////////////////////////
@@ -1031,6 +1032,21 @@ const getState = ({ getStore, getActions, setStore }) => {
           console.log(error);
         }        
       }, 
+
+      // Egresos diarios
+      obtenerEgresosDiarios: async (fecha) => {
+        try {
+          const response = await axios.post(direccion + "/api/cajadiariaegreso", {
+            fecha: fecha,
+          });
+          setStore({
+            egresosDiarios: response.data
+          });
+        } catch (error) {
+          console.log(error);
+        }        
+      }, 
+
 
       ////////////////////////////////////
       //       Por defecto             ///

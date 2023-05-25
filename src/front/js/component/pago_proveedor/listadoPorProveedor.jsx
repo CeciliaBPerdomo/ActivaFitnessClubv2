@@ -87,7 +87,15 @@ export const ListadoPagoPorProveedor = () => {
                         <tbody>
                         {store.pagoPorProveedor.map((item, id) => ( 
                             <tr key={id}>
-                                <td>{dateFormat(item.fechapago, "dd / mm / yy")}</td>
+                                <td>
+                                    {
+                                     (new Date(item.fechapago).getDate() + 1)
+                                     + "/" + 
+                                     (new Date(item.fechapago).getMonth() + 1)
+                                     + "/" + 
+                                     (new Date(item.fechapago).getFullYear())
+                                    }
+                                </td>
                                 <td>{item.numfactura}</td>
                                 <td>${item.monto}</td>
                                 <td>{item.metodo}</td>

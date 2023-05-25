@@ -875,18 +875,17 @@ def pagoProveedorModif_porId(pago_id):
 
 # Muestra todos los movimientos de la caja Diaria
 @api.route('/cajadiaria', methods=['GET'])
-def CajaDiaria():
+def get_CajaDiaria():
     cajaDiaria = CajaDiaria.query.all()
     results = list(map(lambda x: x.serialize(), cajaDiaria))
     return jsonify(results), 200
 
 
-# Muestra todos los ingresos de Mensualidades de la caja Diaria
+# Muestra todos los ingresos por pago de Mensualidades de la caja Diaria
 @api.route('/cajadiariaingreso', methods=['POST'])
 def CajaDiariaIngresos():
     body = json.loads(request.data)
     fecha = body ["fecha"]
-    print (fecha)
 
     caja = db.session.query(Mensualidades, Metodospago).filter_by(fechapago=fecha).join(Metodospago).all()
    
@@ -905,13 +904,39 @@ def CajaDiariaIngresos():
     }, caja))
     return jsonify(results), 200
 
+# Muestra todos los egresos por pago a Proveedores de la caja Diaria
+@api.route('/cajadiariaegreso', methods=['POST'])
+def CajaDiariaEgresos():
+    body = json.loads(request.data)
+    fecha = body ["fecha"]
+    
+    caja = db.session.query(Pagoproveedores, Proveedores, Metodospago).filter_by(fechapago=fecha).join(Proveedores).join(Metodospago).all()
+   
+    if caja is None: 
+         response_body = {"msg": "No hay movimientos este dia"}
+         return jsonify(response_body), 400
+    
+    results = list(map(lambda movimientos: {
+        "id": movimientos[0].id,
+        "fechapago": movimientos[0].fechapago,
+        "monto": movimientos[0].monto,
+        "factura": movimientos[0].numfactura,
+        "observaciones": movimientos[0].observaciones,
+         # Proveedores
+         "proveedor": movimientos[1].nombre,
+    #     #Metodospago
+         "metodo": movimientos[2].tipo
+    }, caja))
+    return jsonify(results), 200
+
+
 # Alta de un dia de la caja diaria
 @api.route('/cajadiaria', methods=['POST'])
-def addCajaDiaria():
+def add_CajaDiaria():
     body = json.loads(request.data)
 
     new_caja = CajaDiaria(
-    fecha = body ["fecha"], 
+    fecha = body["fecha"], 
     totalmensualidades = body["totalmensualidades"],
     cantidadalumnos = body["cantidadalumnos"],
     # P E N D I E N T E

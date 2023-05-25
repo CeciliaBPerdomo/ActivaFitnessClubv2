@@ -131,22 +131,24 @@ export const HomeAdministrador = () => {
                 </div>
 
 
-                {/*
+                
                 <div className="row">
-                <div className="col border border-danger">
-                        <h4 style={{padding: "5px"}}>Proveedores</h4>
+                    <div className="col border border-danger">
+                        <h4 style={{padding: "5px"}}>Caja Diaria</h4>
                         <p style={{fontSize: "18px"}}>
-                            <Link to="/CrearProveedor" style={{textDecoration: "none", color: "white"}}>
-                                Ingresar nuevo proveedor
+                            <Link to="/movimientosDiarios" style={{textDecoration: "none", color: "white"}}>
+                                Movimientos diarios
                             </Link>
                             </p> 
                             <p style={{fontSize: "18px", lineHeight: "0px" }}>
-                            <Link to="/ListadoProveedores" style={{textDecoration: "none", color: "white"}}>  Listado de proveedores
-                            </Link>
-                        </p>
+                                <Link to="/resumenMovimientos" style={{textDecoration: "none", color: "white"}}>  
+                                    Resumen movimientos caja diaria
+                                </Link>
+                            </p>
                     </div>
+                   
                     <div className="col border border-danger">
-                        <h4 style={{padding: "5px"}}>Productos</h4>
+                        {/* <h4 style={{padding: "5px"}}>Productos</h4>
                         <p style={{fontSize: "18px"}}>
                             <Link to="/CrearProductos" style={{textDecoration: "none", color: "white"}}>
                                 Ingresar nuevos productos
@@ -156,10 +158,11 @@ export const HomeAdministrador = () => {
                             <Link to="/ListadoProductos" style={{textDecoration: "none", color: "white", marginLeft: "5px"}}> Listado de productos
                             </Link>
                         </p>
+                    */}
                     </div>
 
                     <div className="col border border-danger">
-                        <h4 style={{padding: "5px"}}>Pago proveedores</h4>
+                        {/* <h4 style={{padding: "5px"}}>Pago proveedores</h4>
                         <p style={{fontSize: "18px"}}>
                             <Link to="/CrearPagoProveedor" style={{textDecoration: "none", color: "white"}}>
                                 Ingresar pago a proveedores
@@ -174,11 +177,11 @@ export const HomeAdministrador = () => {
                             <Link to="/ListadoPagoPorProveedor" style={{textDecoration: "none", color: "white", marginLeft: "5px"}}>
                                 Listado de pago según proveedor
                             </Link>  
-                        </p>
+                        </p> */}
   
                     </div>
-
-                </div> */}
+  
+                </div> 
             </div>          
         </div>
         </>

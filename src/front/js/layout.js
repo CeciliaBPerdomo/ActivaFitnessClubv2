@@ -58,6 +58,7 @@ import { ListadoPagoPorProveedor } from "./component/pago_proveedor/listadoPorPr
 
 // Caja Diaria
 import { CajaDiaria } from "./component/caja_diaria/cajaDiaria.jsx"   
+import { ResumenCajaDiaria } from "./component/caja_diaria/resumen_caja.jsx"
 
 //create your first component
 const Layout = () => {
@@ -122,6 +123,7 @@ const Layout = () => {
 
                         {/* Caja Diaria */}
                         <Route element={<CajaDiaria />} path="/movimientosDiarios" />
+                        <Route element={<ResumenCajaDiaria />} path="/resumenMovimientos" />
 
                         <Route element={<h1>Not found!</h1>} />
                     </Routes>

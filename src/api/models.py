@@ -36,7 +36,7 @@ class Usuarios(db.Model):
     condicionesmedicas = db.Column(db.String(200))
     medicacion = db.Column(db.String(200))
     emergencias = db.Column(db.String(15))
-    password = db.Column(db.String(20), unique=False, nullable=False)
+    password = db.Column(db.String(100), unique=False, nullable=False)
     rol = db.Column(db.String(15))
     motivoentrenamiento = db.Column(db.String(200))
     observaciones = db.Column(db.String(500))
@@ -45,7 +45,7 @@ class Usuarios(db.Model):
     peso = db.Column(db.String(10))
     altura = db.Column(db.String(10))
     fechaingreso  =  db.Column(db.String(15), unique=False)
-    activo  = db.Column(db.String(10), unique=False, nullable=False)
+    genero  = db.Column(db.String(10), unique=False, nullable=False)
     proximovencimiento = db.Column(db.String(15))
     
     # FK
@@ -80,7 +80,7 @@ class Usuarios(db.Model):
             "peso": self.peso,
             "altura": self.altura,
             "fechaingreso": self.fechaingreso,
-            "activo": self.activo,
+            "genero": self.genero,
             "idcuota": self.idcuota,
             "idmutualista": self.idmutualista,
             "proximovencimiento": self.proximovencimiento

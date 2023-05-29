@@ -46,7 +46,7 @@ export const ListaAlumnos = () => {
           <input
             type="text"
             className="form-control "
-            placeholder="🔎 Buscar alumno..."
+            placeholder = "Buscar alumno..."
             onChange={(e) => setBusqueda(e.target.value)}
             value={busqueda}
           />

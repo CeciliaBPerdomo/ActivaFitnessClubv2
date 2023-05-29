@@ -98,7 +98,7 @@ export const CrearAlumno = () => {
             {/* Cedula */}
             <div className="col">
               <label htmlFor="cedula" style={{ marginBottom: "10px" }}>
-                Cédula:
+                Cédula <label style={{color: "red"}}>(Obligatorio)</label>:
               </label>
               <input
                 type="text"
@@ -112,7 +112,7 @@ export const CrearAlumno = () => {
             {/* Nombre */}
             <div className="col">
               <label htmlFor="nombre" style={{ marginBottom: "10px" }}>
-                Nombre:
+                Nombre <label style={{color: "red"}}>(Obligatorio)</label>:
               </label>
               <input
                 type="text"
@@ -126,7 +126,7 @@ export const CrearAlumno = () => {
             {/* Apellido */}
             <div className="col">
               <label htmlFor="apellido" style={{ marginBottom: "10px" }}>
-                Apellido:
+                Apellido <label style={{color: "red"}}>(Obligatorio)</label>:
               </label>
               <input
                 type="text"
@@ -143,7 +143,7 @@ export const CrearAlumno = () => {
             {/* Direccion */}
             <div className="col">
               <label htmlFor="direccion" style={{ marginBottom: "10px" }}>
-                Dirección:
+                Dirección <label style={{color: "red"}}>(Obligatorio)</label>:
               </label>
               <input
                 type="text"
@@ -189,7 +189,7 @@ export const CrearAlumno = () => {
             {/* Genero */}
             <div className="col">
               <label htmlFor="Estado" style={{ marginBottom: "10px" }}>
-                Género:
+                Género <label style={{color: "red"}}>(Obligatorio)</label>:
               </label>
               <select
                 className="form-select"
@@ -251,7 +251,7 @@ export const CrearAlumno = () => {
             {/* E-mail */}
             <div className="col">
               <label htmlFor="mail" style={{ marginBottom: "10px" }}>
-                Correo electrónico:
+                Correo electrónico <label style={{color: "red"}}>(Obligatorio)</label>:
               </label>
               <input
                 type="text"
@@ -279,7 +279,7 @@ export const CrearAlumno = () => {
             {/* Mutualista */}
             <div className="col">
               <label htmlFor="mutualista" style={{ marginBottom: "10px" }}>
-                Mutualista:
+                Mutualista <label style={{color: "red"}}>(Obligatorio)</label>:
               </label>
               <select
                 className="form-select"
@@ -359,7 +359,7 @@ export const CrearAlumno = () => {
             {/* Modalidad */}
             <div className="col">
               <label htmlFor="entrenamiento" style={{ marginBottom: "10px" }}>
-                Modalidad:
+                Modalidad <label style={{color: "red"}}>(Obligatorio)</label>:
               </label>
               <select
                 className="form-select"

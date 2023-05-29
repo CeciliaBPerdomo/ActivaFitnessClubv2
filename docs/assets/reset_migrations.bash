@@ -33,3 +33,4 @@
 # psql -U postgres -c 'CREATE EXTENSION unaccent;' -d example
 # pipenv run migrate
 # pipenv run upgrade
+# pipenv run start

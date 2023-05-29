@@ -12,6 +12,12 @@ from api.routes import api
 from api.admin import setup_admin
 from api.commands import setup_commands
 
+# Para extender el tiempo del token
+from datetime import timedelta
+
+#Encriptacion de la password
+from flask_bcrypt import Bcrypt
+
 #from models import Person
 
 ENV = os.getenv("FLASK_ENV")
@@ -32,6 +38,10 @@ db.init_app(app)
 
 # Allow CORS requests to this API
 CORS(app)
+
+# Contraseña encriptada
+bcrypt = Bcrypt(app)
+app.bcrypt = bcrypt
 
 # add the admin
 setup_admin(app)

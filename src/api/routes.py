@@ -1,7 +1,7 @@
 """
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
-from flask import Flask, request, jsonify, url_for, Blueprint
+from flask import Flask, request, jsonify, url_for, Blueprint, current_app #importamos current_app
 
 from api.models import db, Usuarios, Cuota, Mensualidades, Metodospago, Mutualista, Proveedores, Pagoproveedores
 from api.models import Productos, Compras, Ventas, CajaDiaria, CajaMensual, CajaAnual, Tipoejercicio, Ejercicio
@@ -284,6 +284,10 @@ def addAlumnos():
     body = json.loads(request.data)
 
     queryNewAlumno = Usuarios.query.filter_by(cedula=body["cedula"]).first()
+
+    #Password
+    pw_hash = current_app.bcrypt.generate_password_hash(body["cedula"]).decode("utf-8")
+    print(pw_hash)
     
     if queryNewAlumno is None:
         new_alumno = Usuarios(
@@ -296,7 +300,7 @@ def addAlumnos():
         peso=body["peso"],
         altura=body["altura"], 
         fechaingreso=body["fechaingreso"],
-        password=body["cedula"], 
+        password=pw_hash, 
         email=body["email"], 
         idmutualista=body["idmutualista"],
         condicionesmedicas=body["condicionesmedicas"], 
@@ -305,7 +309,7 @@ def addAlumnos():
         motivoentrenamiento=body["motivoentrenamiento"],
         idcuota=body["idcuota"],
         rol=body["rol"],
-        activo=body["activo"],
+        genero=body["genero"],
         observaciones=body["observaciones"],
         foto=body["foto"]
         )
@@ -407,8 +411,8 @@ def usersModif_porId(user_id):
     if "rol"in body:
         usuario.rol = body["rol"]
     
-    if "activo" in body:
-        usuario.activo = body["activo"]
+    if "genero" in body:
+        usuario.genero = body["genero"]
     
     if "observaciones" in body:
         usuario.observaciones = body["observaciones"]

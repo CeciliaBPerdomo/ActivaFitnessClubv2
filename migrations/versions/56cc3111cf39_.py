@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: 4d0d037f6d5d
+Revision ID: 56cc3111cf39
 Revises: 
-Create Date: 2023-04-14 18:58:22.184374
+Create Date: 2023-05-29 11:52:22.624046
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '4d0d037f6d5d'
+revision = '56cc3111cf39'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -136,7 +136,7 @@ def upgrade():
     sa.Column('condicionesmedicas', sa.String(length=200), nullable=True),
     sa.Column('medicacion', sa.String(length=200), nullable=True),
     sa.Column('emergencias', sa.String(length=15), nullable=True),
-    sa.Column('password', sa.String(length=20), nullable=False),
+    sa.Column('password', sa.String(length=100), nullable=False),
     sa.Column('rol', sa.String(length=15), nullable=True),
     sa.Column('motivoentrenamiento', sa.String(length=200), nullable=True),
     sa.Column('observaciones', sa.String(length=500), nullable=True),
@@ -145,7 +145,7 @@ def upgrade():
     sa.Column('peso', sa.String(length=10), nullable=True),
     sa.Column('altura', sa.String(length=10), nullable=True),
     sa.Column('fechaingreso', sa.String(length=15), nullable=True),
-    sa.Column('activo', sa.String(length=10), nullable=False),
+    sa.Column('genero', sa.String(length=10), nullable=False),
     sa.Column('proximovencimiento', sa.String(length=15), nullable=True),
     sa.Column('idcuota', sa.Integer(), nullable=True),
     sa.Column('idmutualista', sa.Integer(), nullable=True),

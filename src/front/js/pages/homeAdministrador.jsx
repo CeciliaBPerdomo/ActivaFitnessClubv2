@@ -138,7 +138,7 @@ export const HomeAdministrador = () => {
                 
                 <div className="row">
                     <div className="col border border-danger">
-                        <h4 style={{padding: "5px"}}>Caja Diaria</h4>
+                        <h4 style={{padding: "5px"}}>Balance Diario</h4>
                         <p style={{fontSize: "18px"}}>
                             <Link to="/movimientosDiarios" style={{textDecoration: "none", color: "white"}}>
                                 Movimientos diarios
@@ -146,7 +146,7 @@ export const HomeAdministrador = () => {
                             </p> 
                             <p style={{fontSize: "18px", lineHeight: "0px" }}>
                                 <Link to="/resumenMovimientos" style={{textDecoration: "none", color: "white"}}>  
-                                    Resumen movimientos caja diaria
+                                    Resumen movimientos de balance diario
                                 </Link>
                             </p>
                     </div>

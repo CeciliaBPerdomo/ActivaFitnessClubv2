@@ -4,17 +4,9 @@ import { Link, useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-/*
- cedula, nombre, apellido, direccionAlumno,
- celular, fechanacimiento, peso, altura,
-  email, idmutualista, condicionesmedicas, medicacion,
-  emergencias, motivoentrenamiento, idcuota,
-  rol, activo, observaciones,
-*/
 
 export const CrearAlumno = () => {
   const { store, actions } = useContext(Context);
-  let navegacion = useNavigate();
 
   const [cedula, setCedula] = useState("");
   const [nombre, setNombre] = useState("");

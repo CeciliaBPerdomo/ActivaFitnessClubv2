@@ -10,6 +10,8 @@ import injectContext from "./store/appContext";
 import { Navbar } from "./component/navbar";
 import { Footer } from "./component/footer";
 
+// Inicio de sesion
+import { InicioSesion } from "./component/login/login.jsx"
 
 // Cuotas - Modalidades de Entrenamiento
 import { CrearCuota } from "./component/cuotas/crearCuota.jsx";
@@ -124,6 +126,9 @@ const Layout = () => {
                         {/* Caja Diaria */}
                         <Route element={<CajaDiaria />} path="/movimientosDiarios" />
                         <Route element={<ResumenCajaDiaria />} path="/resumenMovimientos" />
+
+                        {/* InicionSesion */}
+                        <Route element={<InicioSesion />} path="iniciosesion" />
 
                         <Route element={<h1>Not found!</h1>} />
                     </Routes>

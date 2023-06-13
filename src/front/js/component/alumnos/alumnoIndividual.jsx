@@ -58,12 +58,12 @@ export const AlumnoIndividual = () => {
               <p>
                 Fecha de ingreso: 
                 <b>
-                  {
-                    (new Date(store.alumno[0]?.fechaingreso).getDate() + 1)
-                    + "/" + 
-                    (new Date(store.alumno[0]?.fechaingreso).getMonth() + 1)
-                    + "/" + 
-                    (new Date(store.alumno[0]?.fechaingreso).getFullYear())
+                  {store.alumno[0]?.fechaingreso
+                    // (new Date(store.alumno[0]?.fechaingreso).getDate() + 1)
+                    // + "/" + 
+                    // (new Date(store.alumno[0]?.fechaingreso).getMonth() + 1)
+                    // + "/" + 
+                    // (new Date(store.alumno[0]?.fechaingreso).getFullYear())
                   }
                 </b>
               </p>
@@ -98,12 +98,12 @@ export const AlumnoIndividual = () => {
               <p>
                 Fecha de nacimiento: 
                 <b>
-                  {
-                  (new Date(store.alumno[0]?.fechanacimiento).getDate() + 1)
-                  + "/" + 
-                  (new Date(store.alumno[0]?.fechanacimiento).getMonth() + 1)
-                  + "/" + 
-                  (new Date(store.alumno[0]?.fechanacimiento).getFullYear())
+                  {store.alumno[0]?.fechanacimiento
+                  // (new Date(store.alumno[0]?.fechanacimiento).getDate() + 1)
+                  // + "/" + 
+                  // (new Date(store.alumno[0]?.fechanacimiento).getMonth() + 1)
+                  // + "/" + 
+                  // (new Date(store.alumno[0]?.fechanacimiento).getFullYear())
                   }
                 </b>
               </p>
@@ -142,12 +142,12 @@ export const AlumnoIndividual = () => {
             <tbody>
               {store.pagos.map((item, id) => (
                 <tr key={id}>
-                  <td>{
-                  (new Date(item.fechapago).getDate() + 1)
-                  + "/" + 
-                  (new Date(item.fechapago).getMonth() + 1)
-                  + "/" + 
-                  (new Date(item.fechapago).getFullYear())
+                  <td>{item.fechapago
+                  // (new Date(item.fechapago).getDate() + 1)
+                  // + "/" + 
+                  // (new Date(item.fechapago).getMonth() + 1)
+                  // + "/" + 
+                  // (new Date(item.fechapago).getFullYear())
                   }</td>
                   <td>$ {item.monto}</td>
                   <td>{item.factura}</td>

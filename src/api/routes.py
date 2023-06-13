@@ -10,15 +10,21 @@ from api.models import Rutina, RutinasAux, Carrito, Ventasonline
 from api.utils import generate_sitemap, APIException
 import json
 
+# .env
+import os
+
+# Rutas privadas
+from flask_jwt_extended import create_access_token
+from flask_jwt_extended import get_jwt_identity
+from flask_jwt_extended import jwt_required
+
 api = Blueprint('api', __name__)
 
 @api.route('/hello', methods=['POST', 'GET'])
 def handle_hello():
-
     response_body = {
-        "message": "Hello! I'm a message that came from the backend, check the network tab on the google inspector and you will see the GET request"
+        "message": "Hello! I'm Cecilia"
     }
-
     return jsonify(response_body), 200
 
 #####################################################################################
@@ -964,3 +970,41 @@ def get_Cajaid(cajadiaria_id):
         return jsonify(response_body), 400
 
     return jsonify(results), 200
+
+#####################################################################################
+#####################################################################################
+###                                                                               ###
+###                   INICIO DE SESION                                            ###
+###                                                                               ###
+#####################################################################################
+#####################################################################################
+
+# Inicio de sesión
+@api.route("/login", methods=["POST"])
+def login():
+    body = json.loads(request.data)
+    # Solicitud de los datos
+    email = body["email"]
+    password = body["password"]
+
+    login_user = Usuarios.query.filter_by(email=email).first()
+
+    # Si no existe el usuario
+    if login_user is None:
+        return jsonify({"msg": "Este email no existe"}), 404
+
+    # Chequeo de la pass encriptada
+    checkPass = current_app.bcrypt.check_password_hash(login_user.password, password)
+
+    # Chequeo que el mail y el usuario esten ok
+    if email != login_user.email or not checkPass:
+        return jsonify({"msg":"Email o password incorrectos"}), 401
+
+    #crea el acceso y devuelve un token a la persona al loguearse
+    access_token = create_access_token(identity=email)
+    response_body={
+        "access_token": access_token,
+        "user": login_user.serialize()  
+    }
+
+    return jsonify(response_body), 200

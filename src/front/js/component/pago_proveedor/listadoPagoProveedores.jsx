@@ -50,12 +50,12 @@ export const ListadoPagoProveedores = () => {
                         {store.pagoProveedores.map((item, id) => ( 
                             <tr key={id}>
                                 <td>
-                                    {
-                                    (new Date(item.fechapago).getDate() + 1)
-                                    + "/" + 
-                                    (new Date(item.fechapago).getMonth() + 1)
-                                    + "/" + 
-                                    (new Date(item.fechapago).getFullYear())
+                                    {item.fechapago
+                                    // (new Date(item.fechapago).getDate() + 1)
+                                    // + "/" + 
+                                    // (new Date(item.fechapago).getMonth() + 1)
+                                    // + "/" + 
+                                    // (new Date(item.fechapago).getFullYear())
                                     }
                                 </td>
                                 <td>{item.numfactura}</td>

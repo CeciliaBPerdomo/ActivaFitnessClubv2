@@ -79,12 +79,12 @@ export const ListadoMensualidades = () => {
             <tbody>
               {store.pagos.map((item, id) => (
                 <tr key={id}>
-                  <td>{
-                  (new Date(item.fechapago).getDate() + 1)
-                  + "/" + 
-                  (new Date(item.fechapago).getMonth() + 1)
-                  + "/" + 
-                  (new Date(item.fechapago).getFullYear())
+                  <td>{ item.fechapago
+                  // (new Date(item.fechapago).getDate() + 1)
+                  // + "/" + 
+                  // (new Date(item.fechapago).getMonth() + 1)
+                  // + "/" + 
+                  // (new Date(item.fechapago).getFullYear())
                   }
                   </td>
                   <td>{item.alumnoInfo.nombre} {item.alumnoInfo.apellido}</td>

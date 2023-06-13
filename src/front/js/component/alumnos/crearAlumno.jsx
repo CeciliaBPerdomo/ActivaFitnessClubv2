@@ -73,6 +73,7 @@ export const CrearAlumno = () => {
       });
     }
 
+   actions.suscripcion(email)
     // setInterval(() => {
     //   navegacion("/ListadoAlumnos");
     // }, 5000);

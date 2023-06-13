@@ -39,12 +39,12 @@ export const ResumenCajaDiaria = () => {
                                     {store.cajaDiaria.map((item, id) => ( 
                                         <tr key={id}>
                                             <td>
-                                                {
-                                                (new Date(item.fecha).getDate() + 1)
-                                                + "/" + 
-                                                (new Date(item.fecha).getMonth() + 1)
-                                                + "/" + 
-                                                (new Date(item.fecha).getFullYear())
+                                                {item.fecha
+                                                // (new Date(item.fecha).getDate() + 1)
+                                                // + "/" + 
+                                                // (new Date(item.fecha).getMonth() + 1)
+                                                // + "/" + 
+                                                // (new Date(item.fecha).getFullYear())
                                                 }
                                                 </td>
                                             <td className="text-center">{item.cantidadalumnos}</td>

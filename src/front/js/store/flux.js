@@ -25,7 +25,10 @@ const getState = ({ getStore, getActions, setStore }) => {
       movimiento: {},
       diarios: [], 
       egresosDiarios: [],
+      auth: {}, 
+      errorLogin: {},
     },
+
     actions: {
       ////////////////////////////////////
       //          Cuotas              ///
@@ -1046,36 +1049,93 @@ const getState = ({ getStore, getActions, setStore }) => {
         }        
       }, 
 
+      ////////////////////////////////////
+      ///       Newsletter             ///
+      ////////////////////////////////////
+
+      suscripcion: (email) => {
+        try{
+          fetch("https://connect.mailerlite.com/api/subscribers", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Accept: "application/json",
+              Authorization: "Bearer " + process.env.MAILERLITE
+            }, 
+            body: JSON.stringify({
+              email: email,
+              groups: [process.env.MAILGROUP],
+            }),
+          })
+          .then((response) => {
+            if (response.status === 201) {
+              console.log(response.status)
+            }
+          })
+        } catch(error){
+          console.log(error)
+        }
+      },
+
+      ////////////////////////////////////
+      ///         Login                ///
+      ////////////////////////////////////
+      //Logueo
+      loginAdministrador : async (email, password) => {
+        try {
+          const resp = await axios.post(direccion + "/api/login", {
+            email: email, 
+            password: password
+          })
+          // Si todo sale color de rosas
+          if (resp.status === 200){
+            const data = resp.data
+            if (data.user.rol === "Administrador") {
+              localStorage.setItem("Token", data.access_token)
+              setStore({
+                  auth: true,
+              });
+            } else {
+              setStore({
+                auth: false,
+            });
+            }
+          } else if (resp.status === 404) {
+            // Usuario no existe
+            setStore({
+              auth: false,
+          });
+          }
+        } catch(error){
+          console.log(error)
+        }
+      },
+
+      // Inicio de se sesion      
+      logOut: () => {
+          localStorage.removeItem("Token");
+          setStore({
+              auth: false,
+          });
+    },
 
       ////////////////////////////////////
       //       Por defecto             ///
       ////////////////////////////////////
-      // getMessage: async () => {
-      //   try {
-      //     // fetching data from the backend
-      //     const resp = await fetch(process.env.BACKEND_URL + "/api/hello");
-      //     const data = await resp.json();
-      //     setStore({ message: data.message });
-      //     // don't forget to return something, that is how the async resolves
-      //     return data;
-      //   } catch (error) {
-      //     console.log("Error loading message from backend", error);
-      //   }
+      // changeColor: (index, color) => {
+      //   //get the store
+      //   const store = getStore();
+
+      //   //we have to loop the entire demo array to look for the respective index
+      //   //and change its color
+      //   const demo = store.demo.map((elm, i) => {
+      //     if (i === index) elm.background = color;
+      //     return elm;
+      //   });
+
+      //   //reset the global store
+      //   setStore({ demo: demo });
       // },
-      changeColor: (index, color) => {
-        //get the store
-        const store = getStore();
-
-        //we have to loop the entire demo array to look for the respective index
-        //and change its color
-        const demo = store.demo.map((elm, i) => {
-          if (i === index) elm.background = color;
-          return elm;
-        });
-
-        //reset the global store
-        setStore({ demo: demo });
-      },
     },
   };
 };

@@ -6,16 +6,11 @@ import { Link } from "react-router-dom";
 export const Navbar = () => {
 	const { store, actions } = useContext(Context)
 
-	// Boton de logueo
-	const [visibilidadBoton, setVisibilidadBoton] = useState("")
 
-	useEffect(() => {
-		if (store.auth === true) {
-			setVisibilidadBoton(false)
-		} else {
-			setVisibilidadBoton(true)
-		}
-	}, []);
+	// useEffect(() => {
+		
+	// }, []);
+
 
 	return (
 		<>
@@ -36,17 +31,17 @@ export const Navbar = () => {
 					}}>
 					
 					{/* Chequea que este logueado */}
-					{ !store.auth ? 
-						<button type="button" className="btn btn-outline-danger">
-							Iniciar sesión
-						</button>
-						: 
+					{ store.auth === true ? 
 						// Cierra sesión
 						<button type="button" 
 						className="btn btn-outline-danger"
 						onClick={() => actions.logOut()}
 						>
 							Cerrar sesión
+						</button>
+						:
+						<button type="button" className="btn btn-outline-danger">
+							Iniciar sesión
 						</button>
 					}
 				</Link>

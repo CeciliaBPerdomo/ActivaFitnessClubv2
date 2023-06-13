@@ -57,15 +57,12 @@ export const AlumnoIndividual = () => {
               </p>
               <p>
                 Fecha de ingreso: 
-                <b>
-                  {store.alumno[0]?.fechaingreso
-                    // (new Date(store.alumno[0]?.fechaingreso).getDate() + 1)
+                <b> {store.alumno[0]?.fechaingreso} </b>
+                    {/* // (new Date(store.alumno[0]?.fechaingreso).getDate() + 1)
                     // + "/" + 
                     // (new Date(store.alumno[0]?.fechaingreso).getMonth() + 1)
                     // + "/" + 
-                    // (new Date(store.alumno[0]?.fechaingreso).getFullYear())
-                  }
-                </b>
+                    // (new Date(store.alumno[0]?.fechaingreso).getFullYear()) */}
               </p>
               <p>
                 Altura: <b>{store.alumno[0]?.altura}</b>. Peso:{" "}
@@ -97,14 +94,13 @@ export const AlumnoIndividual = () => {
               </p>
               <p>
                 Fecha de nacimiento: 
-                <b>
-                  {store.alumno[0]?.fechanacimiento
-                  // (new Date(store.alumno[0]?.fechanacimiento).getDate() + 1)
+                <b> {store.alumno[0]?.fechanacimiento}
+                  {/* // (new Date(store.alumno[0]?.fechanacimiento).getDate() + 1)
                   // + "/" + 
                   // (new Date(store.alumno[0]?.fechanacimiento).getMonth() + 1)
                   // + "/" + 
-                  // (new Date(store.alumno[0]?.fechanacimiento).getFullYear())
-                  }
+                  // (new Date(store.alumno[0]?.fechanacimiento).getFullYear()) */}
+                  
                 </b>
               </p>
               <p>

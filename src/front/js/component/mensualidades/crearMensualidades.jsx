@@ -20,10 +20,13 @@ export const CrearMensualidad = () => {
         actions.obtenerMetodos()
       }, []);
 
-      const guardar = (e) => {
+      const guardarMensualidad = async (e) => {
         e.preventDefault();
-    
-        if (actions.crearMensualidad(fechapago, monto, factura, observaciones, idusuario, idmetodo)) {
+        
+        let valor = await actions.crearMensualidad(fechapago, monto, factura, observaciones, idusuario, idmetodo)
+        console.log(valor)
+
+        if (valor) {
           toast.success("💪 Guardado con éxito", {
             position: toast.POSITION.TOP_RIGHT,
             autoClose: 3000,
@@ -34,6 +37,17 @@ export const CrearMensualidad = () => {
             progress: undefined,
             theme: "dark",
           });
+        } else {
+            toast.error("No se pudo guardar", {
+                position: toast.POSITION.TOP_RIGHT,
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+              });
         }
         /* Limpiar el formulario */
         setFechaPago("");
@@ -149,7 +163,7 @@ export const CrearMensualidad = () => {
                     <button
                     type="submit"
                     className="btn btn-outline-danger float-end w-25"
-                    onClick={(e) => guardar(e)}
+                    onClick={(e) => guardarMensualidad(e)}
                     >
                     Guardar
                     </button>

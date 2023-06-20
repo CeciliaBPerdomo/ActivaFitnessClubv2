@@ -2,7 +2,8 @@ import React, { useContext } from "react";
 import { Context } from "../store/appContext";
 import "../../styles/home.css";
 import logo  from "../../img/Logo.png"
-import { Link } from "react-router-dom";
+import { PreFooter } from "../component/preFooter.jsx"
+
 
 export const Home = () => {
 	const { store, actions } = useContext(Context);
@@ -18,10 +19,9 @@ export const Home = () => {
 				<img src={logo} style={{width: "10%"}}/>
 			</p>
 
-			<br />
-			<Link to = "/homeAdministrador" style={{textDecoration: "none", color: "white"}}>
-				<h3>Administrador</h3>
-			</Link>
+			<br /><br /><br />
+			
+			<PreFooter />
 		</div>
 	);
 };

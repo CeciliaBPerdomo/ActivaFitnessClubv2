@@ -36,7 +36,11 @@ const getState = ({ getStore, getActions, setStore }) => {
       /* Listar las cuotas*/
       obtenerCuotas: async () => {
         try {
-          const response = await axios.get(direccion + "/api/cuota", {});
+          const response = await axios.get(direccion + "/api/cuota", {
+            headers: {
+                Authorization: "Bearer " + localStorage.getItem("Token"),
+            },
+          });
           setStore({
             cuotas: response.data,
           });
@@ -50,10 +54,15 @@ const getState = ({ getStore, getActions, setStore }) => {
 
       /* Crea cuotas */
       crearCuota: async (descripcion, precio) => {
+        console.log(localStorage.getItem("Token"))
         try {
           await axios.post(direccion + "/api/cuota", {
             descripcion: descripcion,
-            precio: precio,
+            precio: precio 
+          }, {
+            headers: {
+              Authorization: "Bearer " + localStorage.getItem("Token"),
+            },
           });
           getActions().obtenerCuotas();
           return true;
@@ -65,7 +74,11 @@ const getState = ({ getStore, getActions, setStore }) => {
       /* Borrar cuotas */
       borrarCuotas: async (id) => {
         try {
-          await axios.delete(direccion + "/api/cuota/" + id, {});
+          await axios.delete(direccion + "/api/cuota/" + id, {
+            headers: {
+              Authorization: "Bearer " + localStorage.getItem("Token"),
+            },
+          });
           getActions().obtenerCuotas();
           return true;
         } catch (error) {
@@ -93,7 +106,11 @@ const getState = ({ getStore, getActions, setStore }) => {
       // Obtener cuota por id
       obtenerCuotaId: async (id) => {
         try {
-          const response = await axios.get(direccion + "/api/cuota/" + id, {});
+          const response = await axios.get(direccion + "/api/cuota/" + id, {
+            headers: {
+              Authorization: "Bearer " + localStorage.getItem("Token"),
+            },
+          });
           setStore({
             cuota: response.data,
           });
@@ -110,7 +127,11 @@ const getState = ({ getStore, getActions, setStore }) => {
           const response = await axios.put(direccion + "/api/cuota/" + id, {
             id: id,
             descripcion: descripcion,
-            precio: precio,
+            precio: precio
+          }, {
+            headers: {
+              Authorization: "Bearer " + localStorage.getItem("Token"),
+            },
           });
           //console.log(response.data)
           return true;
@@ -127,7 +148,11 @@ const getState = ({ getStore, getActions, setStore }) => {
       /* Listar las Metodos*/
       obtenerMetodos: async () => {
         try {
-          const response = await axios.get(direccion + "/api/metodos", {});
+          const response = await axios.get(direccion + "/api/metodos", {
+            headers: {
+              Authorization: "Bearer " + localStorage.getItem("Token"),
+            },
+          });
           setStore({
             metodos: response.data,
           });
@@ -144,7 +169,11 @@ const getState = ({ getStore, getActions, setStore }) => {
         try {
           await axios.post(direccion + "/api/metodos", {
             tipo: tipo,
-            observaciones: observaciones,
+            observaciones: observaciones
+          }, {
+            headers: {
+              Authorization: "Bearer " + localStorage.getItem("Token"),
+            },
           });
           getActions().obtenerMetodos();
           return true;
@@ -156,7 +185,11 @@ const getState = ({ getStore, getActions, setStore }) => {
       /* Borrar metodos */
       borrarMetodos: async (id) => {
         try {
-          await axios.delete(direccion + "/api/metodos/" + id, {});
+          await axios.delete(direccion + "/api/metodos/" + id, {
+            headers: {
+              Authorization: "Bearer " + localStorage.getItem("Token"),
+            },
+          });
           getActions().obtenerMetodos();
           return true;
         } catch (error) {
@@ -168,8 +201,11 @@ const getState = ({ getStore, getActions, setStore }) => {
       obtenerMetodoId: async (id) => {
         try {
           const response = await axios.get(
-            direccion + "/api/metodos/" + id,
-            {},
+            direccion + "/api/metodos/" + id, {
+              headers: {
+                Authorization: "Bearer " + localStorage.getItem("Token"),
+              },
+            },
           );
           setStore({
             metodo: response.data,
@@ -187,7 +223,11 @@ const getState = ({ getStore, getActions, setStore }) => {
           await axios.put(direccion + "/api/metodos/" + id, {
             id: id,
             tipo: tipo,
-            observaciones: observaciones,
+            observaciones: observaciones
+          }, {
+              headers: {
+                Authorization: "Bearer " + localStorage.getItem("Token"),
+              },
           });
           return true;
         } catch (error) {
@@ -220,7 +260,11 @@ const getState = ({ getStore, getActions, setStore }) => {
       /* Listar las Mutualistas */
       obtenerMutualistas: async () => {
         try {
-          const response = await axios.get(direccion + "/api/mutualistas", {});
+          const response = await axios.get(direccion + "/api/mutualistas", {
+            headers: {
+              Authorization: "Bearer " + localStorage.getItem("Token"),
+            }
+          });
           setStore({
             mutualistas: response.data,
           });
@@ -237,7 +281,11 @@ const getState = ({ getStore, getActions, setStore }) => {
           await axios.post(direccion + "/api/mutualistas", {
             nombre: nombre,
             direccion: direccionMutualista,
-            telefono: telefono,
+            telefono: telefono
+          }, {
+              headers: {
+                Authorization: "Bearer " + localStorage.getItem("Token"),
+              },
           });
           getActions().obtenerMutualistas();
           return true;
@@ -249,7 +297,11 @@ const getState = ({ getStore, getActions, setStore }) => {
       /* Borrar mutualistas */
       borrarMutualista: async (id) => {
         try {
-          await axios.delete(direccion + "/api/mutualistas/" + id, {});
+          await axios.delete(direccion + "/api/mutualistas/" + id, {
+            headers: {
+              Authorization: "Bearer " + localStorage.getItem("Token"),
+            },
+          });
           getActions().obtenerMutualistas();
           return true;
         } catch (error) {
@@ -262,7 +314,11 @@ const getState = ({ getStore, getActions, setStore }) => {
         try {
           const response = await axios.get(
             direccion + "/api/mutualistas/" + id,
-            {},
+            {
+              headers: {
+                Authorization: "Bearer " + localStorage.getItem("Token"),
+              },
+            },
           );
           setStore({
             mutualista: response.data,
@@ -287,7 +343,11 @@ const getState = ({ getStore, getActions, setStore }) => {
             nombre: nombre,
             direccion: direccionMutualista,
             telefono: telefono,
-          });
+          }, {
+            headers: {
+              Authorization: "Bearer " + localStorage.getItem("Token"),
+            },
+        });
           return true;
         } catch (error) {
           if (error.code === "ERR_BAD_REQUEST") {
@@ -319,7 +379,11 @@ const getState = ({ getStore, getActions, setStore }) => {
       /* Listar los Alumnos */
       obtenerAlumnos: async () => {
         try {
-          const response = await axios.get(direccion + "/api/alumnos", {});
+          const response = await axios.get(direccion + "/api/alumnos", {
+            headers: {
+              Authorization: "Bearer " + localStorage.getItem("Token"),
+            },
+          });
           setStore({
             alumnos: response.data,
           });
@@ -375,7 +439,11 @@ const getState = ({ getStore, getActions, setStore }) => {
             fechaingreso: fechaingreso,
             genero: genero,
             idcuota: idcuota,
-            idmutualista: idmutualista,
+            idmutualista: idmutualista
+          }, {
+            headers: {
+              Authorization: "Bearer " + localStorage.getItem("Token"),
+            },
           });
           return true;
         } catch (error) {
@@ -386,7 +454,11 @@ const getState = ({ getStore, getActions, setStore }) => {
       /* Borrar alumno */
       borrarAlumno: async (id) => {
         try {
-          await axios.delete(direccion + "/api/alumnos/" + id, {});
+          await axios.delete(direccion + "/api/alumnos/" + id, {
+            headers: {
+              Authorization: "Bearer " + localStorage.getItem("Token"),
+            },
+          });
           getActions().obtenerAlumnos();
           return true;
         } catch (error) {
@@ -415,8 +487,11 @@ const getState = ({ getStore, getActions, setStore }) => {
       obtenerAlumnoId: async (id) => {
         try {
           const response = await axios.get(
-            direccion + "/api/alumnos/" + id,
-            {},
+            direccion + "/api/alumnos/" + id, {
+              headers: {
+                Authorization: "Bearer " + localStorage.getItem("Token")
+              },
+            },
           );
           setStore({
             alumno: response.data,
@@ -474,7 +549,11 @@ const getState = ({ getStore, getActions, setStore }) => {
             fechaingreso: fechaingreso,
             genero: genero,
             idcuota: idcuota,
-            idmutualista: idmutualista,
+            idmutualista: idmutualista
+          }, {
+            headers: {
+              Authorization: "Bearer " + localStorage.getItem("Token"),
+            },
           });
           return true;
         } catch (error) {
@@ -491,8 +570,11 @@ const getState = ({ getStore, getActions, setStore }) => {
       obtenerMensualidades: async () => {
         try {
           const response = await axios.get(
-            direccion + "/api/mensualidades",
-            {},
+            direccion + "/api/mensualidades", { 
+              headers: {
+                Authorization: "Bearer " + localStorage.getItem("Token"),
+              },
+            },
           );
           setStore({
             pagos: response.data,
@@ -513,16 +595,26 @@ const getState = ({ getStore, getActions, setStore }) => {
         idusuario,
         idmetodo,
       ) => {
+   //     console.log(idmetodo)
+   //     console.log(localStorage.getItem("Token"))
         try {
-          await axios.post(direccion + "/api/mensualidades", {
+          const response = await axios.post(direccion + "/api/mensualidades", {
             fechapago: fechapago,
             monto: monto,
             factura: factura,
             observaciones: observaciones,
             idusuario: idusuario,
-            idmetodo: idmetodo,
+            idmetodo: idmetodo
+          }, {
+            headers: {
+              Authorization: "Bearer " + localStorage.getItem("Token"),
+            },
           });
-          return true;
+          if (response.status === 200) {
+            return true 
+          } else {
+            return false
+          }
         } catch (error) {
           console.log(error);
         }
@@ -531,7 +623,11 @@ const getState = ({ getStore, getActions, setStore }) => {
       /* Borrar Mensualidad */
       borrarMensualidad: async (id) => {
         try {
-          await axios.delete(direccion + "/api/mensualidades/" + id, {});
+          await axios.delete(direccion + "/api/mensualidades/" + id, {
+            headers: {
+              Authorization: "Bearer " + localStorage.getItem("Token"),
+            },
+          });
           getActions().obtenerMensualidades();
           return true;
         } catch (error) {
@@ -557,7 +653,11 @@ const getState = ({ getStore, getActions, setStore }) => {
             factura: factura,
             observaciones: observaciones,
             idusuario: idusuario,
-            idmetodo: idmetodo,
+            idmetodo: idmetodo
+          }, {
+            headers: {
+              Authorization: "Bearer " + localStorage.getItem("Token"),
+            },
           });
           return true;
         } catch (error) {
@@ -588,8 +688,11 @@ const getState = ({ getStore, getActions, setStore }) => {
       obtenerMensualidadId: async (id) => {
         try {
           const response = await axios.get(
-            direccion + "/api/mensualidades/" + id,
-            {},
+            direccion + "/api/mensualidades/" + id, { 
+              headers: {
+                Authorization: "Bearer " + localStorage.getItem("Token"),
+              },
+            },
           );
           setStore({
             pago: response.data,
@@ -605,8 +708,11 @@ const getState = ({ getStore, getActions, setStore }) => {
       obtenerMensualidadIdUsuario: async (id) => {
         try {
           const response = await axios.get(
-            direccion + "/api/mensualidadesAlumno/" + id,
-            {},
+            direccion + "/api/mensualidadesAlumno/" + id, { 
+              headers: {
+                Authorization: "Bearer " + localStorage.getItem("Token"),
+              },
+            },
           );
           setStore({
             pagos: response.data,
@@ -624,7 +730,11 @@ const getState = ({ getStore, getActions, setStore }) => {
       /* Listar productos */
       obtenerProductos: async () => {
         try {
-          const response = await axios.get(direccion + "/api/productos", {});
+          const response = await axios.get(direccion + "/api/productos", {
+            headers: {
+              Authorization: "Bearer " + localStorage.getItem("Token"),
+            },
+          });
           setStore({
             productos: response.data,
           });
@@ -653,7 +763,11 @@ const getState = ({ getStore, getActions, setStore }) => {
             observaciones: observaciones,
             foto: foto,
             video: video,
-            proveedorid: proveedorid,
+            proveedorid: proveedorid
+          }, {
+            headers: {
+              Authorization: "Bearer " + localStorage.getItem("Token"),
+            },
           });
           return true;
         } catch (error) {
@@ -664,7 +778,11 @@ const getState = ({ getStore, getActions, setStore }) => {
       /* Borrar Productos */
       borrarProductos: async (id) => {
         try {
-          await axios.delete(direccion + "/api/productos/" + id, {});
+          await axios.delete(direccion + "/api/productos/" + id, {
+            headers: {
+              Authorization: "Bearer " + localStorage.getItem("Token"),
+            },
+          });
           getActions().obtenerProductos();
           return true;
         } catch (error) {
@@ -692,7 +810,11 @@ const getState = ({ getStore, getActions, setStore }) => {
             observaciones: observaciones,
             foto: foto,
             video: video,
-            proveedorid: proveedorid,
+            proveedorid: proveedorid
+          }, {
+            headers: {
+              Authorization: "Bearer " + localStorage.getItem("Token"),
+            },
           });
           return true;
         } catch (error) {
@@ -706,8 +828,11 @@ const getState = ({ getStore, getActions, setStore }) => {
       obtenerProductosId: async (id) => {
         try {
           const response = await axios.get(
-            direccion + "/api/productos/" + id,
-            {},
+            direccion + "/api/productos/" + id, {
+              headers: {
+                Authorization: "Bearer " + localStorage.getItem("Token"),
+              },
+            },
           );
           setStore({
             producto: response.data,
@@ -742,7 +867,11 @@ const getState = ({ getStore, getActions, setStore }) => {
       /* Listar proveedores */
       obtenerProveedores: async () => {
         try {
-          const response = await axios.get(direccion + "/api/proveedores", {});
+          const response = await axios.get(direccion + "/api/proveedores", {
+            headers: {
+              Authorization: "Bearer " + localStorage.getItem("Token"),
+            },
+          });
           setStore({
             proveedores: response.data,
           });
@@ -769,7 +898,11 @@ const getState = ({ getStore, getActions, setStore }) => {
             direccion: direccionProveedor,
             telefono: telefono,
             mail: mail,
-            observaciones: observaciones,
+            observaciones: observaciones
+          }, {
+            headers: {
+              Authorization: "Bearer " + localStorage.getItem("Token"),
+            },
           });
           return true;
         } catch (error) {
@@ -780,7 +913,11 @@ const getState = ({ getStore, getActions, setStore }) => {
       /* Borrar Proveedores */
       borrarProveedores: async (id) => {
         try {
-          await axios.delete(direccion + "/api/proveedores/" + id, {});
+          await axios.delete(direccion + "/api/proveedores/" + id, {
+            headers: {
+              Authorization: "Bearer " + localStorage.getItem("Token"),
+            },
+          });
           getActions().obtenerProveedores();
           return true;
         } catch (error) {
@@ -806,7 +943,11 @@ const getState = ({ getStore, getActions, setStore }) => {
             direccion: direccionProveedor,
             telefono: telefono,
             mail: mail,
-            observaciones: observaciones,
+            observaciones: observaciones
+          }, {
+            headers: {
+              Authorization: "Bearer " + localStorage.getItem("Token"),
+            },
           });
           return true;
         } catch (error) {
@@ -820,8 +961,11 @@ const getState = ({ getStore, getActions, setStore }) => {
       obtenerProveedorId: async (id) => {
         try {
           const response = await axios.get(
-            direccion + "/api/proveedores/" + id,
-            {},
+            direccion + "/api/proveedores/" + id, { 
+              headers: {
+                Authorization: "Bearer " + localStorage.getItem("Token"),
+              },
+            },
           );
           setStore({
             proveedor: response.data,
@@ -869,7 +1013,11 @@ const getState = ({ getStore, getActions, setStore }) => {
             monto: monto,
             idproveedor: idproveedor,
             idmetodo: idmetodo,
-            observaciones: observaciones,
+            observaciones: observaciones
+          }, {
+            headers: {
+              Authorization: "Bearer " + localStorage.getItem("Token"),
+            },
           });
           return true;
         } catch (error) {
@@ -880,7 +1028,11 @@ const getState = ({ getStore, getActions, setStore }) => {
       /* Listar todos los pagos a proveedores */
       obtenerPagoAProveedores: async () => {
         try {
-          const response = await axios.get(direccion + "/api/pagoproveedores", {});
+          const response = await axios.get(direccion + "/api/pagoproveedores", {
+            headers: {
+              Authorization: "Bearer " + localStorage.getItem("Token"),
+            },
+          });
           setStore({
             pagoProveedores: response.data,
           });
@@ -894,7 +1046,11 @@ const getState = ({ getStore, getActions, setStore }) => {
       /* Borrar Pago proveedores */
       borrarPagoProveedores: async (id) => {
         try {
-          await axios.delete(direccion + "/api/pagoproveedores/" + id, {});
+          await axios.delete(direccion + "/api/pagoproveedores/" + id, {
+            headers: {
+              Authorization: "Bearer " + localStorage.getItem("Token"),
+            },
+          });
           getActions().obtenerPagoAProveedores();
           return true;
         } catch (error) {
@@ -920,7 +1076,11 @@ const getState = ({ getStore, getActions, setStore }) => {
             monto: monto,
             observaciones: observaciones,
             idproveedor: idproveedor,
-            idmetodo: idmetodo,
+            idmetodo: idmetodo
+          }, {
+            headers: {
+              Authorization: "Bearer " + localStorage.getItem("Token"),
+            },
           });
           return true;
         } catch (error) {
@@ -934,8 +1094,11 @@ const getState = ({ getStore, getActions, setStore }) => {
       obtenerPagoProveedorId: async (id) => {
         try {
           const response = await axios.get(
-            direccion + "/api/pagoproveedores/" + id,
-            {},
+            direccion + "/api/pagoproveedores/" + id, {
+              headers: {
+                Authorization: "Bearer " + localStorage.getItem("Token"),
+              },
+            },
           );
           setStore({
             pagoProveedor: response.data,
@@ -951,8 +1114,11 @@ const getState = ({ getStore, getActions, setStore }) => {
       obtenerPagoPorProveedor: async (idProveedor) => {
         try {
           const response = await axios.get(
-            direccion + "/api/pagoproveedoresid/" + idProveedor,
-            {},
+            direccion + "/api/pagoproveedoresid/" + idProveedor, {
+              headers: {
+                Authorization: "Bearer " + localStorage.getItem("Token"),
+              },
+            },
           );
           setStore({
             pagoPorProveedor: response.data,
@@ -983,7 +1149,11 @@ const getState = ({ getStore, getActions, setStore }) => {
             cantidadalumnos: cantidadalumnos,
             totalventas: totalventas,
             totalpagoprov: totalpagoprov,
-            observaciones: observaciones,
+            observaciones: observaciones
+          }, {
+            headers: {
+              Authorization: "Bearer " + localStorage.getItem("Token"),
+            },
           });
           return true;
         } catch (error) {
@@ -994,7 +1164,11 @@ const getState = ({ getStore, getActions, setStore }) => {
       /* Listar todos los movimientos de la caja */
       obtenerMovimientosCajaDiaria: async () => {
         try {
-          const response = await axios.get(direccion + "/api/cajadiaria", {});
+          const response = await axios.get(direccion + "/api/cajadiaria", {
+            headers: {
+              Authorization: "Bearer " + localStorage.getItem("Token"),
+            },
+          });
           setStore({
             cajaDiaria: response.data,
           });
@@ -1008,8 +1182,11 @@ const getState = ({ getStore, getActions, setStore }) => {
       obtenerMovimientoCaja: async (id) => {
         try {
           const response = await axios.get(
-            direccion + "/api/cajadiaria/" + id,
-            {},
+            direccion + "/api/cajadiaria/" + id, {
+              headers: {
+                Authorization: "Bearer " + localStorage.getItem("Token"),
+              },
+            },
           );
           setStore({
             movimiento: response.data,
@@ -1025,7 +1202,11 @@ const getState = ({ getStore, getActions, setStore }) => {
       obtenerMovimientosDiarios: async (fecha) => {
         try {
           const response = await axios.post(direccion + "/api/cajadiariaingreso", {
-            fecha: fecha,
+            fecha: fecha
+          }, {
+            headers: {
+              Authorization: "Bearer " + localStorage.getItem("Token"),
+            },
           });
           setStore({
             diarios: response.data
@@ -1039,7 +1220,11 @@ const getState = ({ getStore, getActions, setStore }) => {
       obtenerEgresosDiarios: async (fecha) => {
         try {
           const response = await axios.post(direccion + "/api/cajadiariaegreso", {
-            fecha: fecha,
+            fecha: fecha
+          }, {
+            headers: {
+              Authorization: "Bearer " + localStorage.getItem("Token"),
+            },
           });
           setStore({
             egresosDiarios: response.data
@@ -1118,24 +1303,6 @@ const getState = ({ getStore, getActions, setStore }) => {
               auth: false,
           });
     },
-
-      ////////////////////////////////////
-      //       Por defecto             ///
-      ////////////////////////////////////
-      // changeColor: (index, color) => {
-      //   //get the store
-      //   const store = getStore();
-
-      //   //we have to loop the entire demo array to look for the respective index
-      //   //and change its color
-      //   const demo = store.demo.map((elm, i) => {
-      //     if (i === index) elm.background = color;
-      //     return elm;
-      //   });
-
-      //   //reset the global store
-      //   setStore({ demo: demo });
-      // },
     },
   };
 };

@@ -37,6 +37,7 @@ def handle_hello():
 
 # Muestra todas las cuotas
 @api.route('/cuota', methods=['GET'])
+@jwt_required()
 def getCuota():
     
     cuotas = Cuota.query.all()
@@ -45,6 +46,7 @@ def getCuota():
 
 # Alta de un cuota
 @api.route('/cuota', methods=['POST'])
+@jwt_required()
 def addCuota():
     body = json.loads(request.data)
 
@@ -63,6 +65,7 @@ def addCuota():
 
 # Eliminacion de una cuota
 @api.route('/cuota/<int:cuota_id>', methods=['DELETE'])
+@jwt_required()
 def deleteCuota(cuota_id):
     cuotaId = Cuota.query.filter_by(id=cuota_id).first()
   
@@ -77,6 +80,7 @@ def deleteCuota(cuota_id):
 
 # Modifica una cuota por id
 @api.route('/cuota/<int:cuota_id>', methods=['PUT'])
+@jwt_required()
 def modificarCuota(cuota_id):
     cuota = Cuota.query.filter_by(id=cuota_id).first()
     body = json.loads(request.data)
@@ -97,6 +101,7 @@ def modificarCuota(cuota_id):
 
 # Muestra la cuota por id
 @api.route('/cuota/<int:cuota_id>', methods=['GET'])
+@jwt_required()
 def get_cuota(cuota_id):
     id = Cuota.query.filter_by(id=cuota_id).first()
 
@@ -117,6 +122,7 @@ def get_cuota(cuota_id):
 
 # Muestra todos los metodos de pagos
 @api.route('/metodos', methods=['GET'])
+@jwt_required()
 def getMetodos():
     metodos = Metodospago.query.all()
     results = list(map(lambda x: x.serialize(), metodos))
@@ -124,6 +130,7 @@ def getMetodos():
 
 # Alta de un metodos de pago
 @api.route('/metodos', methods=['POST'])
+@jwt_required()
 def addMetodo():
     body = json.loads(request.data)
 
@@ -142,6 +149,7 @@ def addMetodo():
 
 # Eliminacion de un metodo de pago
 @api.route('/metodos/<int:metodos_id>', methods=['DELETE'])
+@jwt_required()
 def deleteMetodos(metodos_id):
     MetodosId = Metodospago.query.filter_by(id=metodos_id).first()
   
@@ -156,6 +164,7 @@ def deleteMetodos(metodos_id):
 
 # Modifica un metodo de pago por id
 @api.route('/metodos/<int:metodos_id>', methods=['PUT'])
+@jwt_required()
 def modificarMetodos(metodos_id):
     metodos = Metodospago.query.filter_by(id=metodos_id).first()
     body = json.loads(request.data)
@@ -176,6 +185,7 @@ def modificarMetodos(metodos_id):
 
 # Muestra el metodo de pago por id
 @api.route('/metodos/<int:metodo_id>', methods=['GET'])
+@jwt_required()
 def get_metodo(metodo_id):
     id = Metodospago.query.filter_by(id=metodo_id).first()
 
@@ -196,6 +206,7 @@ def get_metodo(metodo_id):
 
 # Muestra todos las mutualistas
 @api.route('/mutualistas', methods=['GET'])
+@jwt_required()
 def getMutualistas():
     mutualista = Mutualista.query.all()
     results = list(map(lambda x: x.serialize(), mutualista))
@@ -203,6 +214,7 @@ def getMutualistas():
 
 # Alta de una mutualista
 @api.route('/mutualistas', methods=['POST'])
+@jwt_required()
 def addMutualista():
     body = json.loads(request.data)
 
@@ -223,6 +235,7 @@ def addMutualista():
 
 # Eliminacion de una mutualista
 @api.route('/mutualistas/<int:mutualista_id>', methods=['DELETE'])
+@jwt_required()
 def deleteMutualista(mutualista_id):
     id = Mutualista.query.filter_by(id=mutualista_id).first()
   
@@ -237,6 +250,7 @@ def deleteMutualista(mutualista_id):
 
 # Modifica una mutualista
 @api.route('/mutualistas/<int:mutualista_id>', methods=['PUT'])
+@jwt_required()
 def modificarMutualista(mutualista_id):
     mutualista = Mutualista.query.filter_by(id=mutualista_id).first()
     body = json.loads(request.data)
@@ -260,6 +274,7 @@ def modificarMutualista(mutualista_id):
 
 # Muestra la mutualista por id
 @api.route('/mutualistas/<int:mutualista_id>', methods=['GET'])
+@jwt_required()
 def get_mutualista(mutualista_id):
     id = Mutualista.query.filter_by(id=mutualista_id).first()
 
@@ -279,6 +294,7 @@ def get_mutualista(mutualista_id):
 
 # Muestra todos los alumnos
 @api.route('/alumnos', methods=['GET'])
+@jwt_required()
 def getAlumos():
     alumnos = Usuarios.query.all()
     results = list(map(lambda x: {**x.serializeCuotas(), **x.serialize()}, alumnos))
@@ -286,6 +302,7 @@ def getAlumos():
 
 # Alta de un alumno 
 @api.route('/alumnos', methods=['POST'])
+@jwt_required()
 def addAlumnos():
     body = json.loads(request.data)
 
@@ -330,6 +347,7 @@ def addAlumnos():
 
 # Elimina un alumno
 @api.route('/alumnos/<int:alumno_id>', methods=['DELETE'])
+@jwt_required()
 def deleteAlumno(alumno_id):
     id = Usuarios.query.filter_by(id=alumno_id).first()
   
@@ -345,6 +363,7 @@ def deleteAlumno(alumno_id):
 
 # Muestra el alumno por id
 @api.route('/alumnos/<int:alumno_id>', methods=['GET'])
+@jwt_required()
 def get_alumnoind(alumno_id):
     alumno = Usuarios.query.filter_by(id=alumno_id).all()
     results = list(map(lambda x: {**x.serializeCuotas(), **x.serialize()}, alumno))
@@ -357,6 +376,7 @@ def get_alumnoind(alumno_id):
 
 # Modifica un usuario por id
 @api.route('/alumnos/<int:user_id>', methods=['PUT'])
+@jwt_required()
 def usersModif_porId(user_id):
     usuario = Usuarios.query.filter_by(id=user_id).first()
     body = json.loads(request.data)
@@ -440,6 +460,7 @@ def usersModif_porId(user_id):
 #####################################################################################
 # Muestra todos los pagos
 @api.route('/mensualidades', methods=['GET'])
+@jwt_required()
 def getMensualidades():
     mensualidades = Mensualidades.query.all()
     results = list(map(lambda x: {**x.serializeAlumnos(), **x.serialize()}, mensualidades))
@@ -447,6 +468,7 @@ def getMensualidades():
 
 # Alta de un pago
 @api.route('/mensualidades', methods=['POST'])
+@jwt_required()
 def addMensualidades():
     body = json.loads(request.data)
 
@@ -469,6 +491,7 @@ def addMensualidades():
 
 # Elimina un pago
 @api.route('/mensualidades/<int:mensualidad_id>', methods=['DELETE'])
+@jwt_required()
 def deleteMensualidad(mensualidad_id):
     pago = Mensualidades.query.filter_by(id=mensualidad_id).first()
   
@@ -484,6 +507,7 @@ def deleteMensualidad(mensualidad_id):
 
 # Modifica un pago id
 @api.route('/mensualidades/<int:mensualidad_id>', methods=['PUT'])
+@jwt_required()
 def mensualidadModif_porId(mensualidad_id):
     pago = Mensualidades.query.filter_by(id=mensualidad_id).first()
     body = json.loads(request.data)
@@ -517,6 +541,7 @@ def mensualidadModif_porId(mensualidad_id):
 
 # Muestra el pago de la mensualidad por id de pago
 @api.route('/mensualidades/<int:mensualidad_id>', methods=['GET'])
+@jwt_required()
 def get_mensualidadid(mensualidad_id):
     pago = Mensualidades.query.filter_by(id=mensualidad_id).all()
     results = list(map(lambda x: {**x.serializeAlumnos(), **x.serialize()}, pago))
@@ -529,6 +554,7 @@ def get_mensualidadid(mensualidad_id):
 
 # Muestra el pago de la mensualidad por id de usuario
 @api.route('/mensualidadesAlumno/<int:idusuario>', methods=['GET'])
+@jwt_required()
 def pago_mensualidad_id(idusuario):
     pago = Mensualidades.query.filter_by(idusuario=idusuario).all()
     results = list(map(lambda x: {**x.serializeMetodo(), **x.serialize()}, pago))
@@ -549,6 +575,7 @@ def pago_mensualidad_id(idusuario):
 #####################################################################################
 # Muestra todos los productos
 @api.route('/productos', methods=['GET'])
+@jwt_required()
 def getProductos():
     products = Productos.query.all()
     results = list(map(lambda x: {**x.serializeProveedor(), **x.serialize()}, products))
@@ -556,6 +583,7 @@ def getProductos():
 
 # Alta de un producto
 @api.route('/productos', methods=['POST'])
+@jwt_required()
 def addProductos():
     body = json.loads(request.data)
 
@@ -575,6 +603,7 @@ def addProductos():
 
 # Elimina un producto
 @api.route('/productos/<int:productos_id>', methods=['DELETE'])
+@jwt_required()
 def deleteProducto(productos_id):
     producto = Productos.query.filter_by(id=productos_id).first()
   
@@ -590,6 +619,7 @@ def deleteProducto(productos_id):
 
 # Modifica un producto por id
 @api.route('/productos/<int:producto_id>', methods=['PUT'])
+@jwt_required()
 def productoModif_porId(producto_id):
     producto = Productos.query.filter_by(id=producto_id).first()
     body = json.loads(request.data)
@@ -626,6 +656,7 @@ def productoModif_porId(producto_id):
 
 # Muestra el producto por id
 @api.route('/productos/<int:producto_id>', methods=['GET'])
+@jwt_required()
 def get_productoid(producto_id):
     products = Productos.query.filter_by(id=producto_id).all()
     results = list(map(lambda x: {**x.serializeProveedor(), **x.serialize()}, products))
@@ -645,6 +676,7 @@ def get_productoid(producto_id):
 #####################################################################################
 # Muestra todos los proveedores
 @api.route('/proveedores', methods=['GET'])
+@jwt_required()
 def getProveedores():
     proveedores = Proveedores.query.all()
     results = list(map(lambda x: x.serialize(), proveedores))
@@ -652,6 +684,7 @@ def getProveedores():
 
 # Alta de un proveedor
 @api.route('/proveedores', methods=['POST'])
+@jwt_required()
 def addProveedores():
     body = json.loads(request.data)
 
@@ -670,6 +703,7 @@ def addProveedores():
 
 # Elimina un proveedor
 @api.route('/proveedores/<int:proveedor_id>', methods=['DELETE'])
+@jwt_required()
 def deleteProveedor(proveedor_id):
     proveedor = Proveedores.query.filter_by(id=proveedor_id).first()
   
@@ -686,6 +720,7 @@ def deleteProveedor(proveedor_id):
 
 # Modifica un proveedor por id
 @api.route('/proveedores/<int:proveedores_id>', methods=['PUT'])
+@jwt_required()
 def proveedorModif_porId(proveedores_id):
     proveedor = Proveedores.query.filter_by(id=proveedores_id).first()
     body = json.loads(request.data)
@@ -719,6 +754,7 @@ def proveedorModif_porId(proveedores_id):
 
 # Muestra el proveedor por id
 @api.route('/proveedores/<int:proveedor_id>', methods=['GET'])
+@jwt_required()
 def get_proveedorid(proveedor_id):
     proveedor = Proveedores.query.filter_by(id=proveedor_id).all()
     results = list(map(lambda x: x.serialize(), proveedor))
@@ -738,6 +774,7 @@ def get_proveedorid(proveedor_id):
 #####################################################################################
 # Alta de un pago de proveedor
 @api.route('/pagoproveedores', methods=['POST'])
+@jwt_required()
 def addPagoProveedores():
     body = json.loads(request.data)
 
@@ -756,6 +793,7 @@ def addPagoProveedores():
 
 # Visualizar todos los pagos de proveedores
 @api.route('/pagoproveedores', methods=['GET'])
+@jwt_required()
 def getPagoProveedores():
     prov = db.session.query(Pagoproveedores, Proveedores, Metodospago).join(Proveedores).join(Metodospago).all()
 
@@ -779,6 +817,7 @@ def getPagoProveedores():
 
 # Muestra el pago al proveedor por id
 @api.route('/pagoproveedores/<int:pago_id>', methods=['GET'])
+@jwt_required()
 def get_pagoproveedorid(pago_id):
     pago = db.session.query(Pagoproveedores, Proveedores, Metodospago).join(Proveedores).join(Metodospago).filter_by(id=pago_id).all()
 
@@ -804,6 +843,7 @@ def get_pagoproveedorid(pago_id):
 
 # Muestra el pago al proveedor por id
 @api.route('/pagoproveedoresid/<int:proveedor_id>', methods=['GET'])
+@jwt_required()
 def get_pagosproveedores(proveedor_id):
     pago = db.session.query(Pagoproveedores, Proveedores, Metodospago).filter_by(idproveedor=proveedor_id).join(Proveedores).join(Metodospago).all()
 
@@ -829,6 +869,7 @@ def get_pagosproveedores(proveedor_id):
 
 # Elimina el pago realizado a un proveedor
 @api.route('/pagoproveedores/<int:pago_id>', methods=['DELETE'])
+@jwt_required()
 def deletePagoProveedores(pago_id):
     pago = Pagoproveedores.query.filter_by(id=pago_id).first()
   
@@ -844,6 +885,7 @@ def deletePagoProveedores(pago_id):
 
 # Modifica un proveedor por id
 @api.route('/pagoproveedores/<int:pago_id>', methods=['PUT'])
+@jwt_required()
 def pagoProveedorModif_porId(pago_id):
     pago = Pagoproveedores.query.filter_by(id=pago_id).first()
     body = json.loads(request.data)
@@ -885,6 +927,7 @@ def pagoProveedorModif_porId(pago_id):
 
 # Muestra todos los movimientos de la caja Diaria
 @api.route('/cajadiaria', methods=['GET'])
+@jwt_required()
 def get_CajaDiaria():
     cajaDiaria = CajaDiaria.query.all()
     results = list(map(lambda x: x.serialize(), cajaDiaria))
@@ -893,6 +936,7 @@ def get_CajaDiaria():
 
 # Muestra todos los ingresos por pago de Mensualidades de la caja Diaria
 @api.route('/cajadiariaingreso', methods=['POST'])
+@jwt_required()
 def CajaDiariaIngresos():
     body = json.loads(request.data)
     fecha = body ["fecha"]
@@ -916,6 +960,7 @@ def CajaDiariaIngresos():
 
 # Muestra todos los egresos por pago a Proveedores de la caja Diaria
 @api.route('/cajadiariaegreso', methods=['POST'])
+@jwt_required()
 def CajaDiariaEgresos():
     body = json.loads(request.data)
     fecha = body ["fecha"]
@@ -942,6 +987,7 @@ def CajaDiariaEgresos():
 
 # Alta de un dia de la caja diaria
 @api.route('/cajadiaria', methods=['POST'])
+@jwt_required()
 def add_CajaDiaria():
     body = json.loads(request.data)
 
@@ -961,6 +1007,7 @@ def add_CajaDiaria():
 
 # Muestra un movimiento de la caja Diaria por id
 @api.route('/cajadiaria/<int:cajadiaria_id>', methods=['GET'])
+@jwt_required()
 def get_Cajaid(cajadiaria_id):
     caja = CajaDiaria.query.filter_by(id=cajadiaria_id).all()
     results = list(map(lambda x: x.serialize(), caja))

@@ -6,18 +6,29 @@ import "react-toastify/dist/ReactToastify.css";
 
 export const ListaAlumnos = () => {
   const { store, actions } = useContext(Context);
-  let navegacion = useNavigate();
-
   const [busqueda, setBusqueda] = useState("");
 
   useEffect(() => {
     actions.obtenerAlumnos();
   }, []);
 
-  const borrar = (e, id) => {
+  const borrar = async (e, id) => {
     e.preventDefault();
-    if (actions.borrarAlumno(id)) {
-      toast.error("🤚 Borrado con éxito", {
+    let resultado = await actions.borrarAlumno(id)
+
+    if (resultado === true) {
+      toast.success("🤚 Borrado con éxito", {
+        position: toast.POSITION.TOP_RIGHT,
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
+    } else {
+      toast.error("🤚 No se puede borrar", {
         position: toast.POSITION.TOP_RIGHT,
         autoClose: 3000,
         hideProgressBar: false,
@@ -33,8 +44,9 @@ export const ListaAlumnos = () => {
   // Buscador
   const buscar = async (valor) => {
     if (busqueda === "") {
-      actions.obtenerMutualistas();
+      await actions.obtenerAlumnos()
     } else {
+      await actions.obtenerAlumnos()
       await actions.buscadorAlumno(valor);
     }
   };

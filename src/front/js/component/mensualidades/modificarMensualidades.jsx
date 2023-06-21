@@ -20,17 +20,19 @@ export const ModificarMensualidad = () => {
        actions.obtenerMetodos()
       }, []);
 
-      const modificar = (e) => {
+      const modificar = async (e) => {
         e.preventDefault()
         let id = parseInt(params.theid)
-    
-        if(actions.modificarMensualidad(id, 
+
+        let resultado = await actions.modificarMensualidad(id, 
             fechapago,
             monto,
             factura,
             observaciones,
             idusuario,
-            idmetodo)){
+            idmetodo)
+    
+        if(resultado === true){
                 toast.success("💪 Modificación realizada con éxito", {
                     position: toast.POSITION.TOP_RIGHT,
                     autoClose: 3000,

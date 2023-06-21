@@ -418,7 +418,7 @@ const getState = ({ getStore, getActions, setStore }) => {
         foto,
       ) => {
         try {
-          await axios.post(direccion + "/api/alumnos", {
+          const response = await axios.post(direccion + "/api/alumnos", {
             cedula: cedula,
             nombre: nombre,
             apellido: apellido,
@@ -445,9 +445,12 @@ const getState = ({ getStore, getActions, setStore }) => {
               Authorization: "Bearer " + localStorage.getItem("Token"),
             },
           });
-          return true;
+          if (response.status === 200) {
+            return true 
+          }
         } catch (error) {
-          console.log(error);
+          console.error("Error " + error.response.status + ": " + error.response.statusText);
+          return false
         }
       },
 
@@ -528,7 +531,7 @@ const getState = ({ getStore, getActions, setStore }) => {
         foto,
       ) => {
         try {
-          await axios.put(direccion + "/api/alumnos/" + id, {
+          const response = await axios.put(direccion + "/api/alumnos/" + id, {
             id: id,
             cedula: cedula,
             nombre: nombre,
@@ -555,10 +558,16 @@ const getState = ({ getStore, getActions, setStore }) => {
               Authorization: "Bearer " + localStorage.getItem("Token"),
             },
           });
-          return true;
+          if (response.status === 200) {
+            return true 
+          }
         } catch (error) {
           if (error.code === "ERR_BAD_REQUEST") {
             console.log(error.response.data.msg);
+            return false
+          } else {
+            console.error("Error " + error.response.status + ": " + error.response.statusText);
+            return false
           }
         }
       },
@@ -595,8 +604,6 @@ const getState = ({ getStore, getActions, setStore }) => {
         idusuario,
         idmetodo,
       ) => {
-   //     console.log(idmetodo)
-   //     console.log(localStorage.getItem("Token"))
         try {
           const response = await axios.post(direccion + "/api/mensualidades", {
             fechapago: fechapago,
@@ -612,26 +619,28 @@ const getState = ({ getStore, getActions, setStore }) => {
           });
           if (response.status === 200) {
             return true 
-          } else {
-            return false
-          }
+          } 
         } catch (error) {
-          console.log(error);
+          console.error("Error " + error.response.status + ": " + error.response.statusText);
+          return false
         }
       },
 
       /* Borrar Mensualidad */
       borrarMensualidad: async (id) => {
         try {
-          await axios.delete(direccion + "/api/mensualidades/" + id, {
+          const response = await axios.delete(direccion + "/api/mensualidades/" + id, {
             headers: {
               Authorization: "Bearer " + localStorage.getItem("Token"),
             },
           });
           getActions().obtenerMensualidades();
-          return true;
+          if (response.status === 200) {
+            return true 
+          }
         } catch (error) {
-          console.log(error);
+          console.error("Error " + error.response.status + ": " + error.response.statusText);
+          return false
         }
       },
 
@@ -646,7 +655,7 @@ const getState = ({ getStore, getActions, setStore }) => {
         idmetodo,
       ) => {
         try {
-          await axios.put(direccion + "/api/mensualidades/" + id, {
+          const response = await axios.put(direccion + "/api/mensualidades/" + id, {
             id: id,
             fechapago: fechapago,
             monto: monto,
@@ -659,10 +668,16 @@ const getState = ({ getStore, getActions, setStore }) => {
               Authorization: "Bearer " + localStorage.getItem("Token"),
             },
           });
-          return true;
+          if (response.status === 200) {
+            return true 
+          }
         } catch (error) {
           if (error.code === "ERR_BAD_REQUEST") {
             console.log(error.response.data.msg);
+            return false
+          } else {
+            console.error("Error " + error.response.status + ": " + error.response.statusText);
+            return false
           }
         }
       },

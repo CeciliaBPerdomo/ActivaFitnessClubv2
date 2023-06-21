@@ -34,11 +34,10 @@ export const CrearAlumno = () => {
     actions.obtenerMutualistas();
   }, []);
 
-  const guardar = (e) => {
+  const guardar = async (e) => {
     e.preventDefault();
-
-    if (
-      actions.crearAlumnos(
+    
+      let resultado = await actions.crearAlumnos(
         cedula,
         nombre,
         apellido,
@@ -60,8 +59,43 @@ export const CrearAlumno = () => {
         ingreso,
         foto,
       )
-    ) {
-      toast.success("💪 Guardado con éxito", {
+   
+      if (resultado === true) {    
+        toast.success("💪 Guardado con éxito", {
+          position: toast.POSITION.TOP_RIGHT,
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        });
+
+        await actions.suscripcion(email)
+
+        setCedula("")
+        setNombre("")
+        setApellido("")
+        setDireccion("")
+        setCelular("")
+        setFechaNacimiento("")
+        setActivo("") // Genero
+        setPeso("")
+        setAltura("")
+        setIngreso("")
+        setEmail("")
+        setFoto("")
+        setMutualista("")
+        setCondiciones("")
+        setMedicacion("")
+        setEmergencias("")
+        setMotivo("")
+        setCuota("")
+        setRol("" )
+        setObservaciones("")
+    } else {
+      toast.error("No se puede guardar", {
         position: toast.POSITION.TOP_RIGHT,
         autoClose: 3000,
         hideProgressBar: false,
@@ -72,11 +106,6 @@ export const CrearAlumno = () => {
         theme: "dark",
       });
     }
-
-   actions.suscripcion(email)
-    // setInterval(() => {
-    //   navegacion("/ListadoAlumnos");
-    // }, 5000);
   };
 
   return (
@@ -410,7 +439,7 @@ export const CrearAlumno = () => {
           </div>
 
           <br />
-          <div style={{ marginTop: "15px" }}>
+          <div style={{ marginTop: "15px", marginBottom: "75px" }}>
             <button
               type="submit"
               className="btn btn-outline-danger float-end w-25"

@@ -24,7 +24,6 @@ export const CrearMensualidad = () => {
         e.preventDefault();
         
         let valor = await actions.crearMensualidad(fechapago, monto, factura, observaciones, idusuario, idmetodo)
-        console.log(valor)
 
         if (valor) {
           toast.success("💪 Guardado con éxito", {

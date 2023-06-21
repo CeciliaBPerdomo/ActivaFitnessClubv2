@@ -46,47 +46,56 @@ export const ModificarAlumno = () => {
     info();
   }, []);
 
-  const modificar = (e) => {
+  const modificar = async (e) => {
     e.preventDefault()
     let id = parseInt(params.theid)
 
-    if (actions.modificarAlumno(id, 
-        cedula,
-        nombre,
-        apellido,
-        direccion,
-        celular,
-        fechanacimiento,
-        peso,
-        altura,
-        email,
-        mutualista,
-        condiciones,
-        medicacion,
-        emergencias,
-        motivo,
-        cuota,
-        rol,
-        activo,
-        observaciones,
-        ingreso,
-        foto)){
-        toast.success("💪 Modificación realizada con éxito", {
-            position: toast.POSITION.TOP_RIGHT,
-            autoClose: 3000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "dark",
-        });
+    let resultado = await actions.modificarAlumno(id,
+      cedula,
+      nombre,
+      apellido,
+      direccion,
+      celular,
+      fechanacimiento,
+      peso,
+      altura,
+      email,
+      mutualista,
+      condiciones,
+      medicacion,
+      emergencias,
+      motivo,
+      cuota,
+      rol,
+      activo,
+      observaciones,
+      ingreso,
+      foto)
 
-      //   setInterval(() => {
-      //     navegacion("/ListadoAlumnos");
-      // }, 5000);
+    if (resultado === true) {
+      toast.success("💪 Modificación realizada con éxito", {
+        position: toast.POSITION.TOP_RIGHT,
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
+    } else {
+      toast.error("No se pudo realizar la modificación", {
+        position: toast.POSITION.TOP_RIGHT,
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
     }
-}
+  }
 
 
   return (
@@ -399,7 +408,7 @@ export const ModificarAlumno = () => {
               </select>
             </div>
 
-            
+
           </div>
 
           <br />

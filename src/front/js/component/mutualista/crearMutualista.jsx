@@ -11,14 +11,41 @@ export const CrearMutualista = () => {
   const [direccion, setDireccion] = useState("");
   const [telefono, setTelefono] = useState("")
 
-
-  const guardar = (e) => {
+  const guardar = async (e) => {
     e.preventDefault();
 
-    if (actions.crearMutualista(nombre, direccion, telefono)) {
-      toast.success("💪 Guardado con éxito", {
+    if (nombre !== "") {
+      let resultado = await actions.crearMutualista(nombre, direccion, telefono)
+      if (resultado === true) {
+        toast.success("💪 Guardado con éxito", {
+          position: toast.POSITION.TOP_RIGHT,
+          autoClose: 1500,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        });
+        setNombre("");
+        setDireccion("");
+        setTelefono("")
+      } else {
+        toast.error("No se pudo guardar", {
+          position: toast.POSITION.TOP_RIGHT,
+          autoClose: 1500,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        });
+      }
+    } else {
+      toast.error("Debe ingresar el nombre de la mutualista", {
         position: toast.POSITION.TOP_RIGHT,
-        autoClose: 3000,
+        autoClose: 1500,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
@@ -27,18 +54,14 @@ export const CrearMutualista = () => {
         theme: "dark",
       });
     }
-    /* Limpiar el formulario */
-    setNombre("");
-    setDireccion("");
-    setTelefono("")
   };
 
- 
+
   return (
     <>
       <div className="container">
-        
-        <h3 style={{ marginBottom: "25px" }}>Mutualistas</h3>
+
+        <h3 style={{ marginBottom: "25px" }}>Agregar mutualistas</h3>
         <hr />
         <br />
 
@@ -105,7 +128,7 @@ export const CrearMutualista = () => {
         </form>
 
 
-       
+
       </div>
       <ToastContainer />
       <br />

@@ -15,16 +15,31 @@ export const ListadoCuotas = () => {
   // Buscador
   const buscar = async (valor) => {
     if (busqueda === "") {
-      actions.obtenerCuotas();
+      await actions.obtenerCuotas();
     } else {
+      await actions.obtenerCuotas();
       await actions.buscadorCuota(valor);
     }
   };
 
-  const borrar = (e, id) => {
+  const borrar = async (e, id) => {
     e.preventDefault();
-    if (actions.borrarCuotas(id)) {
-      toast.error("🤚 Borrado con éxito", {
+
+    let resultado = await actions.borrarCuotas(id)
+   
+    if (resultado === true) {
+      toast.success("🤚 Borrado con éxito", {
+        position: toast.POSITION.TOP_RIGHT,
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
+    } else {
+      toast.error("No se puede borrar", {
         position: toast.POSITION.TOP_RIGHT,
         autoClose: 3000,
         hideProgressBar: false,
@@ -58,7 +73,7 @@ export const ListadoCuotas = () => {
           </button>
         </div>
 
-        <h3 style={{ marginBottom: "25px" }}>Modalidades de entrenamiento:</h3>
+        <h3 style={{ marginBottom: "25px" }}>Modalidades de entrenamiento</h3>
         <hr />
         <br />
       

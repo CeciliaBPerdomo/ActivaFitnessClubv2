@@ -13,12 +13,25 @@ export const ListadoMensualidades = () => {
     actions.obtenerMensualidades();
   }, []);
 
-  const borrar = (e, id) => {
+  const borrar = async (e, id) => {
     e.preventDefault();
-    if (actions.borrarMensualidad(id)) {
-      toast.error("🤚 Borrado con éxito", {
+
+    let resultado = await actions.borrarMensualidad(id)
+    if (resultado === true) {
+      toast.success("🤚 Borrado con éxito", {
         position: toast.POSITION.TOP_RIGHT,
-        autoClose: 3000,
+        autoClose: 1500,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
+    } else {
+      toast.error("🤚 No se puede eliminar", {
+        position: toast.POSITION.TOP_RIGHT,
+        autoClose: 1500,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
@@ -32,9 +45,10 @@ export const ListadoMensualidades = () => {
   // Buscador
     const buscar = async (valor) => {
       if (busqueda === "") {
-          actions.obtenerMensualidades();
+          await actions.obtenerMensualidades();
        } else {
-     await actions.buscadorMensualidad(valor);
+        await actions.obtenerMensualidades();
+        await actions.buscadorMensualidad(valor);
    }
   };
 

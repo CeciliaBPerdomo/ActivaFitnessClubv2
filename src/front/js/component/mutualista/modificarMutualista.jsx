@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Context } from "../../store/appContext";
-import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -8,7 +7,6 @@ import "react-toastify/dist/ReactToastify.css";
 export const ModificarMutualistas = () => {
   const params = useParams();
   const { store, actions } = useContext(Context);
-  let navegacion = useNavigate();
 
   const [nombre, setNombre] = useState(store.mutualista.nombre)
   const [direccion, setDireccion] = useState(store.mutualista.direccion)
@@ -18,25 +16,34 @@ export const ModificarMutualistas = () => {
     actions.obtenerMutualistaId(parseInt(params.theid));
   }, []);
 
-  const modificar = (e) => {
+  const modificar = async (e) => {
     e.preventDefault();
-    let id = parseInt(params.theid);
 
-    if (actions.modificarMutualista(id, nombre, direccion, telefono)) {
+    let id = parseInt(params.theid);
+    let resultado = await actions.modificarMutualista(id, nombre, direccion, telefono)
+
+    if (resultado === true) {
       toast.success("💪 Modificación realizada con éxito", {
         position: toast.POSITION.TOP_RIGHT,
-        autoClose: 3000,
+        autoClose: 1500,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
         draggable: true,
         progress: undefined,
         theme: "dark",
-      });
-
-      // setInterval(() => {
-      //   navegacion("/Mutualista");
-      // }, 5000);
+      })
+    } else {
+      toast.error("No se pudo realizar la modificación", {
+        position: toast.POSITION.TOP_RIGHT,
+        autoClose: 1500,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      })
     }
   };
 

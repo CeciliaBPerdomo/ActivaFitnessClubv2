@@ -35,7 +35,7 @@ export const CrearAlumno = () => {
   }, []);
 
   const guardar = async (e) => {
-    e.preventDefault();
+      e.preventDefault();
     
       let resultado = await actions.crearAlumnos(
         cedula,
@@ -70,7 +70,7 @@ export const CrearAlumno = () => {
           draggable: true,
           progress: undefined,
           theme: "dark",
-        });
+      });
 
         await actions.suscripcion(email)
 

@@ -35,7 +35,18 @@ export const ModificarMensualidad = () => {
         if(resultado === true){
                 toast.success("💪 Modificación realizada con éxito", {
                     position: toast.POSITION.TOP_RIGHT,
-                    autoClose: 3000,
+                    autoClose: 1500,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "dark",
+                });
+            } else {
+                toast.error("No se puede realizar la modificación", {
+                    position: toast.POSITION.TOP_RIGHT,
+                    autoClose: 1500,
                     hideProgressBar: false,
                     closeOnClick: true,
                     pauseOnHover: true,

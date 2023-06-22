@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Context } from "../../store/appContext";
-import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -8,7 +7,6 @@ import "react-toastify/dist/ReactToastify.css";
 export const ModificarMetodos = () => {
   const params = useParams();
   const { store, actions } = useContext(Context);
-  let navegacion = useNavigate();
 
   const [tipo, setTipo] = useState(store.metodo.tipo);
   const [observaciones, setObservaciones] = useState(
@@ -19,11 +17,12 @@ export const ModificarMetodos = () => {
     actions.obtenerMetodoId(parseInt(params.theid));
   }, []);
 
-  const modificar = (e) => {
+  const modificar = async (e) => {
     e.preventDefault();
     let id = parseInt(params.theid);
 
-    if (actions.modificarMetodo(id, tipo, observaciones)) {
+    let resultado = await actions.modificarMetodo(id, tipo, observaciones)
+    if (resultado === true) {
       toast.success("💪 Modificación realizada con éxito", {
         position: toast.POSITION.TOP_RIGHT,
         autoClose: 3000,
@@ -34,10 +33,17 @@ export const ModificarMetodos = () => {
         progress: undefined,
         theme: "dark",
       });
-
-      // setInterval(() => {
-      //   navegacion("/MetodosPago");
-      // }, 5000);
+    } else {
+      toast.error("No se pudo realizar la modificación", {
+        position: toast.POSITION.TOP_RIGHT,
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
     }
   };
 

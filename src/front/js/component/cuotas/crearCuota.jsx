@@ -10,10 +10,12 @@ export const CrearCuota = () => {
   const [descripcion, setDescripcion] = useState("");
   const [precio, setPrecio] = useState("");
 
-  const guardar = (e) => {
+  const guardar = async (e) => {
     e.preventDefault();
 
-    if (actions.crearCuota(descripcion, precio)) {
+    let resultado = await actions.crearCuota(descripcion, precio)
+
+    if (resultado === true) {
       toast.success("💪 Guardado con éxito", {
         position: toast.POSITION.TOP_RIGHT,
         autoClose: 3000,
@@ -24,10 +26,24 @@ export const CrearCuota = () => {
         progress: undefined,
         theme: "dark",
       });
-    }
-    /* Limpiar el formulario */
+
+      /* Limpiar el formulario */
     setDescripcion("");
     setPrecio("");
+    
+    } else {
+      toast.error("No se pudo guardar", {
+        position: toast.POSITION.TOP_RIGHT,
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
+    }
+    
   };
 
   

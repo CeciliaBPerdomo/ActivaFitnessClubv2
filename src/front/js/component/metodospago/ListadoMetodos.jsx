@@ -13,12 +13,25 @@ export const ListadoMetodos = () => {
     actions.obtenerMetodos();
   }, []);
 
-  const borrar = (e, id) => {
+  const borrar = async (e, id) => {
     e.preventDefault();
-    if (actions.borrarMetodos(id)) {
-      toast.error("🤚 Borrado con éxito", {
+    let resultado = await actions.borrarMetodos(id)
+
+    if (resultado === true) {
+      toast.success("🤚 Borrado con éxito", {
         position: toast.POSITION.TOP_RIGHT,
-        autoClose: 3000,
+        autoClose: 1500,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
+    } else {
+      toast.error("🤚 No se puede borrar", {
+        position: toast.POSITION.TOP_RIGHT,
+        autoClose: 1500,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
@@ -29,18 +42,19 @@ export const ListadoMetodos = () => {
     }
   };
 
-   // Buscador
-   const buscar = async (valor) => {
-       if (busqueda === "") {
-           actions.obtenerMetodos();
-        } else {
+  // Buscador
+  const buscar = async (valor) => {
+    if (busqueda === "") {
+      await actions.obtenerMetodos();
+    } else {
+      await actions.obtenerMetodos();
       await actions.buscadorMetodos(valor);
     }
   };
 
   return (
     <>
-        <div className="container">
+      <div className="container">
         <div className="input-group mb-3 w-25 float-end">
           <input
             type="text"
@@ -63,8 +77,8 @@ export const ListadoMetodos = () => {
         <hr />
         <br />
 
-         {/* Listado de métodos de pago */}
-         <div style={{ marginTop: "35px" }}>
+        {/* Listado de métodos de pago */}
+        <div style={{ marginTop: "35px" }}>
           <table className="table" style={{ color: "white" }}>
             <thead>
               <tr>
@@ -75,14 +89,14 @@ export const ListadoMetodos = () => {
               </tr>
             </thead>
             <tbody>
-              {store.metodos.map((item, id) => ( 
+              {store.metodos.map((item, id) => (
                 <tr key={id}>
                   <td>{item.tipo}</td>
                   <td>{item.observaciones}</td>
                   <td>
-                    <Link to={"/ModificarMetodos/" + item.id} style={{color: "white"}}> 
+                    <Link to={"/ModificarMetodos/" + item.id} style={{ color: "white" }}>
                       <i className="fa fa-pen"></i>
-                     </Link>
+                    </Link>
                   </td>
                   <td>
                     <i
@@ -96,10 +110,10 @@ export const ListadoMetodos = () => {
             </tbody>
           </table>
         </div>
-      
+
         <ToastContainer />
-      <br />
-        </div>
+        <br />
+      </div>
     </>
   )
 }

@@ -21,11 +21,11 @@ const getState = ({ getStore, getActions, setStore }) => {
       pagoProveedores: [],
       pagoPorProveedor: [],
       pagoProveedor: {},
-      cajaDiaria: [], 
+      cajaDiaria: [],
       movimiento: {},
-      diarios: [], 
+      diarios: [],
       egresosDiarios: [],
-      auth: {}, 
+      auth: {},
       errorLogin: {},
     },
 
@@ -38,7 +38,7 @@ const getState = ({ getStore, getActions, setStore }) => {
         try {
           const response = await axios.get(direccion + "/api/cuota", {
             headers: {
-                Authorization: "Bearer " + localStorage.getItem("Token"),
+              Authorization: "Bearer " + localStorage.getItem("Token"),
             },
           });
           setStore({
@@ -54,35 +54,44 @@ const getState = ({ getStore, getActions, setStore }) => {
 
       /* Crea cuotas */
       crearCuota: async (descripcion, precio) => {
-        console.log(localStorage.getItem("Token"))
         try {
-          await axios.post(direccion + "/api/cuota", {
+          const response = await axios.post(direccion + "/api/cuota", {
             descripcion: descripcion,
-            precio: precio 
+            precio: precio,
           }, {
             headers: {
               Authorization: "Bearer " + localStorage.getItem("Token"),
             },
           });
           getActions().obtenerCuotas();
-          return true;
+          if (response.status === 200) {
+            return true;
+          }
         } catch (error) {
-          console.log(error);
+          console.error(
+            "Error " + error.response.status + ": " + error.response.statusText,
+          );
+          return false;
         }
       },
 
       /* Borrar cuotas */
       borrarCuotas: async (id) => {
         try {
-          await axios.delete(direccion + "/api/cuota/" + id, {
+          const response = await axios.delete(direccion + "/api/cuota/" + id, {
             headers: {
               Authorization: "Bearer " + localStorage.getItem("Token"),
             },
           });
           getActions().obtenerCuotas();
-          return true;
+          if (response.status === 200) {
+            return true;
+          }
         } catch (error) {
-          console.log(error);
+          console.error(
+            "Error " + error.response.status + ": " + error.response.statusText,
+          );
+          return false;
         }
       },
 
@@ -111,13 +120,15 @@ const getState = ({ getStore, getActions, setStore }) => {
               Authorization: "Bearer " + localStorage.getItem("Token"),
             },
           });
-          setStore({
-            cuota: response.data,
-          });
-        } catch (error) {
-          if (error.code === "ERR_BAD_REQUEST") {
-            console.log(error.response.data.msg);
+          setStore({ cuota: response.data });
+          if (response.status === 200) {
+            return true;
           }
+        } catch (error) {
+          console.error(
+            "Error " + error.response.status + ": " + error.response.statusText,
+          );
+          return false;
         }
       },
 
@@ -127,18 +138,20 @@ const getState = ({ getStore, getActions, setStore }) => {
           const response = await axios.put(direccion + "/api/cuota/" + id, {
             id: id,
             descripcion: descripcion,
-            precio: precio
+            precio: precio,
           }, {
             headers: {
               Authorization: "Bearer " + localStorage.getItem("Token"),
             },
           });
-          //console.log(response.data)
-          return true;
-        } catch (error) {
-          if (error.code === "ERR_BAD_REQUEST") {
-            console.log(error.response.data.msg);
+          if (response.status === 200) {
+            return true;
           }
+        } catch (error) {
+          console.error(
+            "Error " + error.response.status + ": " + error.response.statusText,
+          );
+          return false;
         }
       },
 
@@ -153,47 +166,52 @@ const getState = ({ getStore, getActions, setStore }) => {
               Authorization: "Bearer " + localStorage.getItem("Token"),
             },
           });
-          setStore({
-            metodos: response.data,
-          });
-        } catch (error) {
-          console.log(error);
-          if (error.code === "ERR_BAD_REQUEST") {
-            console.log(error.response.data.msg);
+          setStore({ metodos: response.data });
+          if (response.status === 200) {
+            return true;
           }
+        } catch (error) {
+          console.error("Error " + error.response.status + ": " + error.response.statusText);
+          return false;
         }
       },
 
       /* Crea Metodos */
       crearMetodos: async (tipo, observaciones) => {
         try {
-          await axios.post(direccion + "/api/metodos", {
+          const response = await axios.post(direccion + "/api/metodos", {
             tipo: tipo,
-            observaciones: observaciones
+            observaciones: observaciones,
           }, {
             headers: {
               Authorization: "Bearer " + localStorage.getItem("Token"),
             },
           });
           getActions().obtenerMetodos();
-          return true;
+          if (response.status === 200) {
+            return true;
+          }
         } catch (error) {
-          console.log(error);
+          console.error("Error " + error.response.status + ": " + error.response.statusText);
+          return false;
         }
       },
 
       /* Borrar metodos */
       borrarMetodos: async (id) => {
         try {
-          await axios.delete(direccion + "/api/metodos/" + id, {
+          const response = await axios.delete(direccion + "/api/metodos/" + id, {
             headers: {
               Authorization: "Bearer " + localStorage.getItem("Token"),
             },
           });
           getActions().obtenerMetodos();
-          return true;
+          if (response.status === 200) {
+            return true;
+          }
         } catch (error) {
-          console.log(error);
+          console.error("Error " + error.response.status + ": " + error.response.statusText);
+          return false;
         }
       },
 
@@ -201,39 +219,41 @@ const getState = ({ getStore, getActions, setStore }) => {
       obtenerMetodoId: async (id) => {
         try {
           const response = await axios.get(
-            direccion + "/api/metodos/" + id, {
+            direccion + "/api/metodos/" + id,
+            {
               headers: {
                 Authorization: "Bearer " + localStorage.getItem("Token"),
               },
             },
           );
-          setStore({
-            metodo: response.data,
-          });
-        } catch (error) {
-          if (error.code === "ERR_BAD_REQUEST") {
-            console.log(error.response.data.msg);
+          setStore({ metodo: response.data});
+          if (response.status === 200) {
+            return true;
           }
+        } catch (error) {
+          console.error("Error " + error.response.status + ": " + error.response.statusText);
+          return false;
         }
       },
 
       // Modificar metodo
       modificarMetodo: async (id, tipo, observaciones) => {
         try {
-          await axios.put(direccion + "/api/metodos/" + id, {
+          const response = await axios.put(direccion + "/api/metodos/" + id, {
             id: id,
             tipo: tipo,
-            observaciones: observaciones
+            observaciones: observaciones,
           }, {
-              headers: {
-                Authorization: "Bearer " + localStorage.getItem("Token"),
-              },
+            headers: {
+              Authorization: "Bearer " + localStorage.getItem("Token"),
+            },
           });
-          return true;
-        } catch (error) {
-          if (error.code === "ERR_BAD_REQUEST") {
-            console.log(error.response.data.msg);
+          if (response.status === 200) {
+            return true;
           }
+        } catch (error) {
+          console.error("Error " + error.response.status + ": " + error.response.statusText);
+          return false;
         }
       },
 
@@ -263,7 +283,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           const response = await axios.get(direccion + "/api/mutualistas", {
             headers: {
               Authorization: "Bearer " + localStorage.getItem("Token"),
-            }
+            },
           });
           setStore({
             mutualistas: response.data,
@@ -278,34 +298,47 @@ const getState = ({ getStore, getActions, setStore }) => {
       /* Crea Mutualista */
       crearMutualista: async (nombre, direccionMutualista, telefono) => {
         try {
-          await axios.post(direccion + "/api/mutualistas", {
+          const response = await axios.post(direccion + "/api/mutualistas", {
             nombre: nombre,
             direccion: direccionMutualista,
-            telefono: telefono
+            telefono: telefono,
           }, {
-              headers: {
-                Authorization: "Bearer " + localStorage.getItem("Token"),
-              },
+            headers: {
+              Authorization: "Bearer " + localStorage.getItem("Token"),
+            },
           });
           getActions().obtenerMutualistas();
-          return true;
+          if (response.status === 200) {
+            return true;
+          }
         } catch (error) {
-          console.log(error);
+          console.error(
+            "Error " + error.response.status + ": " + error.response.statusText,
+          );
+          return false;
         }
       },
 
       /* Borrar mutualistas */
       borrarMutualista: async (id) => {
         try {
-          await axios.delete(direccion + "/api/mutualistas/" + id, {
-            headers: {
-              Authorization: "Bearer " + localStorage.getItem("Token"),
+          const response = await axios.delete(
+            direccion + "/api/mutualistas/" + id,
+            {
+              headers: {
+                Authorization: "Bearer " + localStorage.getItem("Token"),
+              },
             },
-          });
+          );
           getActions().obtenerMutualistas();
-          return true;
+          if (response.status === 200) {
+            return true;
+          }
         } catch (error) {
-          console.log(error);
+          console.error(
+            "Error " + error.response.status + ": " + error.response.statusText,
+          );
+          return false;
         }
       },
 
@@ -320,13 +353,15 @@ const getState = ({ getStore, getActions, setStore }) => {
               },
             },
           );
-          setStore({
-            mutualista: response.data,
-          });
-        } catch (error) {
-          if (error.code === "ERR_BAD_REQUEST") {
-            console.log(error.response.data.msg);
+          setStore({ mutualista: response.data });
+          if (response.status === 200) {
+            return true;
           }
+        } catch (error) {
+          console.error(
+            "Error " + error.response.status + ": " + error.response.statusText,
+          );
+          return false;
         }
       },
 
@@ -338,21 +373,28 @@ const getState = ({ getStore, getActions, setStore }) => {
         telefono,
       ) => {
         try {
-          await axios.put(direccion + "/api/mutualistas/" + id, {
-            id: id,
-            nombre: nombre,
-            direccion: direccionMutualista,
-            telefono: telefono,
-          }, {
-            headers: {
-              Authorization: "Bearer " + localStorage.getItem("Token"),
+          const response = await axios.put(
+            direccion + "/api/mutualistas/" + id,
+            {
+              id: id,
+              nombre: nombre,
+              direccion: direccionMutualista,
+              telefono: telefono,
             },
-        });
-          return true;
-        } catch (error) {
-          if (error.code === "ERR_BAD_REQUEST") {
-            console.log(error.response.data.msg);
+            {
+              headers: {
+                Authorization: "Bearer " + localStorage.getItem("Token"),
+              },
+            },
+          );
+          if (response.status === 200) {
+            return true;
           }
+        } catch (error) {
+          console.error(
+            "Error " + error.response.status + ": " + error.response.statusText,
+          );
+          return false;
         }
       },
 
@@ -439,18 +481,20 @@ const getState = ({ getStore, getActions, setStore }) => {
             fechaingreso: fechaingreso,
             genero: genero,
             idcuota: idcuota,
-            idmutualista: idmutualista
+            idmutualista: idmutualista,
           }, {
             headers: {
               Authorization: "Bearer " + localStorage.getItem("Token"),
             },
           });
           if (response.status === 200) {
-            return true 
+            return true;
           }
         } catch (error) {
-          console.error("Error " + error.response.status + ": " + error.response.statusText);
-          return false
+          console.error(
+            "Error " + error.response.status + ": " + error.response.statusText,
+          );
+          return false;
         }
       },
 
@@ -490,9 +534,10 @@ const getState = ({ getStore, getActions, setStore }) => {
       obtenerAlumnoId: async (id) => {
         try {
           const response = await axios.get(
-            direccion + "/api/alumnos/" + id, {
+            direccion + "/api/alumnos/" + id,
+            {
               headers: {
-                Authorization: "Bearer " + localStorage.getItem("Token")
+                Authorization: "Bearer " + localStorage.getItem("Token"),
               },
             },
           );
@@ -552,22 +597,25 @@ const getState = ({ getStore, getActions, setStore }) => {
             fechaingreso: fechaingreso,
             genero: genero,
             idcuota: idcuota,
-            idmutualista: idmutualista
+            idmutualista: idmutualista,
           }, {
             headers: {
               Authorization: "Bearer " + localStorage.getItem("Token"),
             },
           });
           if (response.status === 200) {
-            return true 
+            return true;
           }
         } catch (error) {
           if (error.code === "ERR_BAD_REQUEST") {
             console.log(error.response.data.msg);
-            return false
+            return false;
           } else {
-            console.error("Error " + error.response.status + ": " + error.response.statusText);
-            return false
+            console.error(
+              "Error " + error.response.status + ": " +
+                error.response.statusText,
+            );
+            return false;
           }
         }
       },
@@ -579,7 +627,8 @@ const getState = ({ getStore, getActions, setStore }) => {
       obtenerMensualidades: async () => {
         try {
           const response = await axios.get(
-            direccion + "/api/mensualidades", { 
+            direccion + "/api/mensualidades",
+            {
               headers: {
                 Authorization: "Bearer " + localStorage.getItem("Token"),
               },
@@ -611,36 +660,41 @@ const getState = ({ getStore, getActions, setStore }) => {
             factura: factura,
             observaciones: observaciones,
             idusuario: idusuario,
-            idmetodo: idmetodo
+            idmetodo: idmetodo,
           }, {
             headers: {
               Authorization: "Bearer " + localStorage.getItem("Token"),
             },
           });
           if (response.status === 200) {
-            return true 
-          } 
+            return true;
+          }
         } catch (error) {
           console.error("Error " + error.response.status + ": " + error.response.statusText);
-          return false
+          return false;
         }
       },
 
       /* Borrar Mensualidad */
       borrarMensualidad: async (id) => {
         try {
-          const response = await axios.delete(direccion + "/api/mensualidades/" + id, {
-            headers: {
-              Authorization: "Bearer " + localStorage.getItem("Token"),
+          const response = await axios.delete(
+            direccion + "/api/mensualidades/" + id,
+            {
+              headers: {
+                Authorization: "Bearer " + localStorage.getItem("Token"),
+              },
             },
-          });
+          );
           getActions().obtenerMensualidades();
           if (response.status === 200) {
-            return true 
+            return true;
           }
         } catch (error) {
-          console.error("Error " + error.response.status + ": " + error.response.statusText);
-          return false
+          console.error(
+            "Error " + error.response.status + ": " + error.response.statusText,
+          );
+          return false;
         }
       },
 
@@ -655,29 +709,36 @@ const getState = ({ getStore, getActions, setStore }) => {
         idmetodo,
       ) => {
         try {
-          const response = await axios.put(direccion + "/api/mensualidades/" + id, {
-            id: id,
-            fechapago: fechapago,
-            monto: monto,
-            factura: factura,
-            observaciones: observaciones,
-            idusuario: idusuario,
-            idmetodo: idmetodo
-          }, {
-            headers: {
-              Authorization: "Bearer " + localStorage.getItem("Token"),
+          const response = await axios.put(
+            direccion + "/api/mensualidades/" + id,
+            {
+              id: id,
+              fechapago: fechapago,
+              monto: monto,
+              factura: factura,
+              observaciones: observaciones,
+              idusuario: idusuario,
+              idmetodo: idmetodo,
             },
-          });
+            {
+              headers: {
+                Authorization: "Bearer " + localStorage.getItem("Token"),
+              },
+            },
+          );
           if (response.status === 200) {
-            return true 
+            return true;
           }
         } catch (error) {
           if (error.code === "ERR_BAD_REQUEST") {
             console.log(error.response.data.msg);
-            return false
+            return false;
           } else {
-            console.error("Error " + error.response.status + ": " + error.response.statusText);
-            return false
+            console.error(
+              "Error " + error.response.status + ": " +
+                error.response.statusText,
+            );
+            return false;
           }
         }
       },
@@ -703,7 +764,8 @@ const getState = ({ getStore, getActions, setStore }) => {
       obtenerMensualidadId: async (id) => {
         try {
           const response = await axios.get(
-            direccion + "/api/mensualidades/" + id, { 
+            direccion + "/api/mensualidades/" + id,
+            {
               headers: {
                 Authorization: "Bearer " + localStorage.getItem("Token"),
               },
@@ -712,10 +774,12 @@ const getState = ({ getStore, getActions, setStore }) => {
           setStore({
             pago: response.data,
           });
-        } catch (error) {
-          if (error.code === "ERR_BAD_REQUEST") {
-            console.log(error.response.data.msg);
+          if (response.status === 200) {
+            return true;
           }
+        } catch (error) {
+          console.error("Error " + error.response.status + ": " + error.response.statusText);
+          return false;
         }
       },
 
@@ -723,7 +787,8 @@ const getState = ({ getStore, getActions, setStore }) => {
       obtenerMensualidadIdUsuario: async (id) => {
         try {
           const response = await axios.get(
-            direccion + "/api/mensualidadesAlumno/" + id, { 
+            direccion + "/api/mensualidadesAlumno/" + id,
+            {
               headers: {
                 Authorization: "Bearer " + localStorage.getItem("Token"),
               },
@@ -732,10 +797,12 @@ const getState = ({ getStore, getActions, setStore }) => {
           setStore({
             pagos: response.data,
           });
-        } catch (error) {
-          if (error.code === "ERR_BAD_REQUEST") {
-            console.log(error.response.data.msg);
+          if (response.status === 200) {
+            return true;
           }
+        } catch (error) {
+          console.error("Error " + error.response.status + ": " + error.response.statusText);
+          return false;
         }
       },
 
@@ -778,7 +845,7 @@ const getState = ({ getStore, getActions, setStore }) => {
             observaciones: observaciones,
             foto: foto,
             video: video,
-            proveedorid: proveedorid
+            proveedorid: proveedorid,
           }, {
             headers: {
               Authorization: "Bearer " + localStorage.getItem("Token"),
@@ -825,7 +892,7 @@ const getState = ({ getStore, getActions, setStore }) => {
             observaciones: observaciones,
             foto: foto,
             video: video,
-            proveedorid: proveedorid
+            proveedorid: proveedorid,
           }, {
             headers: {
               Authorization: "Bearer " + localStorage.getItem("Token"),
@@ -843,7 +910,8 @@ const getState = ({ getStore, getActions, setStore }) => {
       obtenerProductosId: async (id) => {
         try {
           const response = await axios.get(
-            direccion + "/api/productos/" + id, {
+            direccion + "/api/productos/" + id,
+            {
               headers: {
                 Authorization: "Bearer " + localStorage.getItem("Token"),
               },
@@ -913,7 +981,7 @@ const getState = ({ getStore, getActions, setStore }) => {
             direccion: direccionProveedor,
             telefono: telefono,
             mail: mail,
-            observaciones: observaciones
+            observaciones: observaciones,
           }, {
             headers: {
               Authorization: "Bearer " + localStorage.getItem("Token"),
@@ -958,7 +1026,7 @@ const getState = ({ getStore, getActions, setStore }) => {
             direccion: direccionProveedor,
             telefono: telefono,
             mail: mail,
-            observaciones: observaciones
+            observaciones: observaciones,
           }, {
             headers: {
               Authorization: "Bearer " + localStorage.getItem("Token"),
@@ -976,7 +1044,8 @@ const getState = ({ getStore, getActions, setStore }) => {
       obtenerProveedorId: async (id) => {
         try {
           const response = await axios.get(
-            direccion + "/api/proveedores/" + id, { 
+            direccion + "/api/proveedores/" + id,
+            {
               headers: {
                 Authorization: "Bearer " + localStorage.getItem("Token"),
               },
@@ -1028,7 +1097,7 @@ const getState = ({ getStore, getActions, setStore }) => {
             monto: monto,
             idproveedor: idproveedor,
             idmetodo: idmetodo,
-            observaciones: observaciones
+            observaciones: observaciones,
           }, {
             headers: {
               Authorization: "Bearer " + localStorage.getItem("Token"),
@@ -1057,7 +1126,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           }
         }
       },
-      
+
       /* Borrar Pago proveedores */
       borrarPagoProveedores: async (id) => {
         try {
@@ -1091,7 +1160,7 @@ const getState = ({ getStore, getActions, setStore }) => {
             monto: monto,
             observaciones: observaciones,
             idproveedor: idproveedor,
-            idmetodo: idmetodo
+            idmetodo: idmetodo,
           }, {
             headers: {
               Authorization: "Bearer " + localStorage.getItem("Token"),
@@ -1109,7 +1178,8 @@ const getState = ({ getStore, getActions, setStore }) => {
       obtenerPagoProveedorId: async (id) => {
         try {
           const response = await axios.get(
-            direccion + "/api/pagoproveedores/" + id, {
+            direccion + "/api/pagoproveedores/" + id,
+            {
               headers: {
                 Authorization: "Bearer " + localStorage.getItem("Token"),
               },
@@ -1125,11 +1195,12 @@ const getState = ({ getStore, getActions, setStore }) => {
         }
       },
 
-      // Obtener pagos segun proveedor 
+      // Obtener pagos segun proveedor
       obtenerPagoPorProveedor: async (idProveedor) => {
         try {
           const response = await axios.get(
-            direccion + "/api/pagoproveedoresid/" + idProveedor, {
+            direccion + "/api/pagoproveedoresid/" + idProveedor,
+            {
               headers: {
                 Authorization: "Bearer " + localStorage.getItem("Token"),
               },
@@ -1164,7 +1235,7 @@ const getState = ({ getStore, getActions, setStore }) => {
             cantidadalumnos: cantidadalumnos,
             totalventas: totalventas,
             totalpagoprov: totalpagoprov,
-            observaciones: observaciones
+            observaciones: observaciones,
           }, {
             headers: {
               Authorization: "Bearer " + localStorage.getItem("Token"),
@@ -1197,7 +1268,8 @@ const getState = ({ getStore, getActions, setStore }) => {
       obtenerMovimientoCaja: async (id) => {
         try {
           const response = await axios.get(
-            direccion + "/api/cajadiaria/" + id, {
+            direccion + "/api/cajadiaria/" + id,
+            {
               headers: {
                 Authorization: "Bearer " + localStorage.getItem("Token"),
               },
@@ -1216,64 +1288,72 @@ const getState = ({ getStore, getActions, setStore }) => {
       // Movimientos diarios
       obtenerMovimientosDiarios: async (fecha) => {
         try {
-          const response = await axios.post(direccion + "/api/cajadiariaingreso", {
-            fecha: fecha
-          }, {
-            headers: {
-              Authorization: "Bearer " + localStorage.getItem("Token"),
+          const response = await axios.post(
+            direccion + "/api/cajadiariaingreso",
+            {
+              fecha: fecha,
             },
-          });
+            {
+              headers: {
+                Authorization: "Bearer " + localStorage.getItem("Token"),
+              },
+            },
+          );
           setStore({
-            diarios: response.data
+            diarios: response.data,
           });
         } catch (error) {
           console.log(error);
-        }        
-      }, 
+        }
+      },
 
       // Egresos diarios
       obtenerEgresosDiarios: async (fecha) => {
         try {
-          const response = await axios.post(direccion + "/api/cajadiariaegreso", {
-            fecha: fecha
-          }, {
-            headers: {
-              Authorization: "Bearer " + localStorage.getItem("Token"),
+          const response = await axios.post(
+            direccion + "/api/cajadiariaegreso",
+            {
+              fecha: fecha,
             },
-          });
+            {
+              headers: {
+                Authorization: "Bearer " + localStorage.getItem("Token"),
+              },
+            },
+          );
           setStore({
-            egresosDiarios: response.data
+            egresosDiarios: response.data,
           });
         } catch (error) {
           console.log(error);
-        }        
-      }, 
+        }
+      },
 
       ////////////////////////////////////
       ///       Newsletter             ///
       ////////////////////////////////////
 
       suscripcion: (email) => {
-        try{
+        try {
           fetch("https://connect.mailerlite.com/api/subscribers", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
               Accept: "application/json",
-              Authorization: "Bearer " + process.env.MAILERLITE
-            }, 
+              Authorization: "Bearer " + process.env.MAILERLITE,
+            },
             body: JSON.stringify({
               email: email,
               groups: [process.env.MAILGROUP],
             }),
           })
-          .then((response) => {
-            if (response.status === 201) {
-              console.log(response.status)
-            }
-          })
-        } catch(error){
-          console.log(error)
+            .then((response) => {
+              if (response.status === 201) {
+                console.log(response.status);
+              }
+            });
+        } catch (error) {
+          console.log(error);
         }
       },
 
@@ -1281,43 +1361,43 @@ const getState = ({ getStore, getActions, setStore }) => {
       ///         Login                ///
       ////////////////////////////////////
       //Logueo
-      loginAdministrador : async (email, password) => {
+      loginAdministrador: async (email, password) => {
         try {
           const resp = await axios.post(direccion + "/api/login", {
-            email: email, 
-            password: password
-          })
+            email: email,
+            password: password,
+          });
           // Si todo sale color de rosas
-          if (resp.status === 200){
-            const data = resp.data
+          if (resp.status === 200) {
+            const data = resp.data;
             if (data.user.rol === "Administrador") {
-              localStorage.setItem("Token", data.access_token)
+              localStorage.setItem("Token", data.access_token);
               setStore({
-                  auth: true,
+                auth: true,
               });
             } else {
               setStore({
                 auth: false,
-            });
+              });
             }
           } else if (resp.status === 404) {
             // Usuario no existe
             setStore({
               auth: false,
-          });
+            });
           }
-        } catch(error){
-          console.log(error)
+        } catch (error) {
+          console.log(error);
         }
       },
 
-      // Inicio de se sesion      
+      // Inicio de se sesion
       logOut: () => {
-          localStorage.removeItem("Token");
-          setStore({
-              auth: false,
-          });
-    },
+        localStorage.removeItem("Token");
+        setStore({
+          auth: false,
+        });
+      },
     },
   };
 };

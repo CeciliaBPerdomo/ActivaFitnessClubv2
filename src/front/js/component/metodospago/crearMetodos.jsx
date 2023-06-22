@@ -10,10 +10,12 @@ export const CrearMetodos = () => {
   const [observaciones, setObservaciones] = useState("");
 
 
-  const guardar = (e) => {
+  const guardar = async (e) => {
     e.preventDefault();
 
-    if (actions.crearMetodos(tipo, observaciones)) {
+    if (tipo !== ""){
+    let resultado = await actions.crearMetodos(tipo, observaciones)
+    if (resultado === true) {
       toast.success("💪 Guardado con éxito", {
         position: toast.POSITION.TOP_RIGHT,
         autoClose: 3000,
@@ -24,10 +26,32 @@ export const CrearMetodos = () => {
         progress: undefined,
         theme: "dark",
       });
-    }
-    /* Limpiar el formulario */
-    setTipo("");
+      setTipo("");
     setObservaciones("");
+    } else {
+      toast.error("No se pudo guardar", {
+        position: toast.POSITION.TOP_RIGHT,
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
+    }
+  } else {
+    toast.error("Debe ingresar el tipo de método", {
+      position: toast.POSITION.TOP_RIGHT,
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "dark",
+    });
+  }
   };
 
   return (

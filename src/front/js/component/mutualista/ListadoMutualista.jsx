@@ -13,12 +13,26 @@ export const ListadoMutualista = () => {
   }, []);
 
   // Eliminar  
-  const borrar = (e, id) => {
+  const borrar = async (e, id) => {
     e.preventDefault();
-    if (actions.borrarMutualista(id)) {
-      toast.error("🤚 Borrado con éxito", {
+
+    let resultado = await actions.borrarMutualista(id)
+
+    if (resultado === true) {
+      toast.success("🤚 Borrado con éxito", {
         position: toast.POSITION.TOP_RIGHT,
-        autoClose: 3000,
+        autoClose: 1500,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
+    } else {
+      toast.error("No se puede borrar", {
+        position: toast.POSITION.TOP_RIGHT,
+        autoClose: 1500,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
@@ -32,77 +46,78 @@ export const ListadoMutualista = () => {
   // Buscador
   const buscar = async (valor) => {
     if (busqueda === "") {
-        actions.obtenerMutualistas();
-     } else {
-   await actions.buscadorMutualista(valor);
- }
-};
+      await actions.obtenerMutualistas();
+    } else {
+      await actions.obtenerMutualistas()
+      await actions.buscadorMutualista(valor);
+    }
+  };
 
-return (
+  return (
     <>
-        <div className="container">
-          <div className="input-group mb-3 w-25 float-end">
-            <input
-              type="text"
-              className="form-control "
-              placeholder="🔎 Buscar mutualista..."
-              onChange={(e) => setBusqueda(e.target.value)}
-              value={busqueda}
-            />
-            <button
-              className="btn btn-outline-danger"
-              type="button"
-              id="button-addon2"
-              onClick={(e) => buscar(busqueda)}
-            >
-              Buscar
-            </button>
-        
-            </div>
-          <h3 style={{ marginBottom: "25px" }}>Mutualistas</h3>
-          <hr />
-          <br />
+      <div className="container">
+        <div className="input-group mb-3 w-25 float-end">
+          <input
+            type="text"
+            className="form-control "
+            placeholder="🔎 Buscar mutualista..."
+            onChange={(e) => setBusqueda(e.target.value)}
+            value={busqueda}
+          />
+          <button
+            className="btn btn-outline-danger"
+            type="button"
+            id="button-addon2"
+            onClick={(e) => buscar(busqueda)}
+          >
+            Buscar
+          </button>
 
-          {/* Listado de mutualista */}
-          <div style={{ marginTop: "35px" }}>
-            <table className="table" style={{ color: "white" }}>
-              <thead>
-                <tr>
-                  <th scope="col">Nombre</th>
-                  <th scope="col">Dirección</th>
-                  <th scope="col">Teléfono</th>
-                  <th scope="col"></th>
-                  <th scope="col"></th>
-                </tr>
-              </thead>
-              <tbody>
-                {store.mutualistas.map((item, id) => ( 
-                  <tr key={id}>
-                    <td>{item.nombre}</td>
-                    <td>{item.direccion}</td>
-                    <td>{item.telefono}</td>
-                    <td>
-                      <Link to={"/ModificarMutualista/" + item.id} style={{color: "white"}}> 
-                        <i className="fa fa-pen"></i>
-                      </Link>
-                    </td>
-                    <td>
-                      <i
-                        className="fa fa-trash"
-                      onClick={(e) => borrar(e, item.id)}
-                      >
-                      </i>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-
-          <ToastContainer />
-        <br />
-         
         </div>
+        <h3 style={{ marginBottom: "25px" }}>Mutualistas</h3>
+        <hr />
+        <br />
+
+        {/* Listado de mutualista */}
+        <div style={{ marginTop: "35px" }}>
+          <table className="table" style={{ color: "white" }}>
+            <thead>
+              <tr>
+                <th scope="col">Nombre</th>
+                <th scope="col">Dirección</th>
+                <th scope="col">Teléfono</th>
+                <th scope="col"></th>
+                <th scope="col"></th>
+              </tr>
+            </thead>
+            <tbody>
+              {store.mutualistas.map((item, id) => (
+                <tr key={id}>
+                  <td>{item.nombre}</td>
+                  <td>{item.direccion}</td>
+                  <td>{item.telefono}</td>
+                  <td>
+                    <Link to={"/ModificarMutualista/" + item.id} style={{ color: "white" }}>
+                      <i className="fa fa-pen"></i>
+                    </Link>
+                  </td>
+                  <td>
+                    <i
+                      className="fa fa-trash"
+                      onClick={(e) => borrar(e, item.id)}
+                    >
+                    </i>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+
+        <ToastContainer />
+        <br />
+
+      </div>
     </>
-    )
+  )
 }

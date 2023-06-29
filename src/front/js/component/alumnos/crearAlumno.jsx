@@ -36,76 +36,89 @@ export const CrearAlumno = () => {
 
   const guardar = async (e) => {
       e.preventDefault();
+
+      if (cedula !== "" && nombre !=="" && apellido !== "" && direccion !=="" && activo !=="" && mutualista !=="" && email !=="" && cuota !==""){ 
+        let resultado = await actions.crearAlumnos(
+          cedula,
+          nombre,
+          apellido,
+          direccion,
+          celular,
+          fechanacimiento,
+          peso,
+          altura,
+          email,
+          mutualista,
+          condiciones,
+          medicacion,
+          emergencias,
+          motivo,
+          cuota,
+          rol,
+          activo,
+          observaciones,
+          ingreso,
+          foto,
+        )
     
-      let resultado = await actions.crearAlumnos(
-        cedula,
-        nombre,
-        apellido,
-        direccion,
-        celular,
-        fechanacimiento,
-        peso,
-        altura,
-        email,
-        mutualista,
-        condiciones,
-        medicacion,
-        emergencias,
-        motivo,
-        cuota,
-        rol,
-        activo,
-        observaciones,
-        ingreso,
-        foto,
-      )
-   
-      if (resultado === true) {    
-        toast.success("💪 Guardado con éxito", {
+        if (resultado === true) {    
+          toast.success("💪 Guardado con éxito", {
+            position: toast.POSITION.TOP_RIGHT,
+            autoClose: 1000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+        });
+
+          await actions.suscripcion(email)
+
+          setCedula("")
+          setNombre("")
+          setApellido("")
+          setDireccion("")
+          setCelular("")
+          setFechaNacimiento("")
+          setActivo("") // Genero
+          setPeso("")
+          setAltura("")
+          setIngreso("")
+          setEmail("")
+          setFoto("")
+          setMutualista("")
+          setCondiciones("")
+          setMedicacion("")
+          setEmergencias("")
+          setMotivo("")
+          setCuota("")
+          setRol("" )
+          setObservaciones("")
+      } else {
+        toast.error("No se puede guardar", {
           position: toast.POSITION.TOP_RIGHT,
-          autoClose: 3000,
+          autoClose: 1000,
           hideProgressBar: false,
           closeOnClick: true,
           pauseOnHover: true,
           draggable: true,
           progress: undefined,
           theme: "dark",
-      });
-
-        await actions.suscripcion(email)
-
-        setCedula("")
-        setNombre("")
-        setApellido("")
-        setDireccion("")
-        setCelular("")
-        setFechaNacimiento("")
-        setActivo("") // Genero
-        setPeso("")
-        setAltura("")
-        setIngreso("")
-        setEmail("")
-        setFoto("")
-        setMutualista("")
-        setCondiciones("")
-        setMedicacion("")
-        setEmergencias("")
-        setMotivo("")
-        setCuota("")
-        setRol("" )
-        setObservaciones("")
-    } else {
-      toast.error("No se puede guardar", {
-        position: toast.POSITION.TOP_RIGHT,
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "dark",
-      });
-    }
+        });
+      }
+  } else {
+    toast.error("Faltan completar datos", {
+      position: toast.POSITION.TOP_RIGHT,
+      autoClose: 1000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "dark",
+    });
+  }
   };
 
   return (

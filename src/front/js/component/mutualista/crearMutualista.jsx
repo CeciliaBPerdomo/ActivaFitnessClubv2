@@ -70,7 +70,7 @@ export const CrearMutualista = () => {
           <div className="row">
             <div className="col">
               <label htmlFor="Nombre:" style={{ marginBottom: "10px" }}>
-                Nombre:
+                Nombre <label style={{color: "red"}}>(Obligatorio)</label>:
               </label>
               <input
                 type="text"

@@ -67,7 +67,7 @@ export const CrearMetodos = () => {
           <div className="row">
             <div className="col">
               <label htmlFor="descripcion" style={{ marginBottom: "10px" }}>
-                Tipo:
+                Tipo <label style={{color: "red"}}>(Obligatorio)</label>:
               </label>
               <input
                 type="text"

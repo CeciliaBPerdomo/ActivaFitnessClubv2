@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Context } from "../../store/appContext";
-import { Link, useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -12,6 +11,8 @@ export const CrearCuota = () => {
 
   const guardar = async (e) => {
     e.preventDefault();
+
+    if (descripcion !== "" && precio !== "") {
 
     let resultado = await actions.crearCuota(descripcion, precio)
 
@@ -43,7 +44,18 @@ export const CrearCuota = () => {
         theme: "dark",
       });
     }
-    
+  } else {
+    toast.error("Faltan datos", {
+      position: toast.POSITION.TOP_RIGHT,
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "dark",
+    });
+  }
   };
 
   
@@ -58,7 +70,7 @@ export const CrearCuota = () => {
           <div className="row">
             <div className="col">
               <label htmlFor="descripcion" style={{ marginBottom: "10px" }}>
-                Descripción:
+                Descripción <label style={{color: "red"}}>(Obligatorio)</label>:
               </label>
               <input
                 type="text"
@@ -70,7 +82,7 @@ export const CrearCuota = () => {
             </div>
             <div className="col">
               <label htmlFor="precio" style={{ marginBottom: "10px" }}>
-                Precio:
+                Precio <label style={{color: "red"}}>(Obligatorio)</label>:
               </label>
               <input
                 type="text"

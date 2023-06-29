@@ -80,7 +80,7 @@ export const CrearMensualidad = () => {
                         {/* Alumno */}
                         <div className="col">
                             <label htmlFor="alumno" style={{ marginBottom: "10px" }}>
-                                Alumno:
+                                Alumno <label style={{color: "red"}}>(Obligatorio)</label>:
                             </label>
                             <select className="form-select" aria-label="Default select example"
                                 value={idusuario}
@@ -95,7 +95,7 @@ export const CrearMensualidad = () => {
                         {/* Fecha de pago */}
                         <div className="col">
                             <label htmlFor="fecha" style={{ marginBottom: "10px" }}>
-                                Fecha de pago:
+                                Fecha de pago <label style={{color: "red"}}>(Obligatorio)</label>:
                             </label>
                             <input
                                 type="date"
@@ -111,7 +111,7 @@ export const CrearMensualidad = () => {
                         {/* Monto */}
                         <div className="col">
                             <label htmlFor="Monto" style={{ marginBottom: "10px" }}>
-                                Monto:
+                                Monto <label style={{color: "red"}}>(Obligatorio)</label>:
                             </label>
                             <input
                                 type="text"
@@ -125,7 +125,7 @@ export const CrearMensualidad = () => {
                         {/* Factura */}
                         <div className="col">
                             <label htmlFor="Monto" style={{ marginBottom: "10px" }}>
-                                Factura No.:
+                                Factura No. <label style={{color: "red"}}>(Obligatorio)</label>:
                             </label>
                             <input
                                 type="text"
@@ -139,7 +139,7 @@ export const CrearMensualidad = () => {
                         {/* Metodo de pago */}
                         <div className="col">
                             <label htmlFor="metodo" style={{ marginBottom: "10px" }}>
-                                Metodo de pago:
+                                Metodo de pago <label style={{color: "red"}}>(Obligatorio)</label>:
                             </label>
                             <select className="form-select"
                                 value={idmetodo}

@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Context } from "../../store/appContext";
-import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -8,7 +7,6 @@ import "react-toastify/dist/ReactToastify.css";
 export const ModificarProductos = () => {
   const params = useParams();
   const { store, actions } = useContext(Context);
-  let navegacion = useNavigate();
 
   const [nombre, setNombre] = useState(store.producto[0]?.nombre);
   const [cantidad, setCantidad] = useState(store.producto[0]?.cantidad);
@@ -27,35 +25,48 @@ export const ModificarProductos = () => {
     actions.obtenerProductosId(parseInt(params.theid));
   }, []);
 
-  const modificar = (e) => {
+  const modificar = async (e) => {
     e.preventDefault();
     let id = parseInt(params.theid)
 
-    if (
-      actions.modificarProductos(
-        id,
-        nombre,
-        cantidad,
-        precioVenta,
-        observaciones,
-        foto,
-        video,
-        proveedor,
-      )
-    ) {
-      toast.success("💪 Guardado con éxito", {
-        position: toast.POSITION.TOP_RIGHT,
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "dark",
-      });
-    }
-
-  };
+    // if (nombre !== "" && cantidad !== "" && precioVenta !== "" && proveedor !== "") {
+      let resultado = await actions.modificarProductos(id, nombre, cantidad, precioVenta, observaciones, foto, video, proveedor)
+      if (resultado === true) {
+        toast.success("💪 Guardado con éxito", {
+          position: toast.POSITION.TOP_RIGHT,
+          autoClose: 1500,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        });
+      } else {
+        toast.error("No se puede guardar", {
+          position: toast.POSITION.TOP_RIGHT,
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        });
+      }
+    // } else {
+    //   toast.error("Faltan completar datos", {
+    //     position: toast.POSITION.TOP_RIGHT,
+    //     autoClose: 3000,
+    //     hideProgressBar: false,
+    //     closeOnClick: true,
+    //     pauseOnHover: true,
+    //     draggable: true,
+    //     progress: undefined,
+    //     theme: "dark",
+    //   });
+    // }
+  }
 
   return (
     <>
@@ -71,7 +82,7 @@ export const ModificarProductos = () => {
             {/* Nombre */}
             <div className="col">
               <label htmlFor="nombre" style={{ marginBottom: "10px" }}>
-                Nombre:
+                Nombre <label style={{ color: "red" }}>(Obligatorio)</label>:
               </label>
               <input
                 type="text"
@@ -85,7 +96,7 @@ export const ModificarProductos = () => {
             {/* Cantidad */}
             <div className="col">
               <label htmlFor="cantidad" style={{ marginBottom: "10px" }}>
-                Cantidad:
+                Cantidad <label style={{ color: "red" }}>(Obligatorio)</label>:
               </label>
               <input
                 type="text"
@@ -99,7 +110,7 @@ export const ModificarProductos = () => {
             {/* Precio venta */}
             <div className="col">
               <label htmlFor="precio" style={{ marginBottom: "10px" }}>
-                Precio de venta:
+                Precio de venta <label style={{ color: "red" }}>(Obligatorio)</label>:
               </label>
               <input
                 type="text"
@@ -147,7 +158,7 @@ export const ModificarProductos = () => {
             {/* Provedor */}
             <div className="col">
               <label htmlFor="proveedor" style={{ marginBottom: "10px" }}>
-                Proveedor:
+                Proveedor <label style={{ color: "red" }}>(Obligatorio)</label>:
               </label>
               <select
                 className="form-select"
@@ -179,7 +190,7 @@ export const ModificarProductos = () => {
             </div>
           </div>
           <br />
-          <div style={{ marginTop: "15px" }}>
+          <div style={{ marginTop: "15px", marginBottom: "40px" }}>
             <button
               type="submit"
               className="btn btn-outline-danger float-end w-25"

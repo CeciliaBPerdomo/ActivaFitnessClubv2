@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Context } from "../../store/appContext";
-import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -20,24 +19,35 @@ export const ModificarProveedor = () => {
     actions.obtenerProveedorId(parseInt(params.theid));
   }, []);
 
-  const modificar = (e) => {
+  const modificar = async (e) => {
     e.preventDefault();
     let id = parseInt(params.theid)
 
-    if (
-      actions.modificarProveedores(
-        id,
-        nombre,
-        rut,
-        direccion,
-        telefono,
-        email,
-        observaciones
-      )
-    ) {
-      toast.success("💪 Guardado con éxito", {
+    let resultado = await actions.modificarProveedores(
+      id,
+      nombre,
+      rut,
+      direccion,
+      telefono,
+      email,
+      observaciones
+    )
+
+    if (resultado === true) {
+      toast.success("💪 Modificación realizada con éxito", {
         position: toast.POSITION.TOP_RIGHT,
-        autoClose: 3000,
+        autoClose: 1500,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
+    } else {
+      toast.error("No se pudo realizar la modificación", {
+        position: toast.POSITION.TOP_RIGHT,
+        autoClose: 1500,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
@@ -153,7 +163,7 @@ export const ModificarProveedor = () => {
             </div>
           </div>
           <br />
-          <div style={{ marginTop: "15px" }}>
+          <div style={{ marginTop: "15px", marginBottom: "35px" }}>
             <button
               type="submit"
               className="btn btn-outline-danger float-end w-25"

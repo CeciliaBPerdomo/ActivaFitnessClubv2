@@ -3,23 +3,26 @@ import { Context } from "../../store/appContext";
 import { useParams } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import dateFormat from "dateformat";
 
 export const ModificarPagoProveedor = () => {
     const params = useParams();
     const {store, actions} = useContext(Context);
 
-    const [proveedor, setProveedor] = useState(store.pagoProveedor.idproveedor);
-    const [fechaPago, setFechaPago] = useState(store.pagoProveedor.fechaPago);
-    const [factura, setFactura] = useState(store.pagoProveedor.numfactura);
-    const [monto, setMonto] = useState(store.pagoProveedor.monto);
-    const [idmetodo, setIdMetodo] = useState(store.pagoProveedor.idmetodo);
-    const [observaciones, setObservaciones] = useState(store.pagoProveedor.observaciones)
-
+    const [proveedor, setProveedor] = useState(store.pagoProveedor[0]?.idproveedor);
+    const [fechaPago, setFechaPago] = useState(store.pagoProveedor[0]?.fechaPago);
+    const [factura, setFactura] = useState(store.pagoProveedor[0]?.numfactura);
+    const [monto, setMonto] = useState(store.pagoProveedor[0]?.monto);
+    const [idmetodo, setIdMetodo] = useState(store.pagoProveedor[0]?.idmetodo);
+    const [observaciones, setObservaciones] = useState(store.pagoProveedor[0]?.observaciones)
+    
+  
     useEffect(() => {
-        actions.obtenerPagoProveedorId(parseInt(params.theid));
-        actions.obtenerMetodos()
-        actions.obtenerProveedores();
+        const inicio = async () => {
+            await actions.obtenerPagoProveedorId(parseInt(params.theid));
+            await actions.obtenerMetodos()
+            await actions.obtenerProveedores();
+        }
+        inicio ()
     }, []);
 
     const modificar = (e) => {
@@ -81,7 +84,7 @@ export const ModificarPagoProveedor = () => {
                     <input
                         type="text"
                         className="form-control"
-                        defaultValue={dateFormat(store.pagoProveedor[0]?.fechapago, "dd / mm / yy")}
+                        defaultValue={store.pagoProveedor[0]?.fechapago}
                         onChange={(e) => setFechaPago(e.target.value)}
                     />
                     </div>
@@ -139,7 +142,7 @@ export const ModificarPagoProveedor = () => {
                 <div className="row">
                     {/* Observaciones */}
                     <div className="col">
-                    <label htmlFor="observaciones" style={{ marginBottom: "10px" }}>
+                    <label htmlFor="observaciones" style={{ marginBottom: "10px"}}>
                         Observaciones:
                     </label>
                     <input

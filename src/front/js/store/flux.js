@@ -820,10 +820,12 @@ const getState = ({ getStore, getActions, setStore }) => {
           setStore({
             productos: response.data,
           });
-        } catch (error) {
-          if (error.code === "ERR_BAD_REQUEST") {
-            console.log(error.response.data.msg);
+          if (response.status === 200) {
+            return true;
           }
+        } catch (error) {
+          console.error("Error " + error.response.status + ": " + error.response.statusText);
+          return false;
         }
       },
 
@@ -838,7 +840,7 @@ const getState = ({ getStore, getActions, setStore }) => {
         proveedorid,
       ) => {
         try {
-          await axios.post(direccion + "/api/productos", {
+         const response = await axios.post(direccion + "/api/productos", {
             nombre: nombre,
             cantidad: cantidad,
             precioventa: precioventa,
@@ -850,25 +852,30 @@ const getState = ({ getStore, getActions, setStore }) => {
             headers: {
               Authorization: "Bearer " + localStorage.getItem("Token"),
             },
-          });
-          return true;
+          });  if (response.status === 200) {
+            return true;
+          }
         } catch (error) {
-          console.log(error);
+          console.error("Error " + error.response.status + ": " + error.response.statusText);
+          return false;
         }
       },
 
       /* Borrar Productos */
       borrarProductos: async (id) => {
         try {
-          await axios.delete(direccion + "/api/productos/" + id, {
+          const response = await axios.delete(direccion + "/api/productos/" + id, {
             headers: {
               Authorization: "Bearer " + localStorage.getItem("Token"),
             },
           });
           getActions().obtenerProductos();
-          return true;
+          if (response.status === 200) {
+            return true;
+          }
         } catch (error) {
-          console.log(error);
+          console.error("Error " + error.response.status + ": " + error.response.statusText);
+          return false;
         }
       },
 
@@ -884,7 +891,7 @@ const getState = ({ getStore, getActions, setStore }) => {
         proveedorid,
       ) => {
         try {
-          await axios.put(direccion + "/api/productos/" + id, {
+          const response = await axios.put(direccion + "/api/productos/" + id, {
             id: id,
             nombre: nombre,
             cantidad: cantidad,
@@ -898,11 +905,12 @@ const getState = ({ getStore, getActions, setStore }) => {
               Authorization: "Bearer " + localStorage.getItem("Token"),
             },
           });
-          return true;
-        } catch (error) {
-          if (error.code === "ERR_BAD_REQUEST") {
-            console.log(error.response.data.msg);
+          if (response.status === 200) {
+            return true;
           }
+        } catch (error) {
+          console.error("Error " + error.response.status + ": " + error.response.statusText);
+          return false;
         }
       },
 
@@ -920,10 +928,12 @@ const getState = ({ getStore, getActions, setStore }) => {
           setStore({
             producto: response.data,
           });
-        } catch (error) {
-          if (error.code === "ERR_BAD_REQUEST") {
-            console.log(error.response.data.msg);
+          if (response.status === 200) {
+            return true;
           }
+        } catch (error) {
+          console.error("Error " + error.response.status + ": " + error.response.statusText);
+          return false;
         }
       },
 
@@ -958,10 +968,12 @@ const getState = ({ getStore, getActions, setStore }) => {
           setStore({
             proveedores: response.data,
           });
-        } catch (error) {
-          if (error.code === "ERR_BAD_REQUEST") {
-            console.log(error.response.data.msg);
+          if (response.status === 200) {
+            return true;
           }
+        } catch (error) {
+          console.error("Error " + error.response.status + ": " + error.response.statusText);
+          return false;
         }
       },
 
@@ -975,7 +987,7 @@ const getState = ({ getStore, getActions, setStore }) => {
         observaciones,
       ) => {
         try {
-          await axios.post(direccion + "/api/proveedores", {
+          const response = await axios.post(direccion + "/api/proveedores", {
             nombre: nombre,
             rut: rut,
             direccion: direccionProveedor,
@@ -987,24 +999,30 @@ const getState = ({ getStore, getActions, setStore }) => {
               Authorization: "Bearer " + localStorage.getItem("Token"),
             },
           });
-          return true;
+          if (response.status === 200) {
+            return true;
+          }
         } catch (error) {
-          console.log(error);
+          console.error("Error " + error.response.status + ": " + error.response.statusText);
+          return false;
         }
       },
 
       /* Borrar Proveedores */
       borrarProveedores: async (id) => {
         try {
-          await axios.delete(direccion + "/api/proveedores/" + id, {
+          const response = await axios.delete(direccion + "/api/proveedores/" + id, {
             headers: {
               Authorization: "Bearer " + localStorage.getItem("Token"),
             },
           });
           getActions().obtenerProveedores();
-          return true;
+          if (response.status === 200) {
+            return true;
+          }
         } catch (error) {
-          console.log(error);
+          console.error("Error " + error.response.status + ": " + error.response.statusText);
+          return false;
         }
       },
 
@@ -1019,7 +1037,7 @@ const getState = ({ getStore, getActions, setStore }) => {
         observaciones,
       ) => {
         try {
-          await axios.put(direccion + "/api/proveedores/" + id, {
+          const response = await axios.put(direccion + "/api/proveedores/" + id, {
             id: id,
             nombre: nombre,
             rut: rut,
@@ -1032,11 +1050,12 @@ const getState = ({ getStore, getActions, setStore }) => {
               Authorization: "Bearer " + localStorage.getItem("Token"),
             },
           });
-          return true;
-        } catch (error) {
-          if (error.code === "ERR_BAD_REQUEST") {
-            console.log(error.response.data.msg);
+          if (response.status === 200) {
+            return true;
           }
+        } catch (error) {
+          console.error("Error " + error.response.status + ": " + error.response.statusText);
+          return false;
         }
       },
 
@@ -1054,17 +1073,19 @@ const getState = ({ getStore, getActions, setStore }) => {
           setStore({
             proveedor: response.data,
           });
-        } catch (error) {
-          if (error.code === "ERR_BAD_REQUEST") {
-            console.log(error.response.data.msg);
+          if (response.status === 200) {
+            return true;
           }
+        } catch (error) {
+          console.error("Error " + error.response.status + ": " + error.response.statusText);
+          return false;
         }
       },
 
       // Buscador de Proveedores
       buscadorProveedor: (valor) => {
         let store = getStore();
-        let resultados = store.proveedor.filter((item) => {
+        let resultados = store.proveedores.filter((item) => {
           if (
             item.nombre.toString().toLowerCase().includes(
               valor.toLowerCase(),
@@ -1091,7 +1112,7 @@ const getState = ({ getStore, getActions, setStore }) => {
         observaciones,
       ) => {
         try {
-          await axios.post(direccion + "/api/pagoproveedores", {
+          const response = await axios.post(direccion + "/api/pagoproveedores", {
             fechapago: fechapago,
             numfactura: numfactura,
             monto: monto,
@@ -1103,9 +1124,12 @@ const getState = ({ getStore, getActions, setStore }) => {
               Authorization: "Bearer " + localStorage.getItem("Token"),
             },
           });
-          return true;
+          if (response.status === 200) {
+            return true;
+          }
         } catch (error) {
-          console.log(error);
+          console.error("Error " + error.response.status + ": " + error.response.statusText);
+          return false;
         }
       },
 
@@ -1120,25 +1144,30 @@ const getState = ({ getStore, getActions, setStore }) => {
           setStore({
             pagoProveedores: response.data,
           });
-        } catch (error) {
-          if (error.code === "ERR_BAD_REQUEST") {
-            console.error(error.response.data.msg);
+          if (response.status === 200) {
+            return true;
           }
+        } catch (error) {
+          console.error("Error " + error.response.status + ": " + error.response.statusText);
+          return false;
         }
       },
 
       /* Borrar Pago proveedores */
       borrarPagoProveedores: async (id) => {
         try {
-          await axios.delete(direccion + "/api/pagoproveedores/" + id, {
+          const response = await axios.delete(direccion + "/api/pagoproveedores/" + id, {
             headers: {
               Authorization: "Bearer " + localStorage.getItem("Token"),
             },
           });
           getActions().obtenerPagoAProveedores();
-          return true;
+          if (response.status === 200) {
+            return true;
+          }
         } catch (error) {
-          console.log(error);
+          console.error("Error " + error.response.status + ": " + error.response.statusText);
+          return false;
         }
       },
 
@@ -1153,7 +1182,7 @@ const getState = ({ getStore, getActions, setStore }) => {
         idmetodo,
       ) => {
         try {
-          await axios.put(direccion + "/api/pagoproveedores/" + id, {
+          const response = await axios.put(direccion + "/api/pagoproveedores/" + id, {
             id: id,
             fechapago: fechapago,
             numfactura: numfactura,
@@ -1166,11 +1195,12 @@ const getState = ({ getStore, getActions, setStore }) => {
               Authorization: "Bearer " + localStorage.getItem("Token"),
             },
           });
-          return true;
-        } catch (error) {
-          if (error.code === "ERR_BAD_REQUEST") {
-            console.log(error.response.data.msg);
+          if (response.status === 200) {
+            return true;
           }
+        } catch (error) {
+          console.error("Error " + error.response.status + ": " + error.response.statusText);
+          return false;
         }
       },
 
@@ -1185,13 +1215,13 @@ const getState = ({ getStore, getActions, setStore }) => {
               },
             },
           );
-          setStore({
-            pagoProveedor: response.data,
-          });
-        } catch (error) {
-          if (error.code === "ERR_BAD_REQUEST") {
-            console.log(error.response.data.msg);
+          setStore({ pagoProveedor: response.data });
+          if (response.status === 200) {
+            return true;
           }
+        } catch (error) {
+          console.error("Error " + error.response.status + ": " + error.response.statusText);
+          return false;
         }
       },
 
@@ -1209,11 +1239,27 @@ const getState = ({ getStore, getActions, setStore }) => {
           setStore({
             pagoPorProveedor: response.data,
           });
-        } catch (error) {
-          if (error.code === "ERR_BAD_REQUEST") {
-            console.log(error.response.data.msg);
+          if (response.status === 200) {
+            return true;
           }
+        } catch (error) {
+          console.error("Error " + error.response.status + ": " + error.response.statusText);
+          return false;
         }
+      },
+
+      // Buscador de factura de Proveedores
+      buscadorFacturaProveedor: (valor) => {
+        let store = getStore();
+        let resultados = store.proveedores.filter((item) => {
+          if (item.factura == valor) {
+            console.log(item.factura)
+            return valor;
+          }
+        });
+        setStore({
+          pagoProveedores: resultados,
+        });
       },
 
       ////////////////////////////////////
@@ -1229,7 +1275,7 @@ const getState = ({ getStore, getActions, setStore }) => {
         observaciones,
       ) => {
         try {
-          await axios.post(direccion + "/api/cajadiaria", {
+          const response = await axios.post(direccion + "/api/cajadiaria", {
             fecha: fecha,
             totalmensualidades: totalmensualidades,
             cantidadalumnos: cantidadalumnos,
@@ -1241,9 +1287,12 @@ const getState = ({ getStore, getActions, setStore }) => {
               Authorization: "Bearer " + localStorage.getItem("Token"),
             },
           });
-          return true;
+          if (response.status === 200) {
+            return true;
+          }
         } catch (error) {
-          console.log(error);
+          console.error("Error " + error.response.status + ": " + error.response.statusText);
+          return false;
         }
       },
 
@@ -1258,10 +1307,12 @@ const getState = ({ getStore, getActions, setStore }) => {
           setStore({
             cajaDiaria: response.data,
           });
-        } catch (error) {
-          if (error.code === "ERR_BAD_REQUEST") {
-            console.error(error.response.data.msg);
+          if (response.status === 200) {
+            return true;
           }
+        } catch (error) {
+          console.error("Error " + error.response.status + ": " + error.response.statusText);
+          return false;
         }
       },
 
@@ -1278,10 +1329,12 @@ const getState = ({ getStore, getActions, setStore }) => {
           setStore({
             movimiento: response.data,
           });
-        } catch (error) {
-          if (error.code === "ERR_BAD_REQUEST") {
-            console.log(error.response.data.msg);
+          if (response.status === 200) {
+            return true;
           }
+        } catch (error) {
+          console.error("Error " + error.response.status + ": " + error.response.statusText);
+          return false;
         }
       },
 
@@ -1302,8 +1355,12 @@ const getState = ({ getStore, getActions, setStore }) => {
           setStore({
             diarios: response.data,
           });
+          if (response.status === 200) {
+            return true;
+          }
         } catch (error) {
-          console.log(error);
+          console.error("Error " + error.response.status + ": " + error.response.statusText);
+          return false;
         }
       },
 
@@ -1324,8 +1381,12 @@ const getState = ({ getStore, getActions, setStore }) => {
           setStore({
             egresosDiarios: response.data,
           });
+          if (response.status === 200) {
+            return true;
+          }
         } catch (error) {
-          console.log(error);
+          console.error("Error " + error.response.status + ": " + error.response.statusText);
+          return false;
         }
       },
 

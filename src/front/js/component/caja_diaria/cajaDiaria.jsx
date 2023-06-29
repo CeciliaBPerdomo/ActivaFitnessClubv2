@@ -1,16 +1,26 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Context } from "../../store/appContext";
-import { Link } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import dateFormat from "dateformat";
+import moment from "moment";
+
 
 export const CajaDiaria = () => {
     const { store, actions } = useContext(Context)
-    const [fecha, setFecha] = useState("")
+    let [fecha, setFecha] = useState("")
+    const [observaciones, setObservaciones]= useState("")
     let totalIngresos = 0   // Por mensualidades
     let CantidadAlumnos = 0
     let totalEgresos = 0
+
+  
+    useEffect(() => {
+        const info = async() => {
+            await actions.obtenerMovimientosDiarios(moment().format('YYYY-MM-DD'));
+            await actions.obtenerEgresosDiarios(moment().format('YYYY-MM-DD'))
+        }
+        info()
+      }, []);
 
     const buscarMovimientos = async (e) => {
         e.preventDefault()
@@ -18,26 +28,44 @@ export const CajaDiaria = () => {
         await actions.obtenerEgresosDiarios(fecha)
     }
 
-    const guardarMovimientos = (e) => {
+    const guardarMovimientos = async (e) => {
         e.preventDefault()
-        actions.cerrarCajaDiaria(fecha, totalIngresos, CantidadAlumnos, 0, totalEgresos, "Sin observaciones")
+        
+        if (fecha == "") {
+            fecha = moment().format('YYYY-MM-DD')
+        }
+        
+        let resultado = await actions.cerrarCajaDiaria(fecha, totalIngresos, CantidadAlumnos, 0, totalEgresos, observaciones)
 
-        toast.success("💪 Caja registrada con exito total", {
-            position: toast.POSITION.TOP_RIGHT,
-            autoClose: 1000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "dark",
-          })
+        if (resultado === true ){
+            toast.success("💪 Caja registrada con exito", {
+                position: toast.POSITION.TOP_RIGHT,
+                autoClose: 1000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+            })
+        } else {
+            toast.error("No se pudo registrar el movimiento", {
+                position: toast.POSITION.TOP_RIGHT,
+                autoClose: 1000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+            })
+        }
     }
 
     return (
         <>
             <div className="container">
-                <h3 style={{ marginBottom: "25px" }}>Movimientos de caja diaria</h3>
+                <h3 style={{ marginBottom: "25px" }}>Balance diario</h3>
                 <hr />
                 <br />
 
@@ -190,8 +218,19 @@ export const CajaDiaria = () => {
 
                     </div>
                 </div>
-                <br />
                 
+                <br /><br />            
+
+                <div className="container d-flex justify-content-end">
+                    <input type="text" 
+                        className="form-control w-50"
+                        placeholder="Observaciones"
+                        value={observaciones}
+                        onChange={(e) => setObservaciones(e.target.value)}
+                    />
+                </div>
+                <br />
+
                 {/* cerrar caja */}
                 <div className="container text-end">
                     <button

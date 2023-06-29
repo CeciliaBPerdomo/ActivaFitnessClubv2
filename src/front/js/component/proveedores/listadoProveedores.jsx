@@ -1,25 +1,36 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Context } from "../../store/appContext";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 export const ListadoProveedores = () => {
   const { store, actions } = useContext(Context);
-  let navegacion = useNavigate();
-
   const [busqueda, setBusqueda] = useState("");
 
   useEffect(() => {
     actions.obtenerProveedores();
   }, []);
 
-  const borrar = (e, id) => {
+  const borrar = async (e, id) => {
     e.preventDefault();
-    if (actions.borrarProveedores(id)) {
-      toast.error("🤚 Borrado con éxito", {
+
+    let resultado = await actions.borrarProveedores(id)
+    if (resultado === true) {
+      toast.success("🤚 Borrado con éxito", {
         position: toast.POSITION.TOP_RIGHT,
-        autoClose: 3000,
+        autoClose: 1500,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
+    } else {
+      toast.error("No se puede borrar", {
+        position: toast.POSITION.TOP_RIGHT,
+        autoClose: 1500,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
@@ -30,14 +41,15 @@ export const ListadoProveedores = () => {
     }
   };
 
-// Buscador
-const buscar = async (valor) => {
-  if (busqueda === "") {
-      actions.obtenerProveedores();
-   } else {
-      await actions.obtenerProveedorId(valor);
-   }
-};
+  // Buscador
+  const buscar = async (valor) => {
+    if (busqueda === "") {
+      await actions.obtenerProveedores();
+    } else {
+      await actions.obtenerProveedores();
+      await actions.buscadorProveedor(valor);
+    }
+  };
 
   return (
     <>
@@ -64,8 +76,8 @@ const buscar = async (valor) => {
         <hr />
         <br />
 
-      {/* Listado de productos */}
-      <div style={{ marginTop: "35px" }}>
+        {/* Listado de productos */}
+        <div style={{ marginTop: "35px" }}>
           <table className="table" style={{ color: "white" }}>
             <thead>
               <tr>
@@ -115,8 +127,8 @@ const buscar = async (valor) => {
             </tbody>
           </table>
         </div>
-      
-        </div>
+
+      </div>
       <ToastContainer />
       <br />
     </>

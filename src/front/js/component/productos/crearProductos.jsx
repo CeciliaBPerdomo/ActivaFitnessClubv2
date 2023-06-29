@@ -1,13 +1,10 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Context } from "../../store/appContext";
-import { useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 export const CrearProductos = () => {
   const { store, actions } = useContext(Context);
-  let navegacion = useNavigate();
-
   const [nombre, setNombre] = useState("");
   const [cantidad, setCantidad] = useState("");
   const [precioVenta, setPrecioVenta] = useState("");
@@ -20,11 +17,11 @@ export const CrearProductos = () => {
     actions.obtenerProveedores();
   }, []);
 
-  const guardar = (e) => {
+  const guardar = async (e) => {
     e.preventDefault();
 
-    if (
-      actions.crearProductos(
+    if (nombre !== "" || cantidad !== "" || precioVenta !== "" || proveedor !== "") {
+      let resultado = await actions.crearProductos(
         nombre,
         cantidad,
         precioVenta,
@@ -33,8 +30,41 @@ export const CrearProductos = () => {
         video,
         proveedor,
       )
-    ) {
-      toast.success("💪 Guardado con éxito", {
+
+      if (resultado === true) {
+        toast.success("💪 Guardado con éxito", {
+          position: toast.POSITION.TOP_RIGHT,
+          autoClose: 1500,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        });
+
+        setNombre("")
+        setCantidad("")
+        setPrecioVenta("")
+        setObservaciones("")
+        setFoto("")
+        setVideo("")
+        setProveedor("")
+
+      } else {
+        toast.error("No se puede guardar", {
+          position: toast.POSITION.TOP_RIGHT,
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        });
+      }
+    } else {
+      toast.error("Faltan completar datos", {
         position: toast.POSITION.TOP_RIGHT,
         autoClose: 3000,
         hideProgressBar: false,
@@ -45,17 +75,6 @@ export const CrearProductos = () => {
         theme: "dark",
       });
     }
-
-    setNombre("")
-    setCantidad("")
-    setPrecioVenta("")
-    setObservaciones("")
-    setFoto("")
-    setVideo("")
-    setProveedor("")
-    // setInterval(() => {
-    //   navegacion("/ListadoAlumnos");
-    // }, 5000);
   };
 
   return (
@@ -72,7 +91,7 @@ export const CrearProductos = () => {
             {/* Nombre */}
             <div className="col">
               <label htmlFor="nombre" style={{ marginBottom: "10px" }}>
-                Nombre:
+                Nombre <label style={{ color: "red" }}>(Obligatorio)</label>:
               </label>
               <input
                 type="text"
@@ -86,7 +105,7 @@ export const CrearProductos = () => {
             {/* Cantidad */}
             <div className="col">
               <label htmlFor="cantidad" style={{ marginBottom: "10px" }}>
-                Cantidad:
+                Cantidad <label style={{ color: "red" }}>(Obligatorio)</label>:
               </label>
               <input
                 type="text"
@@ -100,7 +119,7 @@ export const CrearProductos = () => {
             {/* Precio venta */}
             <div className="col">
               <label htmlFor="precio" style={{ marginBottom: "10px" }}>
-                Precio de venta:
+                Precio de venta <label style={{ color: "red" }}>(Obligatorio)</label>:
               </label>
               <input
                 type="text"
@@ -148,7 +167,7 @@ export const CrearProductos = () => {
             {/* Provedor */}
             <div className="col">
               <label htmlFor="proveedor" style={{ marginBottom: "10px" }}>
-                Proveedor:
+                Proveedor <label style={{ color: "red" }}>(Obligatorio)</label>:
               </label>
               <select
                 className="form-select"
@@ -178,7 +197,7 @@ export const CrearProductos = () => {
             </div>
           </div>
           <br />
-          <div style={{ marginTop: "15px" }}>
+          <div style={{ marginTop: "15px", marginBottom: "45px" }}>
             <button
               type="submit"
               className="btn btn-outline-danger float-end w-25"

@@ -1,12 +1,11 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Context } from "../../store/appContext";
-import { useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 export const CrearProveedor = () => {
   const { store, actions } = useContext(Context);
-  
+
   const [nombre, setNombre] = useState("");
   const [rut, setRut] = useState("")
   const [direccion, setDireccion] = useState("")
@@ -14,11 +13,11 @@ export const CrearProveedor = () => {
   const [email, setEmail] = useState("")
   const [observaciones, setObservaciones] = useState("")
 
-  const guardar = (e) => {
+  const guardar = async (e) => {
     e.preventDefault();
 
-    if (
-      actions.crearProveedores(
+    if (nombre !== "" || rut !== "") {
+      let resultado = await actions.crearProveedores(
         nombre,
         rut,
         direccion,
@@ -26,10 +25,43 @@ export const CrearProveedor = () => {
         email,
         observaciones
       )
-    ) {
-      toast.success("💪 Guardado con éxito", {
+
+      if (resultado === true) {
+        toast.success("💪 Guardado con éxito", {
+          position: toast.POSITION.TOP_RIGHT,
+          autoClose: 1500,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        });
+
+
+        setNombre("")
+        setRut("")
+        setDireccion("")
+        setObservaciones("")
+        setEmail("")
+        setTelefono("")
+
+      } else {
+        toast.error("No se puede guardar", {
+          position: toast.POSITION.TOP_RIGHT,
+          autoClose: 1500,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        });
+      }
+    } else {
+      toast.error("Faltan completar datos", {
         position: toast.POSITION.TOP_RIGHT,
-        autoClose: 3000,
+        autoClose: 1500,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
@@ -38,14 +70,6 @@ export const CrearProveedor = () => {
         theme: "dark",
       });
     }
-
-    setNombre("")
-    setRut("")
-    setDireccion("")
-    setObservaciones("")
-    setEmail("")
-    setTelefono("")
-   
   };
 
   return (
@@ -62,7 +86,7 @@ export const CrearProveedor = () => {
             {/* Nombre */}
             <div className="col">
               <label htmlFor="nombre" style={{ marginBottom: "10px" }}>
-                Nombre:
+                Nombre <i style={{ color: "red" }}>(Obligatorio)</i>:
               </label>
               <input
                 type="text"
@@ -76,7 +100,7 @@ export const CrearProveedor = () => {
             {/* RUT */}
             <div className="col">
               <label htmlFor="RUT" style={{ marginBottom: "10px" }}>
-                RUT <i style={{color: "red"}}>(Obligatorio)</i>:
+                RUT <i style={{ color: "red" }}>(Obligatorio)</i>:
               </label>
               <input
                 type="text"
@@ -91,8 +115,8 @@ export const CrearProveedor = () => {
           <br />
           <div className="row">
 
-             {/* Direccion */}
-             <div className="col">
+            {/* Direccion */}
+            <div className="col">
               <label htmlFor="direccion" style={{ marginBottom: "10px" }}>
                 Dirección:
               </label>
@@ -152,18 +176,19 @@ export const CrearProveedor = () => {
             </div>
           </div>
           <br />
-          <div style={{ marginTop: "15px" }}>
+          <div style={{ marginTop: "15px", marginBottom: "35px" }}>
             <button
               type="submit"
               className="btn btn-outline-danger float-end w-25"
+
               onClick={(e) => guardar(e)}
             >
               Agregar
             </button>
           </div>
         </form>
-    
-        </div>
+
+      </div>
       <ToastContainer />
       <br />
     </>

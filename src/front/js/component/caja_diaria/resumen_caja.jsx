@@ -26,11 +26,11 @@ export const ResumenCajaDiaria = () => {
                                 <thead>
                                     <tr>
                                         <th scope="col">Fecha</th>
-                                        <th scope="col">Cantidad de clientes</th>
-                                        <th scope="col">Total Ingresos (Mensualidades)</th>
-                                        <th scope="col">Total Ingresos (Ventas)</th>
-                                        <th scope="col">Total Egresos</th>
-                                        <th scope="col">Total</th>
+                                        <th scope="col" className="text-center">Cantidad de clientes</th>
+                                        <th scope="col" className="text-center">Total Ingresos (Mensualidades)</th>
+                                        <th scope="col" className="text-center">Total Ingresos (Ventas)</th>
+                                        <th scope="col" className="text-center">Total Egresos</th>
+                                        <th scope="col" className="text-center">Total</th>
                                         <th scope="col">Observaciones</th>
                                     </tr>
                                 </thead>
@@ -38,15 +38,7 @@ export const ResumenCajaDiaria = () => {
                                 <tbody>
                                     {store.cajaDiaria.map((item, id) => ( 
                                         <tr key={id}>
-                                            <td>
-                                                {item.fecha
-                                                // (new Date(item.fecha).getDate() + 1)
-                                                // + "/" + 
-                                                // (new Date(item.fecha).getMonth() + 1)
-                                                // + "/" + 
-                                                // (new Date(item.fecha).getFullYear())
-                                                }
-                                                </td>
+                                            <td>{item.fecha}</td>
                                             <td className="text-center">{item.cantidadalumnos}</td>
                                             <td className="text-center">$ {item.totalmensualidades}</td>
                                             <td className="text-center">$ {item.totalventas}</td>

@@ -819,7 +819,7 @@ def getPagoProveedores():
 @api.route('/pagoproveedores/<int:pago_id>', methods=['GET'])
 @jwt_required()
 def get_pagoproveedorid(pago_id):
-    pago = db.session.query(Pagoproveedores, Proveedores, Metodospago).join(Proveedores).join(Metodospago).filter_by(id=pago_id).all()
+    pago = db.session.query(Pagoproveedores, Proveedores, Metodospago).filter_by(id=pago_id).join(Proveedores).join(Metodospago).all()
 
     if pago is None: 
         response_body = {"msg": "No hay pago a este proveedor"}
@@ -839,6 +839,7 @@ def get_pagoproveedorid(pago_id):
         #Metodospago
         "metodo": pagos[2].tipo
     }, pago)))
+    
     return jsonify(info_pago), 200
 
 # Muestra el pago al proveedor por id

@@ -6,9 +6,6 @@ import "react-toastify/dist/ReactToastify.css";
 
 export const CrearPagoProveedor = () => {
   const { store, actions } = useContext(Context);
-
-  const [busqueda, setBusqueda] = useState("");
-
   const [proveedor, setProveedor] = useState("");
   const [fechaPago, setFechaPago] = useState("");
   const [factura, setFactura] = useState("");
@@ -21,11 +18,45 @@ export const CrearPagoProveedor = () => {
     actions.obtenerMetodos();
   }, []);
 
-  const guardar = (e) => {
+  const guardar = async (e) => {
     e.preventDefault();
 
-    if (actions.crearPagoProveedores(fechaPago, factura, monto, proveedor, idmetodo, observaciones)) {
-      toast.success("💪 Guardado con éxito", {
+
+    if (fechaPago !== "" && proveedor !== "" && factura !== "" && monto !== "" && idmetodo !== "") {
+      let resultado = await actions.crearPagoProveedores(fechaPago, factura, monto, proveedor, idmetodo, observaciones)
+      if (resultado === true) {
+        toast.success("💪 Guardado con éxito", {
+          position: toast.POSITION.TOP_RIGHT,
+          autoClose: 1000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        });
+
+        /* Limpiar el formulario */
+        setFechaPago("");
+        setFactura("");
+        setMonto("")
+        setObservaciones("")
+        setProveedor("")
+        setIdMetodo("")
+      } else {
+        toast.error("No se puede guardar", {
+          position: toast.POSITION.TOP_RIGHT,
+          autoClose: 1000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        });
+      }
+    } else {
+      toast.error("Faltan completar datos", {
         position: toast.POSITION.TOP_RIGHT,
         autoClose: 1000,
         hideProgressBar: false,
@@ -36,35 +67,10 @@ export const CrearPagoProveedor = () => {
         theme: "dark",
       });
     }
-    /* Limpiar el formulario */
-    setFechaPago("");
-    setFactura("");
-    setMonto("")
-    setObservaciones("")
-  };
-
-
+  }
   return (
     <>
       <div className="container">
-        <div className="input-group mb-3 w-25 float-end">
-          <input
-            type="text"
-            className="form-control "
-            placeholder="🔎 Buscar pago de proveedor..."
-            onChange={(e) => setBusqueda(e.target.value)}
-            value={busqueda}
-          />
-          <button
-            className="btn btn-outline-danger"
-            type="button"
-            id="button-addon2"
-            // onClick={(e) => buscar(busqueda)}
-          >
-            Buscar
-          </button>
-        </div>
-
         <h3 style={{ marginBottom: "25px" }}>Ingresar pago de proveedores</h3>
         <hr />
         <br />
@@ -74,7 +80,7 @@ export const CrearPagoProveedor = () => {
             {/* Proveedor */}
             <div className="col">
               <label htmlFor="idProvedor" style={{ marginBottom: "10px" }}>
-                Id de Proveedor:
+                Id de Proveedor <label style={{ color: "red" }}>(Obligatorio)</label>:
               </label>
               <select
                 className="form-select"
@@ -92,7 +98,7 @@ export const CrearPagoProveedor = () => {
             {/* Fecha de pago */}
             <div className="col">
               <label htmlFor="fecha" style={{ marginBottom: "10px" }}>
-                Fecha de pago:
+                Fecha de pago <label style={{ color: "red" }}>(Obligatorio)</label>:
               </label>
               <input
                 type="date"
@@ -106,7 +112,7 @@ export const CrearPagoProveedor = () => {
             {/* Numero de factura */}
             <div className="col">
               <label htmlFor="factura" style={{ marginBottom: "10px" }}>
-                Factura:
+                Factura <label style={{ color: "red" }}>(Obligatorio)</label>:
               </label>
               <input
                 type="text"
@@ -123,7 +129,7 @@ export const CrearPagoProveedor = () => {
             {/* Monto */}
             <div className="col">
               <label htmlFor="monto" style={{ marginBottom: "10px" }}>
-                Monto:
+                Monto <label style={{ color: "red" }}>(Obligatorio)</label>:
               </label>
               <input
                 type="text"
@@ -137,7 +143,7 @@ export const CrearPagoProveedor = () => {
             {/* Metodo de pago */}
             <div className="col">
               <label htmlFor="metodo" style={{ marginBottom: "10px" }}>
-                Método de pago:
+                Método de pago <label style={{ color: "red" }}>(Obligatorio)</label>:
               </label>
               <select
                 className="form-select"
@@ -150,11 +156,7 @@ export const CrearPagoProveedor = () => {
                 ))}
               </select>
             </div>
-          </div>
 
-
-          <br />
-          <div className="row">
             {/* Observaciones */}
             <div className="col">
               <label htmlFor="observaciones" style={{ marginBottom: "10px" }}>
@@ -169,8 +171,7 @@ export const CrearPagoProveedor = () => {
               />
             </div>
           </div>
-          
-          
+
           <br />
           <div className="row">
             <div style={{ marginTop: "15px" }}>

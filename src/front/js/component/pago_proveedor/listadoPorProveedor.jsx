@@ -3,31 +3,58 @@ import { Context } from "../../store/appContext";
 import { Link } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import dateFormat from "dateformat";
+
 
 export const ListadoPagoPorProveedor = () => {
     const { store, actions } = useContext(Context)
     const [proveedor, setProveedor] = useState("")
 
-    const buscarPagos = (e) => {
+    const buscarPagos = async(e) => {
         e.preventDefault()
-       actions.obtenerPagoPorProveedor(proveedor)
+        
+        if (proveedor !== "") {
+            await actions.obtenerPagoPorProveedor(proveedor)
+        } else {
+            toast.error("🤚 Debe elegir el proveedor", {
+                position: toast.POSITION.TOP_RIGHT,
+                autoClose: 1500,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+            });
+        }
     }
 
      // Eliminar  
-     const borrar = (e, id) => {
+     const borrar = async (e, id) => {
         e.preventDefault();
-        if (actions.borrarPagoProveedores(id)) {
-        toast.error("🤚 Borrado con éxito", {
-            position: toast.POSITION.TOP_RIGHT,
-            autoClose: 1500,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "dark",
-        });
+
+        let resultado = await actions.borrarPagoProveedores(id)
+        if (resultado === true) {
+            toast.success("🤚 Borrado con éxito", {
+                position: toast.POSITION.TOP_RIGHT,
+                autoClose: 1500,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+            });
+        } else {
+            toast.error("No se pudo borrar!", {
+                position: toast.POSITION.TOP_RIGHT,
+                autoClose: 1500,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+            });
         }
     };
   
@@ -52,6 +79,7 @@ export const ListadoPagoPorProveedor = () => {
                                 value={proveedor}
                                 onChange={(e) => setProveedor(e.target.value)}
                             >
+                                <option selected>Proveedor</option>
                                 {store.proveedores.map((item, id) => (
                                 <option key={id} value={item.id}>{item.nombre}</option>
                                 ))}
@@ -87,15 +115,7 @@ export const ListadoPagoPorProveedor = () => {
                         <tbody>
                         {store.pagoPorProveedor.map((item, id) => ( 
                             <tr key={id}>
-                                <td>
-                                    {item.fechapago
-                                    //  (new Date(item.fechapago).getDate() + 1)
-                                    //  + "/" + 
-                                    //  (new Date(item.fechapago).getMonth() + 1)
-                                    //  + "/" + 
-                                    //  (new Date(item.fechapago).getFullYear())
-                                    }
-                                </td>
+                                <td> {item.fechapago}</td>
                                 <td>{item.numfactura}</td>
                                 <td>${item.monto}</td>
                                 <td>{item.metodo}</td>

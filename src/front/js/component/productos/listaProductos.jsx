@@ -33,9 +33,10 @@ export const ListadoProductos = () => {
   // Buscador
 const buscar = async (valor) => {
   if (busqueda === "") {
-      actions.obtenerProductos();
+      await actions.obtenerProductos();
    } else {
-      await actions.obtenerProductosId(valor);
+      await actions.obtenerProductos();
+      await actions.buscadorProductos(valor);
    }
 };
 

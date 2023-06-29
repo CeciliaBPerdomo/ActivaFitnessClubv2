@@ -15,8 +15,8 @@ export const ListadoMensualidades = () => {
 
   const borrar = async (e, id) => {
     e.preventDefault();
-
     let resultado = await actions.borrarMensualidad(id)
+    
     if (resultado === true) {
       toast.success("🤚 Borrado con éxito", {
         position: toast.POSITION.TOP_RIGHT,

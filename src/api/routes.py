@@ -942,7 +942,7 @@ def CajaDiariaIngresos():
     body = json.loads(request.data)
     fecha = body ["fecha"]
 
-    caja = db.session.query(Mensualidades, Metodospago).filter_by(fechapago=fecha).join(Metodospago).all()
+    caja = db.session.query(Mensualidades, Metodospago, Usuarios).filter_by(fechapago=fecha).join(Metodospago).join(Usuarios).all()
    
     if caja is None: 
          response_body = {"msg": "No hay movimientos este dia"}
@@ -955,7 +955,10 @@ def CajaDiariaIngresos():
         "factura": movimientos[0].factura,
         "observaciones": movimientos[0].observaciones,
          #Metodospago
-         "metodo": movimientos[1].tipo
+         "metodo": movimientos[1].tipo, 
+         # Alumno
+         "alumnoNombre": movimientos[2].nombre,
+         "alumnoApellido": movimientos[2].apellido
     }, caja))
     return jsonify(results), 200
 
@@ -1018,6 +1021,55 @@ def get_Cajaid(cajadiaria_id):
         return jsonify(response_body), 400
 
     return jsonify(results), 200
+
+# Chequeo de la caja Diaria por fecha
+@api.route('/cajadiariaControlFecha/', methods=['GET'])
+@jwt_required()
+def get_CajaFecha():
+    body = json.loads(request.data)
+    fecha = body["fecha"]
+
+    caja = CajaDiaria.query.filter_by(fecha=fecha).first()
+
+    if caja is None: 
+        response_body = {"msg": "Fecha no encontrada"}
+        return jsonify(response_body), 200
+
+    return jsonify({"msg": "La fecha existe"}), 400
+
+# Actualiza los movimientos de la caja Diaria segun la fecha
+@api.route('/cajadiaria', methods=['PUT'])
+@jwt_required()
+def modificar_Caja():
+    body = json.loads(request.data)
+    fecha = body["fecha"]
+
+    caja = CajaDiaria.query.filter_by(fecha=fecha).first()
+
+    if caja is None: 
+        response_body = {"msg": "Fecha no encontrada"}
+        return jsonify(response_body), 400
+
+    if "totalmensualidades" in body:
+        caja.totalmensualidades = body["totalmensualidades"]
+
+    if "cantidadalumnos" in body:
+        caja.cantidadalumnos = body["cantidadalumnos"]
+    
+    # P E N D I E N T E
+    if "totalventas" in body:
+        caja.totalventas = body["totalventas"]
+    
+    if "totalpagoprov" in body:
+        caja.totalpagoprov = body["totalpagoprov"]
+    
+    if "observaciones" in body:
+        caja.observaciones  = body["observaciones"]
+   
+    db.session.commit()
+
+    response_body = {"msg": "Caja diaria modificada"}
+    return jsonify(response_body), 200
 
 #####################################################################################
 #####################################################################################

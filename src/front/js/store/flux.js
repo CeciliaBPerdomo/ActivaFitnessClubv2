@@ -1390,6 +1390,25 @@ const getState = ({ getStore, getActions, setStore }) => {
         }
       },
 
+      cajadiariaControlFecha: async (fecha) => {
+        try {
+          const response = await axios.get(
+            direccion + "/api/cajadiariaControlFecha",
+            { fecha: fecha },
+            { headers: { Authorization: "Bearer " + localStorage.getItem("Token") }},
+          );
+          if (response.status === 200) {
+            // Fecha no encontrada
+            return true;
+          } else {
+            // Existe la fecha
+            return false;
+          }
+        } catch (error) {
+          console.error("Error " + error.response.status + ": " + error.response.statusText);
+          return false;
+        }
+      },
       ////////////////////////////////////
       ///       Newsletter             ///
       ////////////////////////////////////

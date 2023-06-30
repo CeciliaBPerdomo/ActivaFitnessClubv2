@@ -160,7 +160,7 @@ export const ModificarMensualidad = () => {
                 </div>
 
                 <br />
-                <div style={{ marginTop: "15px"}}>
+                <div style={{ marginTop: "15px", marginBottom: "70px"}}>
                     <button
                     type="submit"
                     className="btn btn-outline-danger float-end w-25"

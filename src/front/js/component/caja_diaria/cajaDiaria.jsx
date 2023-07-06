@@ -77,8 +77,31 @@ export const CajaDiaria = () => {
                 })
             }
         } else { 
-            console.log("Fecha ya creada")
-            // Actualiza los datos   
+            // Actualiza los datos  
+            let modif = await actions.modificarCajaDiariaPorFecha(fecha, totalIngresos, CantidadAlumnos, 0, totalEgresos, observaciones)
+            if (modif === true) {
+                toast.success("💪 Caja actualizada con éxito", {
+                    position: toast.POSITION.TOP_RIGHT,
+                    autoClose: 1000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "dark",
+                })
+            } else {
+                toast.error("No se pudo registrar el movimiento", {
+                    position: toast.POSITION.TOP_RIGHT,
+                    autoClose: 1000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "dark",
+                })
+            }
         }
     }
 

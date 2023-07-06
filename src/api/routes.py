@@ -451,6 +451,37 @@ def usersModif_porId(user_id):
     response_body = {"msg": "Usuario modificado"}
     return jsonify(response_body), 200
 
+
+# Modifica de un usuario la fecha de vencimiento del proximo pago
+@api.route('/proximovencimiento/<int:user_id>', methods=['PUT'])
+@jwt_required()
+def usersModif_proximoVencimiento(user_id):
+
+    usuario = Usuarios.query.filter_by(id=user_id).first()
+    body = json.loads(request.data)
+
+    if usuario is None:
+        response_body = {"msg": "No existe el usuario"}
+        return jsonify(response_body), 400    
+
+    if "proximovencimiento" in body:
+        usuario.proximovencimiento =  body["proximovencimiento"]
+
+    db.session.commit()
+
+    response_body = {"msg": "Usuario modificado"}
+    return jsonify(response_body), 200
+
+# Muestra el alumno por id
+@api.route('/vencimientos/<string:fechaActual>', methods=['GET'])
+@jwt_required()
+def getVencimientos(fechaActual):
+
+    vencimientos = Usuarios.query.filter(Usuarios.proximovencimiento<fechaActual).all()
+    results = list(map(lambda x: {**x.serializeCuotas(), **x.serialize()}, vencimientos))
+
+    return jsonify(results), 200
+
 #####################################################################################
 #####################################################################################
 ###                                                                               ###
@@ -1008,6 +1039,36 @@ def add_CajaDiaria():
     db.session.commit()
 
     return jsonify(new_caja.serialize()), 200
+
+# Modificar la informacion de caja diaria por fecha
+api.route('/cajadiaria', methods=['PUT'])
+@jwt_required()
+def modificar_CajaDiaria():
+    body = json.loads(request.data)
+    
+    fecha = body["fecha"]
+    caja = CajaDiaria.query.filter_by(fecha=fecha).first()
+
+    if caja is None:
+         return jsonify({"msg": "No hay movimientos para esa fecha"}), 400
+
+    if "totalmensualidades" in body:
+        caja.totalmensualidades = body["totalmensualidades"]
+
+    if "cantidadalumnos" in body:
+        caja.cantidadalumnos = body["cantidadalumnos"]
+    
+    if "totalventas" in body:
+        caja.totalventas = body["totalventas"]
+
+    if "totalpagoprov" in body:
+        caja.totalpagoprov = body["totalpagoprov"],
+    
+    if "observaciones" in body:
+        caja.observaciones  = body["observaciones"]
+
+    db.session.commit()
+    return jsonify({"msg": "Modificación realizada con éxito total"}), 200
 
 # Muestra un movimiento de la caja Diaria por id
 @api.route('/cajadiaria/<int:cajadiaria_id>', methods=['GET'])

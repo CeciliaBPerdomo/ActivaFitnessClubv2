@@ -38,6 +38,7 @@ export const HomeAdministrador = () => {
                                 Listado de modalidades de entrenamiento
                             </Link>
                         </p>
+
                     </div>
                 </div>
 
@@ -77,9 +78,15 @@ export const HomeAdministrador = () => {
                             </Link> 
                             </p> 
                             <p style={{fontSize: "18px", lineHeight: "0px" }}>
-                            <Link to="/ListadoMensualidades" style={{textDecoration: "none", color: "white"}}>   Listado de mensualidades
-                            </Link>
-                        </p>
+                                <Link to="/ListadoMensualidades" style={{textDecoration: "none", color: "white"}}>   Listado de mensualidades
+                                </Link>
+                            </p>
+
+                            <p style={{fontSize: "18px", lineHeight: "25px" }}>
+                                <Link to="/CuotasPendientes" style={{textDecoration: "none", color: "white"}}>   
+                                    Listado de mensualidades pendientes
+                                </Link>
+                            </p>
                     </div>
                 </div>
 

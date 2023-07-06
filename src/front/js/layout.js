@@ -39,6 +39,7 @@ import { ListadoMensualidades } from "./component/mensualidades/ListadoMensualid
 import { CrearMensualidad } from "./component/mensualidades/crearMensualidades.jsx"
 import { ModificarMensualidad } from "./component/mensualidades/modificarMensualidades.jsx"
 import { MensualidadporAlumno } from "./component/mensualidades/mensualidadId.jsx"
+import { CuotasPendientes } from "./component/mensualidades/cuotasPendientes.jsx"
 
 // Productos
 import { ListadoProductos } from "./component/productos/listaProductos.jsx"
@@ -82,6 +83,7 @@ const Layout = () => {
                         <Route element={<CrearCuota />} path="/CrearCuota" />
                         <Route element={<ModificarCuota />} path="/ModificarCuota/:theid" />
                         <Route element={<ListadoCuotas />} path="/ListadoCuotas" />
+                        <Route element={<CuotasPendientes />} path="/CuotasPendientes" />
 
                         {/* Metodos de pagos */}
                         <Route element={<CrearMetodos />} path="/MetodosPago" />

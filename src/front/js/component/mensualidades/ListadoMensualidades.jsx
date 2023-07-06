@@ -3,7 +3,7 @@ import { Context } from "../../store/appContext";
 import { Link } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import dateFormat from "dateformat";
+
 
 export const ListadoMensualidades = () => {
   const { store, actions } = useContext(Context);
@@ -93,14 +93,7 @@ export const ListadoMensualidades = () => {
             <tbody>
               {store.pagos.map((item, id) => (
                 <tr key={id}>
-                  <td>{ item.fechapago
-                  // (new Date(item.fechapago).getDate() + 1)
-                  // + "/" + 
-                  // (new Date(item.fechapago).getMonth() + 1)
-                  // + "/" + 
-                  // (new Date(item.fechapago).getFullYear())
-                  }
-                  </td>
+                  <td>{ item.fechapago }</td>
                   <td>{item.alumnoInfo.nombre} {item.alumnoInfo.apellido}</td>
                   <td>{item.factura}</td>
                   <td>$ {item.monto}</td>

@@ -13,6 +13,7 @@ export const CrearMensualidad = () => {
     const [observaciones, setObservaciones] = useState("")
     const [idusuario, setIdUsuario] = useState("")
     const [idmetodo, setIdMetodo] = useState("")
+    const [proximoVencimiento, setProximoVencimiento] = useState("")
 
     useEffect(() => {
         actions.obtenerAlumnos();
@@ -22,9 +23,12 @@ export const CrearMensualidad = () => {
     const guardarMensualidad = async (e) => {
         e.preventDefault();
 
-        if (idusuario !== "" && fechapago !== "" && monto !== "" & factura !== "" && idmetodo !== "") {
+        if (idusuario !== "" && fechapago !== "" && monto !== "" & factura !== "" && idmetodo !== "" && proximoVencimiento) {
+            
             let valor = await actions.crearMensualidad(fechapago, monto, factura, observaciones, idusuario, idmetodo)
-            if (valor === true) {
+            let modific = await actions.proximoVencimiento(idusuario, proximoVencimiento)
+
+            if (valor === true && modific === true) {
                 toast.success("💪 Guardado con éxito", {
                     position: toast.POSITION.TOP_RIGHT,
                     autoClose: 1500,
@@ -42,6 +46,7 @@ export const CrearMensualidad = () => {
                 setObservaciones("")
                 setIdUsuario("")
                 setIdMetodo("")
+                setProximoVencimiento("")
             } else {
                 toast.error("No se pudo guardar", {
                     position: toast.POSITION.TOP_RIGHT,
@@ -155,6 +160,19 @@ export const CrearMensualidad = () => {
 
                     <br />
                     <div className="row">
+                        {/* Fecha de pago proximo vencimiento */}
+                        <div className="col">
+                            <label htmlFor="fecha" style={{ marginBottom: "10px" }}>
+                                Próximo vencimiento <label style={{color: "red"}}>(Obligatorio)</label>:
+                            </label>
+                            <input
+                                type="date"
+                                className="form-control"
+                                value={proximoVencimiento}
+                                onChange={(e) => setProximoVencimiento(e.target.value)}
+                            />
+                        </div>
+
                         {/* Observaciones */}
                         <div className="col">
                             <label htmlFor="observaciones" style={{ marginBottom: "10px" }}>

@@ -47,7 +47,7 @@ export const CuotasPendientes = () => {
                                     <td>{item.observaciones}</td>
                                 </tr>
                             ))}
-                                </tbody>
+                        </tbody>
                     </table>
                 </div>
                 <ToastContainer />

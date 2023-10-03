@@ -10,6 +10,9 @@ from api.models import Rutina, RutinasAux, Carrito, Ventasonline
 from api.utils import generate_sitemap, APIException
 import json
 
+# Ordenar info
+from sqlalchemy import desc, asc
+
 # .env
 import os
 
@@ -472,7 +475,7 @@ def usersModif_proximoVencimiento(user_id):
     response_body = {"msg": "Usuario modificado"}
     return jsonify(response_body), 200
 
-# Muestra el alumno por id
+# Muestra las mensualidades pendientes
 @api.route('/vencimientos/<string:fechaActual>', methods=['GET'])
 @jwt_required()
 def getVencimientos(fechaActual):
@@ -481,6 +484,27 @@ def getVencimientos(fechaActual):
     results = list(map(lambda x: {**x.serializeCuotas(), **x.serialize()}, vencimientos))
 
     return jsonify(results), 200
+
+# Muestra los cumpleaños
+@api.route('/cumples', methods=['GET'])
+@jwt_required()
+def cumples():
+
+    body = json.loads(request.data)
+    # Obtiene el dia y el mes de la fecha actual
+    fechaActual = body["fechaActual"]
+    fechaActual = (fechaActual.split("-"))
+                    # Mes                   Dia
+    fechaActual = fechaActual[1] + "-" + fechaActual[2]
+
+    # fechaCumple = (Usuarios.fechanacimiento.split("-"))
+    # fechaCumple = fechaCumple[1] + "-" + fechaCumple[2]
+
+    # cumples = Usuarios.query.filter(fechaCumple == fechaActual).all()
+    # print (cumples)
+    #results = list(map(lambda x: {**x.serializeCuotas(), **x.serialize()}, vencimientos))
+
+    return (fechaActual), 200
 
 #####################################################################################
 #####################################################################################
@@ -493,9 +517,32 @@ def getVencimientos(fechaActual):
 @api.route('/mensualidades', methods=['GET'])
 @jwt_required()
 def getMensualidades():
-    mensualidades = Mensualidades.query.all()
+    mensualidades = Mensualidades.query.order_by(desc(Mensualidades.fechapago)).all()
     results = list(map(lambda x: {**x.serializeAlumnos(), **x.serialize()}, mensualidades))
     return jsonify(results), 200
+
+# Muestra los pagos ordenados en forma descendente (de mayor a menor)
+@api.route('/mensualidades/desc', methods=['GET'])
+@jwt_required()
+def getMensualidades_desc():
+    mensualidades = Mensualidades.query.order_by(desc(Mensualidades.factura)).all()
+    results = list(map(lambda x: {**x.serializeAlumnos(), **x.serialize()}, mensualidades))
+    return jsonify(results), 200
+
+# Muestra los pagos ordenados en forma ascendente (de menor a mayor)
+@api.route('/mensualidades/asc', methods=['GET'])
+@jwt_required()
+def getMensualidades_asc():
+    mensualidades = Mensualidades.query.order_by(asc(Mensualidades.factura)).all()
+    results = list(map(lambda x: {**x.serializeAlumnos(), **x.serialize()}, mensualidades))
+    return jsonify(results), 200
+
+# Muestra la numeracion menor de las facturas
+@api.route('/mensualidades/menor', methods=['GET'])
+@jwt_required()
+def getMensualidades_menor():
+    factura = Mensualidades.query.order_by(asc(Mensualidades.factura)).first()
+    return (factura.serialize()), 200
 
 # Alta de un pago
 @api.route('/mensualidades', methods=['POST'])

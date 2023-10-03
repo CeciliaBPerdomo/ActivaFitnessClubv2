@@ -28,6 +28,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       auth: {},
       errorLogin: {},
       vencimientos: [],
+      factura: {}
     },
 
     actions: {
@@ -689,6 +690,30 @@ const getState = ({ getStore, getActions, setStore }) => {
         }
       },
       
+      // Generar link de imgur
+      guardarImagen: async (imagen) => {
+        try {
+          const response = await fetch("https://api.imgur.com/3/upload", {
+            method: "POST",
+            headers: {
+              Authorization: "Client-ID " + process.env.IMGUR_CLIENT_ID,
+            }, 
+            body: imagen,
+          })
+          const data = await response.json()
+          console.log(data)
+          
+          if(data.status == 403) {
+            return data.data.error
+          }
+
+          const imagenLink = data.data.link
+          console.log(imagenLink)
+        } catch(err){
+          console.error(data.data.error)
+          return false
+        }
+      },
 
       ////////////////////////////////////
       //       Mensualidades           ///
@@ -714,6 +739,48 @@ const getState = ({ getStore, getActions, setStore }) => {
         }
       },
 
+      // Ordena las mensualidades de mayor a menor
+      ordenarMensualidadesDesc: async () => {
+        try {
+          const response = await axios.get(
+            direccion + "/api/mensualidades/desc",
+            {
+              headers: {
+                Authorization: "Bearer " + localStorage.getItem("Token"),
+              },
+            },
+          );
+          setStore({
+            pagos: response.data,
+          });
+        } catch (error) {
+          if (error.code === "ERR_BAD_REQUEST") {
+            console.log(error.response.data.msg);
+          }
+        }
+      },
+
+       // Ordena las mensualidades de mayor a menor
+       ordenarMensualidadesAsc: async () => {
+        try {
+          const response = await axios.get(
+            direccion + "/api/mensualidades/asc",
+            {
+              headers: {
+                Authorization: "Bearer " + localStorage.getItem("Token"),
+              },
+            },
+          );
+          setStore({
+            pagos: response.data,
+          });
+        } catch (error) {
+          if (error.code === "ERR_BAD_REQUEST") {
+            console.log(error.response.data.msg);
+          }
+        }
+      },
+      
       /* Crea Mensualidad */
       crearMensualidad: async (
         fechapago,
@@ -882,6 +949,26 @@ const getState = ({ getStore, getActions, setStore }) => {
         }
       },
 
+      // Obtener el numero de la factura menor
+      obtenerMenorFactura: async() => {
+        try {
+          const response = await axios.get(
+            direccion + "/api/mensualidades/asc",
+            {
+              headers: {
+                Authorization: "Bearer " + localStorage.getItem("Token"),
+              },
+            },
+          );
+          setStore({
+            factura: response.data[0].factura,
+          });
+        } catch (error) {
+          if (error.code === "ERR_BAD_REQUEST") {
+            console.log(error.response.data.msg);
+          }
+        }
+      }, 
       ////////////////////////////////////
       //       Productos               ///
       ////////////////////////////////////

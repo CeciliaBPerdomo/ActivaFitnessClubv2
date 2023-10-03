@@ -18,6 +18,7 @@ export const CrearMensualidad = () => {
     useEffect(() => {
         actions.obtenerAlumnos();
         actions.obtenerMetodos()
+        actions.obtenerMenorFactura()
     }, []);
 
     const guardarMensualidad = async (e) => {
@@ -73,6 +74,8 @@ export const CrearMensualidad = () => {
         }
     }
 
+    let ultima = "Última factura: " + store.factura
+    
     return (
         <>
             <div className="container">
@@ -135,7 +138,7 @@ export const CrearMensualidad = () => {
                             <input
                                 type="text"
                                 className="form-control"
-                                placeholder="Número de factura"
+                                placeholder={ultima}
                                 value={factura}
                                 onChange={(e) => setFactura(e.target.value)}
                             />

@@ -83,7 +83,22 @@ export const ListadoMensualidades = () => {
               <tr>
                 <th scope="col">Fecha de pago</th>
                 <th scope="col">Alumno</th>
-                <th scope="col">Factura</th>
+                <th scope="col">Factura 
+                  
+                  <button type="button" 
+                    className="btn btn-outline-danger btn-sm" 
+                    style={{marginLeft: "5px", fontSize: "12px"}}
+                    onClick={() => actions.ordenarMensualidadesDesc()}>
+                       ↑ 
+                  </button>
+                  
+                  <button type="button" 
+                    className="btn btn-outline-danger btn-sm" 
+                    style={{marginLeft: "5px", fontSize: "12px"}}
+                    onClick={() => actions.ordenarMensualidadesAsc()}>
+                     ↓ 
+                  </button>
+                </th>
                 <th scope="col">Monto</th>
                 <th scope="col">Observaciones</th>
                 <th scope="col" className="text-center"></th>

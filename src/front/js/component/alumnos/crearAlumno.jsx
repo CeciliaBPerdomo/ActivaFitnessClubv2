@@ -37,7 +37,19 @@ export const CrearAlumno = () => {
   const guardar = async (e) => {
       e.preventDefault();
 
+        // if (foto !== "") {
+        //   const formData = new FormData()
+        //   formData.append('image', foto)
+          
+        //    let imagenLink = await actions.guardarImagen(formData)
+        //    console.log(imagenLink)
+        // }
+
       if (cedula !== "" && nombre !=="" && apellido !== "" && direccion !=="" && activo !=="" && mutualista !=="" && email !=="" && cuota !==""){ 
+       
+        // Crear link de imgur para las imagenes
+       
+       
         let resultado = await actions.crearAlumnos(
           cedula,
           nombre,
@@ -95,8 +107,23 @@ export const CrearAlumno = () => {
           setCuota("")
           setRol("" )
           setObservaciones("")
+
+        // Problemas para guardar
+        } else {
+          toast.error("No se puede guardar", {
+            position: toast.POSITION.TOP_RIGHT,
+            autoClose: 1000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+          });
+        }
+    // Si faltan datos
       } else {
-        toast.error("No se puede guardar", {
+        toast.error("Faltan completar datos", {
           position: toast.POSITION.TOP_RIGHT,
           autoClose: 1000,
           hideProgressBar: false,
@@ -107,18 +134,6 @@ export const CrearAlumno = () => {
           theme: "dark",
         });
       }
-  } else {
-    toast.error("Faltan completar datos", {
-      position: toast.POSITION.TOP_RIGHT,
-      autoClose: 1000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "dark",
-    });
-  }
   };
 
   return (

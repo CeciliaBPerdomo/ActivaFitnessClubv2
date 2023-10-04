@@ -1182,6 +1182,35 @@ def modificar_Caja():
 #####################################################################################
 #####################################################################################
 ###                                                                               ###
+###                   BALANCE MENSUAL                                             ###
+###                                                                               ###
+#####################################################################################
+#####################################################################################
+
+# Muestra todos los movimientos de la caja Diaria
+@api.route('/balanceMensual', methods=['GET'])
+@jwt_required()
+def get_balanceMensual():
+    cajaMensual = CajaMensual.query.all()
+    results = list(map(lambda x: x.serialize(), cajaMensual))
+    return jsonify(results), 200
+
+# Busca los movimientos de la caja diaria por fecha
+@api.route('/rangoFechas', methods=['GET'])
+@jwt_required()
+def get_rangoFechas():
+    body = json.loads(request.data)
+    fechaInicio = body["fechaInicio"]
+    fechaFin = body["fechaFin"]
+
+    caja = CajaDiaria.query.filter(CajaDiaria.fecha>=fechaInicio).filter(CajaDiaria.fecha<=fechaFin).all()
+    results = list(map(lambda x: x.serialize(), caja))
+
+    return jsonify(results), 200
+
+#####################################################################################
+#####################################################################################
+###                                                                               ###
 ###                   INICIO DE SESION                                            ###
 ###                                                                               ###
 #####################################################################################

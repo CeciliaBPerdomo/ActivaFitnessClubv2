@@ -28,7 +28,9 @@ const getState = ({ getStore, getActions, setStore }) => {
       auth: {},
       errorLogin: {},
       vencimientos: [],
-      factura: {}
+      factura: {},
+      mensual: [],
+      movimientosMensuales: [],
     },
 
     actions: {
@@ -1676,6 +1678,59 @@ const getState = ({ getStore, getActions, setStore }) => {
         }
       },
 
+      ////////////////////////////////////
+      //       Balance mensual         ///
+      ////////////////////////////////////
+      /* Listar balance Mensual */
+      obtenerBalanceMensual: async () => {
+        try {
+          const response = await axios.get(direccion + "/api/balanceMensual", {
+            headers: {
+              Authorization: "Bearer " + localStorage.getItem("Token"),
+            },
+          });
+          setStore({
+            mensual: response.data,
+          });
+          if (response.status === 200) {
+            return true;
+          }
+        } catch (error) {
+          console.error(
+            "Error " + error.response.status + ": " + error.response.statusText,
+          );
+          return false;
+        }
+      },
+
+      // Movimientos mensuales
+      obtenerMovimientosMensuales: async (fechaInicio, fechaFin) => {
+        try {
+          const response = await axios.get(
+            direccion + "/api/rangoFechas",
+            {
+              fechaInicio: fechaInicio,
+              fechaFin: fechaFin
+            },
+            {
+              headers: {
+                Authorization: "Bearer " + localStorage.getItem("Token"),
+              },
+            },
+          );
+          setStore({
+            movimientosMensuales: response.data,
+          });
+          if (response.status === 200) {
+            return true;
+          }
+        } catch (error) {
+          console.error(
+            "Error " + error.response.status + ": " + error.response.statusText,
+          );
+          return false;
+        }
+      },
       ////////////////////////////////////
       ///       Newsletter             ///
       ////////////////////////////////////

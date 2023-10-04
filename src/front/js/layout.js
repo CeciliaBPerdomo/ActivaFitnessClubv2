@@ -62,6 +62,8 @@ import { ListadoPagoPorProveedor } from "./component/pago_proveedor/listadoPorPr
 // Caja Diaria
 import { CajaDiaria } from "./component/caja_diaria/cajaDiaria.jsx"   
 import { ResumenCajaDiaria } from "./component/caja_diaria/resumen_caja.jsx"
+import { BalanceMensual } from "./component/caja_diaria/resumen_mensual.jsx";
+import { CierreMensual } from "./component/caja_diaria/cierreMensual.jsx";
 
 //create your first component
 const Layout = () => {
@@ -128,6 +130,8 @@ const Layout = () => {
                         {/* Caja Diaria */}
                         <Route element={<CajaDiaria />} path="/movimientosDiarios" />
                         <Route element={<ResumenCajaDiaria />} path="/resumenMovimientos" />
+                        <Route element={<BalanceMensual />} path="/balanceMensual" />
+                        <Route element={<CierreMensual />} path="/cierreMensual" />
 
                         {/* InicionSesion */}
                         <Route element={<InicioSesion />} path="iniciosesion" />

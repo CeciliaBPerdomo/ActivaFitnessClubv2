@@ -57,6 +57,18 @@ export const MenuAdministrador = () => {
                         - Resumen de movimientos diarios
                     </Link>
                 </p>
+
+                <p style={{ fontSize: "15px", lineHeight: "7px", marginLeft: "10px" }}>
+                    <Link to="/cierreMensual" style={{ textDecoration: "none", color: "white" }}>
+                        - Cierre balance mensual
+                    </Link>
+                </p>
+
+                <p style={{ fontSize: "15px", lineHeight: "7px", marginLeft: "10px" }}>
+                    <Link to="/balanceMensual" style={{ textDecoration: "none", color: "white" }}>
+                        - Balance mensual
+                    </Link>
+                </p>
                 <br />
 
                 {/* Mensualidades / Cuotas */}

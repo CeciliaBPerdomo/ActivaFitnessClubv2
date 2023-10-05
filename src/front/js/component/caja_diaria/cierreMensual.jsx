@@ -10,6 +10,12 @@ export const CierreMensual = () => {
     const [fechaFin, setFechaFin] = useState("")
     const [observaciones, setObservaciones] = useState("")
 
+    let totalIngresos = 0   // Por mensualidades
+    let CantidadAlumnos = 0
+    let totalEgresos = 0
+    let totalMen = 0
+    let totalVen = 0
+
     useEffect(() => {
         // actions.obtenerBalanceMensual();
     }, []);
@@ -65,6 +71,31 @@ export const CierreMensual = () => {
     // Guardar movimientos
     const guardarMovimientos = async (e) => {
         e.preventDefault()
+        let resultado = await actions.cerrarCajaMensual(fechaFin, totalMen, CantidadAlumnos, totalVen, totalEgresos, observaciones)
+
+        if (resultado === true) {
+            toast.success("💪 Balance mensual registrado con éxito", {
+                position: toast.POSITION.TOP_RIGHT,
+                autoClose: 1000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+            })
+        } else {
+            toast.error("No se pudo registrar el movimiento", {
+                position: toast.POSITION.TOP_RIGHT,
+                autoClose: 1000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+            })
+        }
     }
 
 
@@ -134,18 +165,25 @@ export const CierreMensual = () => {
                                 <tbody>
                                     {store.movimientosMensuales.map((item, id) => (
                                         <tr key={id}>
-                                            <td>{fecha}</td>
+                                            <td>{moment(item.fecha).format("DD-MM-YYYY")}</td>
                                             <td>{item.cantidadalumnos}</td>
                                             <td>$ {item.totalmensualidades}</td>
                                             <td>$ {item.totalventas}</td>
                                             <td>$ {item.totalpagoprov}</td>
+                                            <td>$ {(item.totalmensualidades + item.totalventas) - item.totalpagoprov}</td>
+                                            <td>{item.observaciones}</td>
+
+                                            {/* Calculo de totales */}
                                             <td style={{
                                                 visibility: "collapse",
                                                 display: "none"
                                             }}>
-                                                {/* {totalIngresos = totalIngresos + parseInt(item.monto)} */}
+                                                {totalIngresos = totalIngresos + parseInt(item.totalmensualidades) + parseInt(item.totalventas)}
+                                                {CantidadAlumnos = CantidadAlumnos + parseInt(item.cantidadalumnos)}
+                                                {totalEgresos = totalEgresos + parseInt(item.totalpagoprov)}
+                                                {totalMen = totalMen + parseInt(item.totalmensualidades)}
+                                                {totalVen = totalVen + parseInt(item.totalventas)}
                                             </td>
-                                            <td>{item.observaciones}</td>
                                         </tr>
                                     ))}
                                 </tbody>
@@ -156,10 +194,8 @@ export const CierreMensual = () => {
 
                     <br /> <br />
                     <div className="row">
-                        {/* Ventas */}
+                        {/* Division para que quede del otro lado, boluda */}
                         <div className="col">
-                            {/* <b style={{color: "red"}}>Ingresos (Ventas)</b> */}
-                            {/* <hr /> */}
                         </div>
 
                         <div className="col">
@@ -171,7 +207,7 @@ export const CierreMensual = () => {
                                         Cantidad de alumnos:
                                     </div>
                                     <div className="col text-start">
-                                        {/* {CantidadAlumnos} */}
+                                        {CantidadAlumnos}
                                     </div>
                                 </div>
 
@@ -180,7 +216,7 @@ export const CierreMensual = () => {
                                         Total de ingresos:
                                     </div>
                                     <div className="col text-start">
-                                        {/* $ {totalIngresos} */}
+                                        $ {totalIngresos}
                                     </div>
                                 </div>
 
@@ -189,7 +225,7 @@ export const CierreMensual = () => {
                                         Total de egresos:
                                     </div>
                                     <div className="col text-start">
-                                        {/* $ {totalEgresos} */}
+                                        $ {totalEgresos}
                                     </div>
                                 </div>
 
@@ -199,7 +235,7 @@ export const CierreMensual = () => {
                                         Total:
                                     </div>
                                     <div className="col text-start">
-                                        {/* <b style={{ color: "red" }}>$ {totalIngresos - totalEgresos}</b> */}
+                                        <b style={{ color: "red" }}>$ {totalIngresos - totalEgresos}</b>
                                     </div>
                                 </div>
                             </div>
@@ -211,27 +247,27 @@ export const CierreMensual = () => {
 
                 <br /><br />
 
-{/* Observaciones */}
+                {/* Observaciones */}
                 <div className="container d-flex justify-content-end">
-                <input type="text"
-                    className="form-control w-50"
-                    placeholder="Observaciones"
-                    value={observaciones}
-                    onChange={(e) => setObservaciones(e.target.value)}
-                />
-            </div>
-            <br />
+                    <input type="text"
+                        className="form-control w-50"
+                        placeholder="Observaciones"
+                        value={observaciones}
+                        onChange={(e) => setObservaciones(e.target.value)}
+                    />
+                </div>
+                <br />
 
 
-                        {/* cerrar balance mensual */}
-                        <div className="container text-end">
-                <button
-                    type="submit"
-                    className="btn btn-outline-danger w-50"
-                    onClick={(e) => guardarMovimientos(e)}
-                > Cerrar balance mensual
-                </button>
-            </div>
+                {/* cerrar balance mensual */}
+                <div className="container text-end">
+                    <button
+                        type="submit"
+                        className="btn btn-outline-danger w-50"
+                        onClick={(e) => guardarMovimientos(e)}
+                    > Cerrar balance mensual
+                    </button>
+                </div>
 
 
             </div>

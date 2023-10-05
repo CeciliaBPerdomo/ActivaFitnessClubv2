@@ -1191,22 +1191,44 @@ def modificar_Caja():
 @api.route('/balanceMensual', methods=['GET'])
 @jwt_required()
 def get_balanceMensual():
-    cajaMensual = CajaMensual.query.all()
+    # order_by(desc(Mensualidades.fechapago))
+    cajaMensual = CajaMensual.query.order_by(desc(CajaMensual.fecha)).all()
     results = list(map(lambda x: x.serialize(), cajaMensual))
     return jsonify(results), 200
 
 # Busca los movimientos de la caja diaria por fecha
-@api.route('/rangoFechas', methods=['GET'])
-@jwt_required()
-def get_rangoFechas():
-    body = json.loads(request.data)
-    fechaInicio = body["fechaInicio"]
-    fechaFin = body["fechaFin"]
-
+@api.route('/rangoFechas/<string:fechaInicio>/<string:fechaFin>', methods=['GET'])
+# @jwt_required()
+def get_rangoFechas(fechaInicio, fechaFin):
     caja = CajaDiaria.query.filter(CajaDiaria.fecha>=fechaInicio).filter(CajaDiaria.fecha<=fechaFin).all()
     results = list(map(lambda x: x.serialize(), caja))
 
+    if results is None: 
+        response_body = {"msg": "No hay movimientos para ese rango de fechas"}
+        return jsonify(response_body), 200
+    
     return jsonify(results), 200
+
+# Alta de balance mensual
+@api.route('/balanceMensual', methods=['POST'])
+@jwt_required()
+def add_balanceMensual():
+    body = json.loads(request.data)
+
+    new_caja = CajaMensual(
+    fecha = body["fecha"], 
+    totalmensualidades = body["totalmensualidades"],
+    cantidadalumnos = body["cantidadalumnos"],
+    # P E N D I E N T E
+    totalventas = body["totalventas"],
+    totalpagoprov = body["totalpagoprov"],
+    observaciones  = body["observaciones"])
+
+    db.session.add(new_caja)
+    db.session.commit()
+
+    return jsonify(new_caja.serialize()), 200
+
 
 #####################################################################################
 #####################################################################################

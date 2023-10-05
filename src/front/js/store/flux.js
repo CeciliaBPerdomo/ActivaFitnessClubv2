@@ -1707,11 +1707,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       obtenerMovimientosMensuales: async (fechaInicio, fechaFin) => {
         try {
           const response = await axios.get(
-            direccion + "/api/rangoFechas",
-            {
-              fechaInicio: fechaInicio,
-              fechaFin: fechaFin
-            },
+            direccion + "/api/rangoFechas/" + fechaInicio + "/" + fechaFin, {},
             {
               headers: {
                 Authorization: "Bearer " + localStorage.getItem("Token"),
@@ -1731,6 +1727,41 @@ const getState = ({ getStore, getActions, setStore }) => {
           return false;
         }
       },
+
+      /* Cerrar caja Mensual */
+      cerrarCajaMensual: async (
+        fecha,
+        totalmensualidades,
+        cantidadalumnos,
+        totalventas,
+        totalpagoprov,
+        observaciones,
+      ) => {
+        try {
+          const response = await axios.post(direccion + "/api/balanceMensual", {
+            fecha: fecha,
+            totalmensualidades: totalmensualidades,
+            cantidadalumnos: cantidadalumnos,
+            totalventas: totalventas,
+            totalpagoprov: totalpagoprov,
+            observaciones: observaciones,
+          }, {
+            headers: {
+              Authorization: "Bearer " + localStorage.getItem("Token"),
+            },
+          });
+          if (response.status === 200) {
+            return true;
+          }
+        } catch (error) {
+          console.error(
+            "Error " + error.response.status + ": " + error.response.statusText,
+          );
+          return false;
+        }
+      },
+
+
       ////////////////////////////////////
       ///       Newsletter             ///
       ////////////////////////////////////

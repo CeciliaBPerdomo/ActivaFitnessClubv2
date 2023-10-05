@@ -59,11 +59,12 @@ import { ListadoPagoProveedores } from "./component/pago_proveedor/listadoPagoPr
 import { ModificarPagoProveedor } from "./component/pago_proveedor/modificarPagoProveedor.jsx"
 import { ListadoPagoPorProveedor } from "./component/pago_proveedor/listadoPorProveedor.jsx"
 
-// Caja Diaria
+// Caja Diaria  - Balance Mensual
 import { CajaDiaria } from "./component/caja_diaria/cajaDiaria.jsx"   
 import { ResumenCajaDiaria } from "./component/caja_diaria/resumen_caja.jsx"
 import { BalanceMensual } from "./component/caja_diaria/resumen_mensual.jsx";
 import { CierreMensual } from "./component/caja_diaria/cierreMensual.jsx";
+import { Instructivo } from "./component/caja_diaria/instructivo.jsx";
 
 //create your first component
 const Layout = () => {
@@ -127,11 +128,12 @@ const Layout = () => {
                         <Route element={<ModificarPagoProveedor />} path="/ModificarPagoProveedor/:theid" />
                         <Route element={<ListadoPagoPorProveedor />} path="/ListadoPagoPorProveedor" />
 
-                        {/* Caja Diaria */}
+                        {/* Caja Diaria - Balance Mensual */}
                         <Route element={<CajaDiaria />} path="/movimientosDiarios" />
                         <Route element={<ResumenCajaDiaria />} path="/resumenMovimientos" />
                         <Route element={<BalanceMensual />} path="/balanceMensual" />
                         <Route element={<CierreMensual />} path="/cierreMensual" />
+                        <Route element={<Instructivo />} path="/instructivo" />
 
                         {/* InicionSesion */}
                         <Route element={<InicioSesion />} path="iniciosesion" />

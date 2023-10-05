@@ -66,14 +66,14 @@ export const MenuAdministrador = () => {
 
                 <p style={{ fontSize: "15px", lineHeight: "7px", marginLeft: "10px" }}>
                     <Link to="/balanceMensual" style={{ textDecoration: "none", color: "white" }}>
-                        - Balance mensual
+                        - Resumen de balance mensual
                     </Link>
                 </p>
 
                 <p style={{ fontSize: "15px", lineHeight: "7px", marginLeft: "10px" }}>
-                    {/* <Link to="/balanceMensual" style={{ textDecoration: "none", color: "white" }}> */}
+                    <Link to="/instructivo" style={{ textDecoration: "none", color: "white" }}>
                         - Instrucciones para realizar los cierres
-                    {/* </Link> */}
+                    </Link>
                 </p>
                 <br />
 

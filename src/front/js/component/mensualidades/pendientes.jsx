@@ -28,7 +28,7 @@ export const Pendientes = () => {
                                 <th scope="col" className="text-center">Modalidad</th>
                                 <th scope="col" className="text-center">Monto</th>
                                 <th scope="col" className="text-center">Vencimiento factura</th>
-                                <th scope="col">Observaciones</th>
+                                {/* <th scope="col">Observaciones</th> */}
                             </tr>
                         </thead>
 
@@ -39,7 +39,7 @@ export const Pendientes = () => {
                                     <td className="text-center">{item.cuotasInfo.descripcion}</td>
                                     <td className="text-center">$ {item.cuotasInfo.precio}</td>
                                     <td className="text-center">{item.proximovencimiento}</td>
-                                    <td>{item.observaciones}</td>
+                                    {/* <td>{item.observaciones}</td> */}
                                 </tr>
                             ))}
                         </tbody>

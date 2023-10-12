@@ -3,9 +3,6 @@ import { Context } from "../../store/appContext";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import moment from "moment";
-import ReactPDF, { Page, Text, View, Document, StyleSheet, PDFViewer } from '@react-pdf/renderer';
-import { Viewer } from '@react-pdf-viewer/core';
-import '@react-pdf-viewer/core/lib/styles/index.css';
 import { jsPDF } from "jspdf";
 import activa from "../../../img/LogoSinFondo.png"
 import autoTable from 'jspdf-autotable'
@@ -110,24 +107,32 @@ export const CierreMensual = () => {
     const imprimir = () => {
         // Default export is a4 paper, portrait, using millimeters for units
         const doc = new jsPDF();
-        doc.text("Balance mensual", 75, 20 )
-
-        let data = []
+        
+        let data = []           // Array de info
         let totalDiario = 0
-        let fecha = ""
+        let i = 50              // Renglones
+        let fecha = ""          // Para formatear la fecha
+        let fechaActual = moment().format('DD-MM-YYYY')
 
-        //doc.addImage(activa.type.image, "PNG", 5, 0, 50, 50);
+        doc.text("Balance mensual " + fechaActual , 75, 20 )
+        //let imgData = {activa}
+
+        //doc.addImage(imgData, "PNG", 5, 0, 50, 50);
 
         docImprimir.map((item, id) => {
             totalDiario = (item.totalmensualidades + item.totalventas) - item.totalpagoprov
             fecha = item.fecha.slice(5, 16)
-            // doc.text(10, i, fecha); // i posicion en el renglon
-            // i = i + 10
-            // doc.text(10, i, cantidad);
-            // i = i + 10
+            i = i + 10 // Contador para cantidad del renglon
 
-            data = [...data, [fecha, item.cantidadalumnos, item.totalmensualidades, item.totalventas, item.totalpagoprov, totalDiario]]
-           // doc.text("", 10, 10)
+            // Informacion para la tabla
+            data = [...data, [
+                fecha, 
+                item.cantidadalumnos, 
+                "$ " + item.totalmensualidades, 
+                "$ " + item.totalventas, 
+                "$ " + item.totalpagoprov, 
+                "$ " + totalDiario]
+            ], "Total alumnos: " + CantidadAlumnos
             
         })
 
@@ -135,11 +140,24 @@ export const CierreMensual = () => {
 
         doc.autoTable({
             startY: 30,
+            styles: { cellWidth: "wrap" },
+            headStyles: {halign: 'center'}, // Centra los titulos
+            bodyStyles: {halign: "center"}, // Centra la info de la tabla
+
             head: [columns],
             body: data
         })
 
-        doc.save("balanceMensual.pdf");
+        doc.setFontSize(10)
+        doc.text("Total de alumnos: " + CantidadAlumnos, 160, i)
+        doc.text("Total de ingresos: $ " + totalIngresos, 150, (i + 5))
+        doc.text("Total de egresos: $ " + totalEgresos, 150, (i + 10))
+
+        doc.setFontSize(11)
+        doc.setTextColor(0,0,255)
+        doc.text("Total de mensual: $ " + totalMen, 150, (i + 20))
+
+        doc.save("balanceMensual " + fechaActual + ".pdf");
     }
 
 

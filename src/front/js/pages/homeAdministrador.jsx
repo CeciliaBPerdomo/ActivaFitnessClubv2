@@ -1,12 +1,23 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import logoActiva from "../../img/LogoSinFondo.png"
+import React, { useContext, useEffect, useState } from "react";
+import { Context } from "../store/appContext";
+
+
+// Componentes
 import { MenuAdministrador } from "./menuAdministrador.jsx";
 import { Pendientes } from "../component/mensualidades/pendientes.jsx"
+import { Cumples } from "../component/alumnos/cumple.jsx";
+
+// Fecha
 import moment from "moment";
 
 
 export const HomeAdministrador = () => {
+    const { store, actions } = useContext(Context);
+
+    useEffect(() => {
+        //actions.clima()
+    }, [])
+
 	return (
 		<>
 		<div className="container">
@@ -16,24 +27,34 @@ export const HomeAdministrador = () => {
                     <MenuAdministrador />            
                 </div>
                 
-                <div className="col-1">
-
-                </div>
+                {/* Separacion entre columnas */}
+                <div className="col-1"></div>
 
                 <div className="col-8">
+                    {/* Fecha actual */}
                     <p className="text-end" style={{fontSize: "18px"}}>
                         {moment().format('DD/MM/YYYY')}
                     </p>
                     
                     <hr />
 
+                    {/* Cumples */}
+                    <div className="container bg-danger bg-opacity-10 border border-danger rounded border-2"
+                        style={{paddingTop: "10px"}}>
+                        <p style={{fontSize: "18px"}}>
+                            <b>🎂 Cumpleaños de hoy</b> 
+                        </p>
+                        <hr />
+                        <Cumples />
+                    </div>
+                    
+                    <br />
+
+                    {/* Fin de rutinas */}
+
+                    {/* Mensualidades pendientes */}
                     <div className="container bg-danger bg-opacity-10 border border-danger rounded border-2"
                     style={{paddingTop: "10px"}}>
-                        {/* Cumples */}
-
-                        {/* Fin de rutinas */}
-                        
-                        {/* Mensualidades pendientes */}
                         <p style={{fontSize: "18px"}}>
                             <b>
                                 Mensualidades pendientes
@@ -42,6 +63,7 @@ export const HomeAdministrador = () => {
                         <hr />
                         < Pendientes />
                     </div>
+
                 </div>
 
             </div>

@@ -3,12 +3,19 @@ import { Context } from "../../store/appContext";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import moment from "moment";
+import ReactPDF, { Page, Text, View, Document, StyleSheet, PDFViewer } from '@react-pdf/renderer';
+import { Viewer } from '@react-pdf-viewer/core';
+import '@react-pdf-viewer/core/lib/styles/index.css';
+import { jsPDF } from "jspdf";
+import activa from "../../../img/LogoSinFondo.png"
+import autoTable from 'jspdf-autotable'
 
 export const CierreMensual = () => {
     const { store, actions } = useContext(Context)
     const [fechaInicio, setFechaInicio] = useState("")
     const [fechaFin, setFechaFin] = useState("")
     const [observaciones, setObservaciones] = useState("")
+    const [docImprimir, setDocImprimir] = useState([])
 
     let totalIngresos = 0   // Por mensualidades
     let CantidadAlumnos = 0
@@ -26,6 +33,7 @@ export const CierreMensual = () => {
 
         if (fechaInicio !== "" && fechaFin !== "") {
             await actions.obtenerMovimientosMensuales(fechaInicio, fechaFin)
+            setDocImprimir(store.movimientosMensuales)
         } else {
             if (fechaInicio == "" && fechaFin == "") {
                 toast.error("No seleccionaste ninguna fecha", {
@@ -96,6 +104,42 @@ export const CierreMensual = () => {
                 theme: "dark",
             })
         }
+    }
+
+    // Imprimir 
+    const imprimir = () => {
+        // Default export is a4 paper, portrait, using millimeters for units
+        const doc = new jsPDF();
+        doc.text("Balance mensual", 75, 20 )
+
+        let data = []
+        let totalDiario = 0
+        let fecha = ""
+
+        //doc.addImage(activa.type.image, "PNG", 5, 0, 50, 50);
+
+        docImprimir.map((item, id) => {
+            totalDiario = (item.totalmensualidades + item.totalventas) - item.totalpagoprov
+            fecha = item.fecha.slice(5, 16)
+            // doc.text(10, i, fecha); // i posicion en el renglon
+            // i = i + 10
+            // doc.text(10, i, cantidad);
+            // i = i + 10
+
+            data = [...data, [fecha, item.cantidadalumnos, item.totalmensualidades, item.totalventas, item.totalpagoprov, totalDiario]]
+           // doc.text("", 10, 10)
+            
+        })
+
+        const columns = ["Fecha", "Cantidad de alumnos", "Mensualidades", "Ventas", "Proveedores", "Total"]
+
+        doc.autoTable({
+            startY: 30,
+            head: [columns],
+            body: data
+        })
+
+        doc.save("balanceMensual.pdf");
     }
 
 
@@ -263,9 +307,16 @@ export const CierreMensual = () => {
                 <div className="container text-end">
                     <button
                         type="submit"
-                        className="btn btn-outline-danger w-50"
+                        className="btn btn-outline-danger"
+                        style={{ marginRight: "5px" }}
                         onClick={(e) => guardarMovimientos(e)}
                     > Cerrar balance mensual
+                    </button>
+                    <button
+                        type="button"
+                        className="btn btn-outline-danger"
+                        onClick={() => imprimir()}
+                    > <i className="fa fa-print"></i>
                     </button>
                 </div>
 

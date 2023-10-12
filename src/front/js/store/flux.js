@@ -446,6 +446,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           setStore({
             alumnos: response.data,
           });
+          return true
         } catch (error) {
           if (error.code === "ERR_BAD_REQUEST") {
             console.log(error.response.data.msg);
@@ -971,6 +972,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           }
         }
       }, 
+
       ////////////////////////////////////
       //       Productos               ///
       ////////////////////////////////////
@@ -1761,6 +1763,29 @@ const getState = ({ getStore, getActions, setStore }) => {
         }
       },
 
+      /* Borrar balance mensual */
+      borrarBalanceMensual: async (id) => {
+        try {
+          const response = await axios.delete(
+            direccion + "/api/balanceMensual/" + id,
+            {
+              headers: {
+                Authorization: "Bearer " + localStorage.getItem("Token"),
+              },
+            },
+          );
+          getActions().obtenerBalanceMensual();
+          if (response.status === 200) {
+            return true;
+          }
+        } catch (error) {
+          console.error(
+            "Error " + error.response.status + ": " + error.response.statusText,
+          );
+          return false;
+        }
+      },
+
 
       ////////////////////////////////////
       ///       Newsletter             ///
@@ -1788,6 +1813,26 @@ const getState = ({ getStore, getActions, setStore }) => {
         } catch (error) {
           console.log(error);
         }
+      },
+
+      ////////////////////////////////////
+      ///         Clima                ///
+      ////////////////////////////////////
+      //Clima
+      clima: async() => {
+        const params = {
+          access_key: process.env.CLIMA,
+          query: 'Montevideo'
+        }
+        
+        axios.get('https://api.weatherstack.com/current', {params})
+          .then(response => {
+            const apiResponse = response.data;
+            console.log(response.data.current)
+            console.log(`Current temperature in ${apiResponse.location} is ${apiResponse.current}℃`);
+          }).catch(error => {
+            console.log(error);
+          });
       },
 
       ////////////////////////////////////

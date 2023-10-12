@@ -12,6 +12,7 @@ import { Footer } from "./component/footer";
 
 // Inicio de sesion
 import { InicioSesion } from "./component/login/login.jsx"
+// import { Registro } from "./component/login/registro.jsx";
 
 // Cuotas - Modalidades de Entrenamiento
 import { CrearCuota } from "./component/cuotas/crearCuota.jsx";
@@ -137,6 +138,7 @@ const Layout = () => {
 
                         {/* InicionSesion */}
                         <Route element={<InicioSesion />} path="iniciosesion" />
+                        {/* <Route element={<Registro />} path="registroExpress" /> */}
 
                         <Route element={<h1>Not found!</h1>} />
                     </Routes>

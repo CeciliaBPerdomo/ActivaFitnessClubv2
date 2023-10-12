@@ -313,7 +313,6 @@ def addAlumnos():
 
     #Password
     pw_hash = current_app.bcrypt.generate_password_hash(body["cedula"]).decode("utf-8")
-    print(pw_hash)
     
     if queryNewAlumno is None:
         new_alumno = Usuarios(
@@ -485,26 +484,6 @@ def getVencimientos(fechaActual):
 
     return jsonify(results), 200
 
-# Muestra los cumpleaños
-@api.route('/cumples', methods=['GET'])
-@jwt_required()
-def cumples():
-
-    body = json.loads(request.data)
-    # Obtiene el dia y el mes de la fecha actual
-    fechaActual = body["fechaActual"]
-    fechaActual = (fechaActual.split("-"))
-                    # Mes                   Dia
-    fechaActual = fechaActual[1] + "-" + fechaActual[2]
-
-    # fechaCumple = (Usuarios.fechanacimiento.split("-"))
-    # fechaCumple = fechaCumple[1] + "-" + fechaCumple[2]
-
-    # cumples = Usuarios.query.filter(fechaCumple == fechaActual).all()
-    # print (cumples)
-    #results = list(map(lambda x: {**x.serializeCuotas(), **x.serialize()}, vencimientos))
-
-    return (fechaActual), 200
 
 #####################################################################################
 #####################################################################################
@@ -1229,6 +1208,21 @@ def add_balanceMensual():
 
     return jsonify(new_caja.serialize()), 200
 
+# Elimina el pago realizado a un proveedor
+@api.route('/balanceMensual/<int:balance_id>', methods=['DELETE'])
+@jwt_required()
+def deleteBalanceMensual(balance_id):
+    balance = CajaMensual.query.filter_by(id=balance_id).first()
+  
+    if balance is None: 
+        response_body = {"msg": "No existe el balance seleccionado"}
+        return jsonify(response_body), 400
+
+    db.session.delete(balance)
+    db.session.commit()
+
+    response_body = {"msg": "Balance mensual eliminado con exito"}
+    return jsonify(response_body), 200
 
 #####################################################################################
 #####################################################################################

@@ -114,10 +114,9 @@ export const CierreMensual = () => {
         let fecha = ""          // Para formatear la fecha
         let fechaActual = moment().format('DD-MM-YYYY')
 
-        doc.text("Balance mensual " + fechaActual , 75, 20 )
-        //let imgData = {activa}
-
-        //doc.addImage(imgData, "PNG", 5, 0, 50, 50);
+        // Agregar la imagen al PDF (X, Y, Width, Height)
+        doc.addImage(activa, 'PNG', 15, 10, 15, 15);
+        doc.text("Balance mensual " + fechaActual , 65, 20 )
 
         docImprimir.map((item, id) => {
             totalDiario = (item.totalmensualidades + item.totalventas) - item.totalpagoprov
@@ -148,15 +147,20 @@ export const CierreMensual = () => {
             body: data
         })
 
-        doc.setFontSize(10)
-        doc.text("Total de alumnos: " + CantidadAlumnos, 160, i)
-        doc.text("Total de ingresos: $ " + totalIngresos, 150, (i + 5))
-        doc.text("Total de egresos: $ " + totalEgresos, 150, (i + 10))
-
-        doc.setFontSize(11)
-        doc.setTextColor(0,0,255)
-        doc.text("Total de mensual: $ " + totalMen, 150, (i + 20))
-
+        
+        doc.autoTable({
+            startY: i,
+            theme: 'plain',
+            bodyStyles: {halign: "right"}, 
+           
+            body: [
+                ["Total de alumnos: "  + CantidadAlumnos],
+                ["Total de ingresos: $ " + totalIngresos], 
+                ["Total de egresos: $ " + totalEgresos],
+                ["Total de mensual: $ " + totalMen]
+            ]
+        })
+        
         doc.save("balanceMensual " + fechaActual + ".pdf");
     }
 

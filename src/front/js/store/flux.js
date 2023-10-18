@@ -31,6 +31,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       factura: {},
       mensual: [],
       movimientosMensuales: [],
+      movimientosDiarios: [],
     },
 
     actions: {
@@ -972,6 +973,30 @@ const getState = ({ getStore, getActions, setStore }) => {
           }
         }
       }, 
+
+      obtenerPagosMensuales: async (fechaInicio, fechaFin) => {
+        try {
+          const response = await axios.get(
+            direccion + "/api/mensualidades_rango/" + fechaInicio + "/" + fechaFin, {},
+            {
+              headers: {
+                Authorization: "Bearer " + localStorage.getItem("Token"),
+              },
+            },
+          );
+          setStore({
+            movimientosDiarios: response.data,
+          });
+          if (response.status === 200) {
+            return true;
+          }
+        } catch (error) {
+          console.error(
+            "Error " + error.response.status + ": " + error.response.statusText,
+          );
+          return false;
+        }
+      },
 
       ////////////////////////////////////
       //       Productos               ///

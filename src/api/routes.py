@@ -485,6 +485,31 @@ def getVencimientos(fechaActual):
     return jsonify(results), 200
 
 
+# Muestra el pago de las mensualidades por rango de fechas
+@api.route('/mensualidades_rango/<string:fechaInicio>/<string:fechaFin>', methods=['GET'])
+@jwt_required()
+def getRangodeMensualidades(fechaInicio, fechaFin):
+
+    rango = db.session.query(Mensualidades, Metodospago, Usuarios).filter(Mensualidades.fechapago>=fechaInicio).filter(Mensualidades.fechapago<=fechaFin).join(Metodospago).join(Usuarios).all()
+
+    if rango is None: 
+        return jsonify({"msg": "No hay pago de mensualidades para las fechas solicitadas."}), 404
+    
+    results = list(map(lambda movimientos: {
+        "id": movimientos[0].id,
+        "fechapago": movimientos[0].fechapago,
+        "monto": movimientos[0].monto,
+        "factura": movimientos[0].factura,
+        "observaciones": movimientos[0].observaciones,
+         #Metodospago
+         "metodo": movimientos[1].tipo, 
+         # Alumno
+         "alumnoNombre": movimientos[2].nombre,
+         "alumnoApellido": movimientos[2].apellido
+    }, rango))
+
+    return jsonify(results), 200
+
 #####################################################################################
 #####################################################################################
 ###                                                                               ###

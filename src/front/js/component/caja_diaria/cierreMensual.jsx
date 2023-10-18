@@ -20,10 +20,6 @@ export const CierreMensual = () => {
     let totalMen = 0
     let totalVen = 0
 
-    useEffect(() => {
-        // actions.obtenerBalanceMensual();
-    }, []);
-
     // Busca los movimientos segun la fecha seleccionada
     const buscarMovimientos = async (e) => {
         e.preventDefault()
@@ -32,19 +28,6 @@ export const CierreMensual = () => {
             await actions.obtenerMovimientosMensuales(fechaInicio, fechaFin)
             setDocImprimir(store.movimientosMensuales)
         } else {
-            if (fechaInicio == "" && fechaFin == "") {
-                toast.error("No seleccionaste ninguna fecha", {
-                    position: toast.POSITION.TOP_RIGHT,
-                    autoClose: 1000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "dark",
-                })
-            }
-
             if (fechaInicio == "") {
                 toast.error("No seleccionaste la fecha de inicio", {
                     position: toast.POSITION.TOP_RIGHT,

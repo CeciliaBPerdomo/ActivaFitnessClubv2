@@ -11,7 +11,7 @@ export const Footer = () => (
 				Activa Fitness Club
 				</b>
 				<br/>
-				v. 1.0.7 (05/10/2023)
+				v. 1.0.7 (18/10/2023)
 			</div>
 			<div className="col"></div>
 			<div className="col"></div>

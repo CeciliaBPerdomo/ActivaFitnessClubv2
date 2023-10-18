@@ -66,6 +66,7 @@ import { ResumenCajaDiaria } from "./component/caja_diaria/resumen_caja.jsx"
 import { BalanceMensual } from "./component/caja_diaria/resumen_mensual.jsx";
 import { CierreMensual } from "./component/caja_diaria/cierreMensual.jsx";
 import { Instructivo } from "./component/caja_diaria/instructivo.jsx";
+import { ResumenCajaDiariaPorFecha } from "./component/caja_diaria/resumen_caja_PorFechas.jsx"
 
 //create your first component
 const Layout = () => {
@@ -135,6 +136,7 @@ const Layout = () => {
                         <Route element={<BalanceMensual />} path="/balanceMensual" />
                         <Route element={<CierreMensual />} path="/cierreMensual" />
                         <Route element={<Instructivo />} path="/instructivo" />
+                        <Route element={<ResumenCajaDiariaPorFecha />} path="/cajaDiariaporFecha" />
 
                         {/* InicionSesion */}
                         <Route element={<InicioSesion />} path="iniciosesion" />

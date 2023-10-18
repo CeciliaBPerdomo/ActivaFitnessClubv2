@@ -35,7 +35,6 @@ export const MenuAdministrador = () => {
                         - Listado de mensualidades
                     </Link>
                 </p>
-
                 <p style={{ fontSize: "15px", lineHeight: "7px", marginLeft: "10px" }}>
                     <Link to="/CuotasPendientes" style={{ textDecoration: "none", color: "white" }}>
                         - Listado de mensualidades pendientes
@@ -53,23 +52,25 @@ export const MenuAdministrador = () => {
                     </Link>
                 </p>
                 <p style={{ fontSize: "15px", lineHeight: "7px", marginLeft: "10px" }}>
+                    <Link to="/cajaDiariaporFecha" style={{ textDecoration: "none", color: "white" }}>
+                        - Facturación mensual
+                    </Link>
+                </p>
+                <p style={{ fontSize: "15px", lineHeight: "7px", marginLeft: "10px" }}>
                     <Link to="/resumenMovimientos" style={{ textDecoration: "none", color: "white" }}>
                         - Resumen de movimientos diarios
                     </Link>
                 </p>
-
                 <p style={{ fontSize: "15px", lineHeight: "7px", marginLeft: "10px" }}>
                     <Link to="/cierreMensual" style={{ textDecoration: "none", color: "white" }}>
                         - Cierre balance mensual
                     </Link>
                 </p>
-
                 <p style={{ fontSize: "15px", lineHeight: "7px", marginLeft: "10px" }}>
                     <Link to="/balanceMensual" style={{ textDecoration: "none", color: "white" }}>
                         - Resumen de balance mensual
                     </Link>
                 </p>
-
                 <p style={{ fontSize: "15px", lineHeight: "7px", marginLeft: "10px" }}>
                     <Link to="/instructivo" style={{ textDecoration: "none", color: "white" }}>
                         - Instrucciones para realizar los cierres

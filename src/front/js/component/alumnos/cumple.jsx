@@ -13,39 +13,42 @@ export const Cumples = () => {
         buscarCumples()
     }, [])
 
-    const buscarCumples = async () => { 
+    const buscarCumples = async () => {
         let resp = await actions.obtenerAlumnos();
         let arrayCumples = []
 
         if (resp) {
-            let nacimiento = store.alumnos[4].fechanacimiento.slice(5)
-            console.log(nacimiento) 
-
             let fechaActual = moment().format('MM-DD')
 
             store.alumnos.map((item, id) => {
-                if(item.fechanacimiento.slice(5) == fechaActual){
+                if (item.fechanacimiento.slice(5) == fechaActual) {
                     arrayCumples = [...arrayCumples, item.nombre + " " + item.apellido]
                 }
             })
         }
         setCumples(arrayCumples)
     }
-    
+
     return (
         <>
-            <div className="row" style={{paddingBottom: "15px"}}>
+            <div className="row" style={{ paddingBottom: "15px" }}>
                 <div className="col-3">
-                    <img src={torta} alt="" 
-                    style={{width: "150px"}}/>
+                    <img src={torta} alt=""
+                        style={{ width: "150px" }} />
                 </div>
 
-                <div className="col">
-                    {cumples.map((item, id) =>
-                        <p key={id}>{item}</p>
-                    )}
-                </div>
-
+                {cumples != "" ?
+                    <div className="col">
+                        {cumples.map((item, id) =>
+                            <p key={id}>{item}</p>
+                        )}
+                    </div>
+                    : 
+                    <div className="col">
+                        <br />
+                        <p>No hay cumpleaños hoy.</p>
+                    </div>
+                }
                 <ToastContainer />
             </div >
         </>

@@ -2,7 +2,6 @@ import React, { useContext, useEffect, useState } from "react";
 import { Context } from "../../store/appContext";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import moment from "moment";
 
 export const ResumenCajaDiaria = () => {
     const { store, actions } = useContext(Context)
@@ -31,11 +30,11 @@ export const ResumenCajaDiaria = () => {
                                 <th scope="col" className="text-center">Total</th>
                             </tr>
                         </thead>
-
+        
                         <tbody>
                             {store.cajaDiaria.map((item, id) => (
                                 <tr key={id}>
-                                    <td>{item.fecha}</td>
+                                    <td>{item.fecha.slice(5, 16)}</td>
                                     <td className="text-center">{item.cantidadalumnos}</td>
                                     <td className="text-center">$ {item.totalmensualidades}</td>
                                     <td className="text-center">$ {item.totalventas}</td>

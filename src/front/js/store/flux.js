@@ -719,6 +719,48 @@ const getState = ({ getStore, getActions, setStore }) => {
         }
       },
 
+      // Ordena los alumnos de mayor a menor
+      ordenarAlumnosDesc: async () => {
+        try {
+          const response = await axios.get(
+            direccion + "/api/alumnos/desc",
+            {
+              headers: {
+                Authorization: "Bearer " + localStorage.getItem("Token"),
+              },
+            },
+          );
+          setStore({
+            alumnos: response.data,
+          });
+        } catch (error) {
+          if (error.code === "ERR_BAD_REQUEST") {
+            console.log(error.response.data.msg);
+          }
+        }
+      },
+
+       // Ordena las mensualidades de mayor a menor
+       ordenarAlumnosAsc: async () => {
+        try {
+          const response = await axios.get(
+            direccion + "/api/alumnos/asc",
+            {
+              headers: {
+                Authorization: "Bearer " + localStorage.getItem("Token"),
+              },
+            },
+          );
+          setStore({
+            alumnos: response.data,
+          });
+        } catch (error) {
+          if (error.code === "ERR_BAD_REQUEST") {
+            console.log(error.response.data.msg);
+          }
+        }
+      },
+
       ////////////////////////////////////
       //       Mensualidades           ///
       ////////////////////////////////////

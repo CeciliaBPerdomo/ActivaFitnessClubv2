@@ -1,8 +1,9 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Context } from "../../store/appContext";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import moment from "moment";
 
 export const ListaAlumnos = () => {
   const { store, actions } = useContext(Context);
@@ -81,7 +82,23 @@ export const ListaAlumnos = () => {
             <thead>
               <tr>
                 <th scope="col">Fecha de ingreso</th>
-                <th scope="col">Nombre</th>
+                <th scope="col">Nombre
+                <button type="button" 
+                    className="btn btn-outline-danger btn-sm" 
+                    style={{marginLeft: "5px", fontSize: "12px"}}
+                    onClick={() => actions.ordenarAlumnosDesc()}
+                  >
+                       ↑ 
+                  </button>
+                  
+                  <button type="button" 
+                    className="btn btn-outline-danger btn-sm" 
+                    style={{marginLeft: "5px", fontSize: "12px"}}
+                    onClick={() => actions.ordenarAlumnosAsc()}
+                  >
+                     ↓ 
+                  </button>
+                </th>
                 <th scope="col">Dirección</th>
                 <th scope="col">Entrenamiento</th>
                 <th scope="col" className="text-center">+ Info</th>
@@ -94,15 +111,7 @@ export const ListaAlumnos = () => {
             <tbody>
               {store.alumnos.map((item, id) => (
                 <tr key={id}>
-                  <td> {item.fechaingreso}
-                    {/* {
-                    (new Date(item.fechaingreso).getDate() + 1)
-                    + "/" + 
-                    (new Date(item.fechaingreso).getMonth() + 1)
-                    + "/" + 
-                    (new Date(item.fechaingreso).getFullYear())
-                    } */}
-                    </td>
+                  <td> {moment(item.fechaingreso).format("DD-MM-YYYY")}</td>
                   <td>{item.nombre} {item.apellido}</td>
                   <td>{item.direccion}</td>
                   <td>{item.cuotasInfo.descripcion}</td>

@@ -98,7 +98,7 @@ export const CierreMensual = () => {
         let fechaActual = moment().format('DD-MM-YYYY')
 
         // Agregar la imagen al PDF (X, Y, Width, Height)
-        doc.addImage(activa, 'PNG', 15, 10, 15, 15);
+        doc.addImage(activa, 'PNG', 15, 10, 16, 15);
         doc.text("Balance mensual " + fechaActual , 65, 20 )
 
         docImprimir.map((item, id) => {

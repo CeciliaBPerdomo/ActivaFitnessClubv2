@@ -16,6 +16,7 @@ import autoTable from 'jspdf-autotable'
 // Calculos
 let totalIngresos = 0   // Por mensualidades
 let CantidadAlumnos = 0
+let montoTotal = 0
 
 export const ResumenCajaDiariaPorFecha = () => {
     const { store, actions } = useContext(Context)
@@ -32,8 +33,7 @@ export const ResumenCajaDiariaPorFecha = () => {
         const doc = new jsPDF();
 
         let data = []           // Array de info
-        let totalDiario = 0
-        let i = 45              // Renglones
+        let i = 35              // Renglones
 
         // Agregar la imagen al PDF (X, Y, Width, Height)
         doc.addImage(activa, 'PNG', 15, 10, 16, 15);
@@ -59,6 +59,8 @@ export const ResumenCajaDiariaPorFecha = () => {
                 item.metodo,
             ]
             ]
+            CantidadAlumnos++
+            montoTotal = parseInt(item.monto) + montoTotal
         })
 
         const columns = ["Fecha", "Alumno", "Factura", "Monto", "Método de pago"]
@@ -74,22 +76,22 @@ export const ResumenCajaDiariaPorFecha = () => {
         })
 
 
-        // doc.autoTable({
-        //     startY: i,
-        //     theme: 'plain',
-        //     bodyStyles: { halign: "right" },
+        doc.autoTable({
+            startY: i,
+            theme: 'plain',
+            bodyStyles: { halign: "right" },
 
-        //     body: [
-        //         ["Total de alumnos: "
-        //             + CantidadAlumnos
-        //         ],
-        //         ["Total de facturación: $ "
-        //             + totalIngresos
-        //         ],
-        //     ]
-        // })
+            body: [
+                ["Total de alumnos: "
+                    + CantidadAlumnos
+                ],
+                ["Total de facturación: $ "
+                    + montoTotal
+                ],
+            ]
+        })
 
-        doc.save("Facturacion_" + fechaFin + ".pdf");
+       doc.save("Facturacion_" + fechaFin + ".pdf");
     }
 
 
@@ -195,15 +197,6 @@ export const ResumenCajaDiariaPorFecha = () => {
                                     <td>{item.factura}</td>
                                     <td>$ {item.monto}</td>
                                     <td>{item.metodo}</td>
-
-                                    {/* Calculo de totales */}
-                                    <td style={{
-                                        visibility: "collapse",
-                                        display: "none"
-                                    }}>
-                                        {totalIngresos = totalIngresos + parseInt(item.monto)}
-                                        {CantidadAlumnos++}
-                                    </td>
                                 </tr>
                             ))}
 

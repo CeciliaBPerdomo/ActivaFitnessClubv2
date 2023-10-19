@@ -453,6 +453,22 @@ def usersModif_porId(user_id):
     response_body = {"msg": "Usuario modificado"}
     return jsonify(response_body), 200
 
+# Muestra los alumnos ordenados en forma descendente (de mayor a menor)
+@api.route('/alumnos/desc', methods=['GET'])
+@jwt_required()
+def getAlumnos_desc():
+    alumnos = Usuarios.query.order_by(desc(Usuarios.nombre)).all()
+    results = list(map(lambda x: {**x.serializeCuotas(), **x.serialize()}, alumnos))
+    return jsonify(results), 200
+
+
+# Muestra los alumnos ordenados en forma descendente (de mayor a menor)
+@api.route('/alumnos/asc', methods=['GET'])
+@jwt_required()
+def getAlumnos_asc():
+    alumnos = Usuarios.query.order_by(asc(Usuarios.nombre)).all()
+    results = list(map(lambda x: {**x.serializeCuotas(), **x.serialize()}, alumnos))
+    return jsonify(results), 200
 
 # Modifica de un usuario la fecha de vencimiento del proximo pago
 @api.route('/proximovencimiento/<int:user_id>', methods=['PUT'])
@@ -487,7 +503,7 @@ def getVencimientos(fechaActual):
 
 # Muestra el pago de las mensualidades por rango de fechas
 @api.route('/mensualidades_rango/<string:fechaInicio>/<string:fechaFin>', methods=['GET'])
-@jwt_required()
+#@jwt_required()
 def getRangodeMensualidades(fechaInicio, fechaFin):
 
     rango = db.session.query(Mensualidades, Metodospago, Usuarios).filter(Mensualidades.fechapago>=fechaInicio).filter(Mensualidades.fechapago<=fechaFin).join(Metodospago).join(Usuarios).all()

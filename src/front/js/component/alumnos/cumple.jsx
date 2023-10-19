@@ -46,7 +46,7 @@ export const Cumples = () => {
                     : 
                     <div className="col">
                         <br />
-                        <p>No hay cumpleaños hoy.</p>
+                        <p>No hay cumpleaños en el día de hoy.</p>
                     </div>
                 }
                 <ToastContainer />

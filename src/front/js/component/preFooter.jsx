@@ -1,12 +1,7 @@
 import React, { Component } from "react";
-import wa from "../../img/whatsapp.jpg"
+import wa from "../../img/whatsapp.png"
 
 export const PreFooter = () => {
-
-    const waWeb = () => {
-        console.log("Hola")
-    } 
-
     return (
     <>
         <div className="container bg-opacity-10 border border-danger rounded border-2">
@@ -31,7 +26,8 @@ export const PreFooter = () => {
                                 (window.location.href =
                                   "https://api.whatsapp.com/send?phone=59899626792")
                               }
-                            style={{width: "20px"}}/> 099 626 792
+                            style={{width: "220px"}}
+                            /> 
                         </h5>
                     </div>
                 </div>

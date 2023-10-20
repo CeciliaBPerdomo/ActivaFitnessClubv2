@@ -14,7 +14,6 @@ import activa from "../../../img/LogoSinFondo.png"
 import autoTable from 'jspdf-autotable'
 
 // Calculos
-let totalIngresos = 0   // Por mensualidades
 let CantidadAlumnos = 0
 let montoTotal = 0
 

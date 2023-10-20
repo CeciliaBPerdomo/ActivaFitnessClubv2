@@ -165,6 +165,8 @@ const [border, setBorder] = useState("")
 
     const graficar = async () => {
         await buscar()
+
+        // Cantidad de alumnos
         const canvas = document.getElementById('grafica')
 
         // Check if a chart is already associated with this canvas
@@ -201,6 +203,7 @@ const [border, setBorder] = useState("")
         }
         )
 
+        // Ingresos / Egresos
         const otraCanvas = document.getElementById('otra_grafica')
 
         // Check if a chart is already associated with this canvas

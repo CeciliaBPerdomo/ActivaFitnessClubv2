@@ -18,7 +18,7 @@ import Chart from 'chart.js/auto'
 
 export const BalanceMensual = () => {
     const { store, actions } = useContext(Context)
-
+const [border, setBorder] = useState("")
     let yearSelected = 0
 
     //PDF
@@ -71,14 +71,14 @@ export const BalanceMensual = () => {
                 '2025': '2025',
                 '2026': '2026',
             },
-            inputPlaceholder: 'Años',
+            inputPlaceholder: 'Año',
             showCancelButton: true,
         })
         yearSelected = year
 
-        if(tipo == "PDF"){
+        if (tipo == "PDF") {
             imprimirPDF()
-        } else if("Graficar") {
+        } else if ("Graficar") {
             graficar()
         }
     }
@@ -174,17 +174,70 @@ export const BalanceMensual = () => {
         }
 
         const ctx = canvas.getContext('2d');
+        setBorder("border")
 
         // Create the new chart
         canvas.chart = new Chart(ctx, {
             type: 'bar',
+            options: {
+                plugins: {
+                    legend: {
+                        labels: {
+                            // This more specific font property overrides the global property
+                            font: { size: 18 }
+                        }
+                    }
+                }
+            },
             data: {
                 labels: arrayResp.map(row => row.fecha.slice(7, 11)),
                 datasets: [
                     {
-                        label: 'Cantidad de Alumnos',
+                        label: 'Cantidad de Alumnos: ' + yearSelected,
                         data: arrayResp.map(row => row.cantidadalumnos)
+                    },
+                ]
+            }
+        }
+        )
+
+        const otraCanvas = document.getElementById('otra_grafica')
+
+        // Check if a chart is already associated with this canvas
+        if (otraCanvas.chart) {
+            // Destroy the existing chart
+            otraCanvas.chart.destroy();
+        }
+
+        const otra_ctx = otraCanvas.getContext('2d');
+
+        // Create the new chart
+        otraCanvas.chart = new Chart(otra_ctx, {
+            type: 'bar',
+            options: {
+                plugins: {
+                    title: {
+                        font: { size: 18 },
+                        display: true,
+                        text: 'Ingresos / Egresos: ' + yearSelected
                     }
+                }
+            },
+            data: {
+                labels: arrayResp.map(row => row.fecha.slice(7, 11)),
+                datasets: [
+                    {
+                        label: 'Ingresos de mensualidades',
+                        data: arrayResp.map(row => row.totalmensualidades)
+                    },
+                    {
+                        label: 'Ingresos por ventas',
+                        data: arrayResp.map(row => row.totalventas)
+                    },
+                    {
+                        label: 'Egresos',
+                        data: arrayResp.map(row => row.totalpagoprov)
+                    },
                 ]
             }
         }
@@ -260,11 +313,21 @@ export const BalanceMensual = () => {
                     </button>
                 </div>
 
+
                 {/* Grafica */}
-                <div>
-                    <canvas id="grafica"></canvas>
+                <div className="container text-center" style={{marginTop: "60px"}}>
+                    <div className="row" style={{}}>
+                        <div className={"col " + border} style={{marginRight: "10px", padding: "10px"}}>
+                            <canvas id="grafica"></canvas>
+                        </div>
+                        <div className={"col " + border}>
+                            <canvas id="otra_grafica"></canvas>
+                        </div>
+
+                    </div>
                 </div>
             </div>
+
             <ToastContainer />
             <br />
         </>

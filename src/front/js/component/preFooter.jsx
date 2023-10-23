@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import wa from "../../img/whatsapp.png"
+import wa from "../../img/whatsApp.png"
 
 export const PreFooter = () => {
     return (

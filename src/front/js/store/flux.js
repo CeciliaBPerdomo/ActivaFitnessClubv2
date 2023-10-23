@@ -32,6 +32,8 @@ const getState = ({ getStore, getActions, setStore }) => {
       mensual: [],
       movimientosMensuales: [],
       movimientosDiarios: [],
+      tiposEjercicios: [],
+      tipoEjercicio: {}
     },
 
     actions: {
@@ -632,7 +634,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           } else {
             console.error(
               "Error " + error.response.status + ": " +
-                error.response.statusText,
+              error.response.statusText,
             );
             return false;
           }
@@ -663,7 +665,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           } else {
             console.error(
               "Error " + error.response.status + ": " +
-                error.response.statusText,
+              error.response.statusText,
             );
             return false;
           }
@@ -675,15 +677,15 @@ const getState = ({ getStore, getActions, setStore }) => {
         fechaActual,
       ) => {
         try {
-          const response = await axios.get(direccion + "/api/vencimientos/" + fechaActual, 
-          {
-            headers: {
-              Authorization: "Bearer " + localStorage.getItem("Token"),
-            },
-          }
+          const response = await axios.get(direccion + "/api/vencimientos/" + fechaActual,
+            {
+              headers: {
+                Authorization: "Bearer " + localStorage.getItem("Token"),
+              },
+            }
           );
           if (response.status === 200) {
-            setStore({vencimientos: response.data})
+            setStore({ vencimientos: response.data })
             return true;
           }
         } catch (error) {
@@ -693,7 +695,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           return false;
         }
       },
-      
+
       // Generar link de imgur
       guardarImagen: async (imagen) => {
         try {
@@ -701,19 +703,19 @@ const getState = ({ getStore, getActions, setStore }) => {
             method: "POST",
             headers: {
               Authorization: "Client-ID " + process.env.IMGUR_CLIENT_ID,
-            }, 
+            },
             body: imagen,
           })
           const data = await response.json()
           console.log(data)
-          
-          if(data.status == 403) {
+
+          if (data.status == 403) {
             return data.data.error
           }
 
           const imagenLink = data.data.link
           console.log(imagenLink)
-        } catch(err){
+        } catch (err) {
           console.error(data.data.error)
           return false
         }
@@ -740,8 +742,8 @@ const getState = ({ getStore, getActions, setStore }) => {
         }
       },
 
-       // Ordena las mensualidades de mayor a menor
-       ordenarAlumnosAsc: async () => {
+      // Ordena las mensualidades de mayor a menor
+      ordenarAlumnosAsc: async () => {
         try {
           const response = await axios.get(
             direccion + "/api/alumnos/asc",
@@ -806,8 +808,8 @@ const getState = ({ getStore, getActions, setStore }) => {
         }
       },
 
-       // Ordena las mensualidades de mayor a menor
-       ordenarMensualidadesAsc: async () => {
+      // Ordena las mensualidades de mayor a menor
+      ordenarMensualidadesAsc: async () => {
         try {
           const response = await axios.get(
             direccion + "/api/mensualidades/asc",
@@ -826,7 +828,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           }
         }
       },
-      
+
       /* Crea Mensualidad */
       crearMensualidad: async (
         fechapago,
@@ -921,7 +923,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           } else {
             console.error(
               "Error " + error.response.status + ": " +
-                error.response.statusText,
+              error.response.statusText,
             );
             return false;
           }
@@ -970,7 +972,7 @@ const getState = ({ getStore, getActions, setStore }) => {
         }
       },
 
-      // Obtener mensualidad por id
+      // Obtener mensualidad por id de usuario
       obtenerMensualidadIdUsuario: async (id) => {
         try {
           const response = await axios.get(
@@ -996,7 +998,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       },
 
       // Obtener el numero de la factura menor
-      obtenerMenorFactura: async() => {
+      obtenerMenorFactura: async () => {
         try {
           const response = await axios.get(
             direccion + "/api/mensualidades/asc",
@@ -1014,7 +1016,7 @@ const getState = ({ getStore, getActions, setStore }) => {
             console.log(error.response.data.msg);
           }
         }
-      }, 
+      },
 
       obtenerPagosMensuales: async (fechaInicio, fechaFin) => {
         try {
@@ -1886,13 +1888,13 @@ const getState = ({ getStore, getActions, setStore }) => {
       ///         Clima                ///
       ////////////////////////////////////
       //Clima
-      clima: async() => {
+      clima: async () => {
         const params = {
           access_key: process.env.CLIMA,
           query: 'Montevideo'
         }
-        
-        axios.get('https://api.weatherstack.com/current', {params})
+
+        axios.get('https://api.weatherstack.com/current', { params })
           .then(response => {
             const apiResponse = response.data;
             console.log(response.data.current)
@@ -1943,6 +1945,132 @@ const getState = ({ getStore, getActions, setStore }) => {
           auth: false,
         });
       },
+
+      ////////////////////////////////////
+      //       Tipo de ejercicios      ///
+      ////////////////////////////////////
+      /* Listar los tipos de ejercicios */
+      obtenerTipoDeEjercicios: async () => {
+        try {
+          const response = await axios.get(
+            direccion + "/api/tipoEjercicios",
+            {
+              headers: {
+                Authorization: "Bearer " + localStorage.getItem("Token"),
+              },
+            },
+          );
+          setStore({
+            tiposEjercicios: response.data,
+          });
+        } catch (error) {
+          if (error.code === "ERR_BAD_REQUEST") {
+            console.log(error.response.data.msg);
+          }
+        }
+      },
+
+      /* Crea tipo de ejercicios */
+      crearTipoEjercicio: async (descripcion) => {
+        try {
+          const response = await axios.post(direccion + "/api/tipoEjercicios", {
+            descripcion: descripcion,
+          }, {
+            headers: {
+              Authorization: "Bearer " + localStorage.getItem("Token"),
+            },
+          });
+          // getActions().obtenerTipoDeEjercicios();
+          if (response.status === 200) {
+            return true;
+          }
+        } catch (error) {
+          console.error(
+            "Error " + error.response.status + ": " + error.response.statusText,
+          );
+          return false;
+        }
+      },
+
+      /* Borrar tipo de ejercicio */
+      borrarTipoEjercicio: async (id) => {
+        try {
+          const response = await axios.delete(direccion + "/api/tipoEjercicios/" + id, {
+            headers: {
+              Authorization: "Bearer " + localStorage.getItem("Token"),
+            },
+          });
+          getActions().obtenerTipoDeEjercicios();
+          if (response.status === 200) {
+            return true;
+          }
+        } catch (error) {
+          console.error(
+            "Error " + error.response.status + ": " + error.response.statusText,
+          );
+          return false;
+        }
+      },
+
+      // Modificar tipo de ejercicio
+      modificarTipoEjercicio: async (id, descripcion) => {
+        try {
+          const response = await axios.put(direccion + "/api/tipoEjercicios/" + id, {
+            id: id,
+            descripcion: descripcion,
+          }, {
+            headers: {
+              Authorization: "Bearer " + localStorage.getItem("Token"),
+            },
+          });
+          if (response.status === 200) {
+            return true;
+          }
+        } catch (error) {
+          console.error(
+            "Error " + error.response.status + ": " + error.response.statusText,
+          );
+          return false;
+        }
+      },
+
+      // Obtener cuota por id
+      obtenerTipoEjercicioId: async (id) => {
+        try {
+          const response = await axios.get(direccion + "/api/tipoEjercicios/" + id, {
+            headers: {
+              Authorization: "Bearer " + localStorage.getItem("Token"),
+            },
+          });
+          setStore({ tipoEjercicio: response.data });
+          if (response.status === 200) {
+            return true;
+          }
+        } catch (error) {
+          console.error(
+            "Error " + error.response.status + ": " + error.response.statusText,
+          );
+          return false;
+        }
+      },
+
+      // Buscador de Tipo de ejercicio
+      buscadorTipoEjercicio: (valor) => {
+        let store = getStore();
+        let resultados = store.tiposEjercicios.filter((item) => {
+          if (
+            item.descripcion.toString().toLowerCase().includes(
+              valor.toLowerCase(),
+            )
+          ) {
+            return valor;
+          }
+        });
+        setStore({
+          tiposEjercicios: resultados,
+        });
+      },
+
     },
   };
 };

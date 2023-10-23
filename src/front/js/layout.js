@@ -68,6 +68,11 @@ import { CierreMensual } from "./component/caja_diaria/cierreMensual.jsx";
 import { Instructivo } from "./component/caja_diaria/instructivo.jsx";
 import { ResumenCajaDiariaPorFecha } from "./component/caja_diaria/resumen_caja_PorFechas.jsx"
 
+//Tipo de ejercicios
+import ListadoTipoEjercicios from "./component/tipo_Ejercicios/listadoTipoEjercicios.jsx";
+import IngresarTipoEjercicio from "./component/tipo_Ejercicios/IngresarTipoEjercicio.jsx";
+import ModificarTipoEjercicio from "./component/tipo_Ejercicios/ModificarTipoEjercicio.jsx";
+
 //create your first component
 const Layout = () => {
     //the basename is used when your project is published in a subdirectory and not in the root of the domain
@@ -141,6 +146,12 @@ const Layout = () => {
                         {/* InicionSesion */}
                         <Route element={<InicioSesion />} path="iniciosesion" />
                         {/* <Route element={<Registro />} path="registroExpress" /> */}
+
+                        {/* Tipo de ejercicios */}
+                        <Route element={<ListadoTipoEjercicios />} path="/listadoTipoEjercicios" />
+                        <Route element={<ModificarTipoEjercicio />} path="/ModificarTipoEjercicios/:theid" />
+                        <Route element={<IngresarTipoEjercicio />} path="/ingresarTipoEjercicio" />
+
 
                         <Route element={<h1>Not found!</h1>} />
                     </Routes>

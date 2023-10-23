@@ -1302,3 +1302,78 @@ def login():
     }
 
     return jsonify(response_body), 200
+
+#####################################################################################
+#####################################################################################
+###                                                                               ###
+###                   TIPO DE EJERCICIOS                                          ###
+###                                                                               ###
+#####################################################################################
+#####################################################################################
+
+# Muestra todos los tipos de ejercicios
+@api.route('/tipoEjercicios', methods=['GET'])
+@jwt_required()
+def get_tipoEjercicios():
+    tipoEjercicios = Tipoejercicio.query.order_by(asc(Tipoejercicio.descripcion)).all()
+    results = list(map(lambda x: x.serialize(), tipoEjercicios))
+    return jsonify(results), 200
+
+# Alta de un tipo de ejercicio
+@api.route('/tipoEjercicios', methods=['POST'])
+@jwt_required()
+def add_tipoEjercicios():
+    body = json.loads(request.data)
+
+    tipo = Tipoejercicio.query.filter_by(descripcion=body["descripcion"]).first()
+     
+    if tipo is None:
+        new_tipo = Tipoejercicio(
+        descripcion = body["descripcion"])
+
+        db.session.add(new_tipo)
+        db.session.commit()
+
+        return jsonify(new_tipo.serialize()), 200
+
+    return jsonify({"msg": "Ya existe el tipo de ejercicio"}), 404
+
+# Elimina el tipo de ejercicio
+@api.route('/tipoEjercicios/<int:tipo_id>', methods=['DELETE'])
+@jwt_required()
+def deletetipoEjercicios(tipo_id):
+    tipo = Tipoejercicio.query.filter_by(id=tipo_id).first()
+  
+    if tipo is None: 
+        return jsonify({"msg": "No existe el tipo de ejercicio seleccionado"}), 404
+
+    db.session.delete(tipo)
+    db.session.commit()
+    return jsonify( {"msg": "Tipo de ejercicio borrado"}), 200 
+
+# Modifica el tipo de ejercicio por id
+@api.route('/tipoEjercicios/<int:tipo_id>', methods=['PUT'])
+@jwt_required()
+def put_tipoEjercicios(tipo_id):
+    tipo = Tipoejercicio.query.filter_by(id=tipo_id).first()
+    body = json.loads(request.data)
+
+    if tipo is None:
+        return jsonify({"msg": "No existe el tipo de ejercicio"}), 400    
+
+    if "descripcion" in body:
+        tipo.descripcion =  body["descripcion"]
+    
+    db.session.commit()
+    return jsonify({"msg": "Tipo de ejercicio modificado"}), 200
+
+# Muestra el tipo de ejercicio por id
+@api.route('/tipoEjercicios/<int:tipo_id>', methods=['GET'])
+@jwt_required()
+def get_tipoEjId(tipo_id):
+    id = Tipoejercicio.query.filter_by(id=tipo_id).first()
+
+    if id is None: 
+        return jsonify({"msg": "Tipo de ejercicio no encontrado"}), 404
+
+    return jsonify(id.serialize()), 200

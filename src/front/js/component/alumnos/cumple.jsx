@@ -39,6 +39,7 @@ export const Cumples = () => {
 
                 {cumples != "" ?
                     <div className="col">
+                        <br />
                         {cumples.map((item, id) =>
                             <p key={id}>{item}</p>
                         )}

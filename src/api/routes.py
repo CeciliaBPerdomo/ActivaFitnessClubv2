@@ -1377,3 +1377,121 @@ def get_tipoEjId(tipo_id):
         return jsonify({"msg": "Tipo de ejercicio no encontrado"}), 404
 
     return jsonify(id.serialize()), 200
+
+#####################################################################################
+#####################################################################################
+###                                                                               ###
+###                   EJERCICIOS                                                  ###
+###                                                                               ###
+#####################################################################################
+#####################################################################################
+
+# Muestra todos los ejercicios
+@api.route('/ejercicios', methods=['GET'])
+@jwt_required()
+def get_Ejercicios():
+    ejercicios = db.session.query(Ejercicio, Tipoejercicio).order_by(asc(Ejercicio.nombre)).join(Tipoejercicio).all()
+    
+    if ejercicios == []: 
+        return jsonify({"msg": "No hay ejercicios cargados"})
+    
+    results = list(map(lambda ejercicio: {
+        # Ejercicios
+        "id" : ejercicio[0].id,
+        "nombre": ejercicio[0].nombre,
+        "descripcion": ejercicio[0].descripcion,
+        "foto": ejercicio[0].foto,
+        "video": ejercicio[0].video,
+        #Tipo de ejercicios
+        "idTipo": ejercicio[1].id, 
+        "descripcionTipo": ejercicio[1].descripcion
+    }, ejercicios))
+
+    return jsonify(results), 200
+
+# Agrega un nuevo ejercicio
+@api.route('/ejercicios', methods=['POST'])
+@jwt_required()
+def add_tejercicios():
+    body = json.loads(request.data)
+
+    ejercicio = Ejercicio.query.filter_by(nombre=body["nombre"]).first()
+     
+    if ejercicio is None:
+        new_ejercicio = Ejercicio(
+            nombre = body["nombre"], 
+            descripcion = body["descripcion"],
+            foto = body["foto"],
+            video = body["video"], 
+            idtipo = body["idtipo"]
+        )
+
+        db.session.add(new_ejercicio)
+        db.session.commit()
+
+        return jsonify(new_ejercicio.serialize()), 200
+
+    return jsonify({"msg": "Ya existe el ejercicio"}), 404
+
+# Elimina un ejercicio por el id
+@api.route('/ejercicios/<int:id>', methods=['DELETE'])
+@jwt_required()
+def deletejercicios(id):
+    ejercicio = Ejercicio.query.filter_by(id=id).first()
+  
+    if ejercicio is None: 
+        return jsonify({"msg": "No existe el ejercicio seleccionado"}), 404
+
+    db.session.delete(ejercicio)
+    db.session.commit()
+    return jsonify( {"msg": "Ejercicio eliminado"}), 200 
+
+# Modifica el ejercicio por id
+@api.route('/ejercicios/<int:id>', methods=['PUT'])
+@jwt_required()
+def put_ejercicios(id):
+    body = json.loads(request.data)
+    ejercicio = Ejercicio.query.filter_by(id=id).first()
+
+    if ejercicio is None:
+        return jsonify({"msg": "No existe el ejercicio"}), 404    
+
+    if "nombre" in body:
+        ejercicio.nombre =  body["nombre"]
+        
+    if "descripcion" in body:
+        ejercicio.descripcion =  body["descripcion"]
+
+    if "foto" in body:
+        ejercicio.foto =  body["foto"]
+    
+    if "video" in body:
+        ejercicio.video =  body["video"]
+    
+    if "idtipo" in body:
+        ejercicio.idtipo =  body["idtipo"]
+    
+    db.session.commit()
+    return jsonify({"msg": "Ejercicio modificado"}), 200
+
+# Muestra el ejercicio por id
+@api.route('/ejercicios/<int:id>', methods=['GET'])
+@jwt_required()
+def get_EjId(id):
+    id = db.session.query(Ejercicio, Tipoejercicio).filter_by(id=id).join(Tipoejercicio).all()
+    if id is None: 
+        return jsonify({"msg": "Ejercicio no encontrado."}), 404
+
+    results = list(map(lambda ejercicio: {
+        # Ejercicios
+        "id" : ejercicio[0].id,
+        "nombre": ejercicio[0].nombre,
+        "descripcion": ejercicio[0].descripcion,
+        "foto": ejercicio[0].foto,
+        "video": ejercicio[0].video,
+        #Tipo de ejercicios
+        "idTipo": ejercicio[1].id, 
+        "descripcionTipo": ejercicio[1].descripcion
+    }, id))
+
+    return jsonify(results), 200

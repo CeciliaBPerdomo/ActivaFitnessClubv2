@@ -33,7 +33,9 @@ const getState = ({ getStore, getActions, setStore }) => {
       movimientosMensuales: [],
       movimientosDiarios: [],
       tiposEjercicios: [],
-      tipoEjercicio: {}
+      tipoEjercicio: {}, 
+      ejercicios: [],
+      ejercicio: {}
     },
 
     actions: {
@@ -2034,7 +2036,7 @@ const getState = ({ getStore, getActions, setStore }) => {
         }
       },
 
-      // Obtener cuota por id
+      // Obtener tipo de Ejercicio por id
       obtenerTipoEjercicioId: async (id) => {
         try {
           const response = await axios.get(direccion + "/api/tipoEjercicios/" + id, {
@@ -2068,6 +2070,138 @@ const getState = ({ getStore, getActions, setStore }) => {
         });
         setStore({
           tiposEjercicios: resultados,
+        });
+      },
+
+      ////////////////////////////////////
+      //          Ejercicios           ///
+      ////////////////////////////////////
+
+      /* Listar los ejercicios */
+      obtenerEjercicios: async () => {
+        try {
+          const response = await axios.get(
+            direccion + "/api/ejercicios",
+            {
+              headers: {
+                Authorization: "Bearer " + localStorage.getItem("Token"),
+              },
+            },
+          );
+          setStore({
+            ejercicios: response.data,
+          });
+        } catch (error) {
+          if (error.code === "ERR_BAD_REQUEST") {
+            console.log(error.response.data.msg);
+          }
+        }
+      },
+
+      /* Crea Ejercicios */
+      crearEjercicio: async (nombre, descripcion, foto, video, idTipo) => {
+        try {
+          const response = await axios.post(direccion + "/api/ejercicios", {
+            nombre: nombre,
+            descripcion: descripcion,
+            foto: foto,
+            video: video,
+            idtipo: idTipo
+          }, {
+            headers: {
+              Authorization: "Bearer " + localStorage.getItem("Token"),
+            },
+          });
+          if (response.status === 200) {
+            return true;
+          }
+        } catch (error) {
+          console.error(
+            "Error " + error.response.status + ": " + error.response.statusText,
+          );
+          return false;
+        }
+      },
+
+      /* Borrar ejercicio */
+      borrarEjercicio: async (id) => {
+        try {
+          const response = await axios.delete(direccion + "/api/ejercicios/" + id, {
+            headers: {
+              Authorization: "Bearer " + localStorage.getItem("Token"),
+            },
+          });
+          getActions().obtenerEjercicios();
+          if (response.status === 200) {
+            return true;
+          }
+        } catch (error) {
+          console.error(
+            "Error " + error.response.status + ": " + error.response.statusText,
+          );
+          return false;
+        }
+      },
+
+      // Modificar ejercicio
+      modificarEjercicio: async (id, nombre, descripcion, foto, video, idTipo) => {
+        try {
+          const response = await axios.put(direccion + "/api/ejercicios/" + id, {
+            nombre: nombre,
+            descripcion: descripcion,
+            foto: foto,
+            video: video,
+            idtipo: idTipo
+          }, {
+            headers: {
+              Authorization: "Bearer " + localStorage.getItem("Token"),
+            },
+          });
+          if (response.status === 200) {
+            return true;
+          }
+        } catch (error) {
+          console.error(
+            "Error " + error.response.status + ": " + error.response.statusText,
+          );
+          return false;
+        }
+      },
+
+      // Obtener ejercicio por id
+      obtenerEjercicioId: async (id) => {
+        try {
+          const response = await axios.get(direccion + "/api/ejercicios/" + id, {
+            headers: {
+              Authorization: "Bearer " + localStorage.getItem("Token"),
+            },
+          });
+          setStore({ ejercicio: response.data });
+          if (response.status === 200) {
+            return true;
+          }
+        } catch (error) {
+          console.error(
+            "Error " + error.response.status + ": " + error.response.statusText,
+          );
+          return false;
+        }
+      },
+
+      // Buscador de ejercicios
+      buscadorEjercicio: (valor) => {
+        let store = getStore();
+        let resultados = store.ejercicios.filter((item) => {
+          if (
+            item.nombre.toString().toLowerCase().includes(
+              valor.toLowerCase(),
+            )
+          ) {
+            return valor;
+          }
+        });
+        setStore({
+          ejercicios: resultados,
         });
       },
 

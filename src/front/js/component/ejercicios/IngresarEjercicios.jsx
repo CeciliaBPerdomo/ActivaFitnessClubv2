@@ -25,7 +25,7 @@ function IngresarEjercicios() {
     const guardar = async (e) => {
         e.preventDefault();
 
-        if (descripcion !="" && nombre !="" && idTipo !="") {
+        if (descripcion != "" && nombre != "" && idTipo != "") {
 
             let resultado = await actions.crearEjercicio(nombre, descripcion, foto, video, idTipo)
 
@@ -96,14 +96,17 @@ function IngresarEjercicios() {
                             onChange={(e) => setNombre(e.target.value)}
                         />
                     </div>
-
+                </div>
+                <br />
+                <div className="row">
                     {/* Descricpcion */}
                     <div className="col">
                         <label htmlFor="fecha" style={{ marginBottom: "10px" }}>
                             Descripción <label style={{ color: "red" }}>(Obligatorio)</label>:
                         </label>
-                        <input
+                        <textarea
                             type="text"
+                            rows="2"
                             className="form-control"
                             value={descripcion}
                             onChange={(e) => setDescripcion(e.target.value)}

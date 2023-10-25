@@ -80,15 +80,47 @@ function ListadoEjercicios() {
             <h3 style={{ marginBottom: "25px" }}>Ejercicios</h3>
             <hr />
 
-            <div style={{ marginLeft: "45px" }}>
+            <div >
                 <table className="table"
                     style={{ color: "white" }}>
                     <thead>
                         <tr>
+                            <th></th>
+                            <th>Nombre
+                                <button type="button"
+                                    className="btn btn-outline-danger btn-sm"
+                                    style={{ marginLeft: "3px", fontSize: "12px" }}
+                                    onClick={() => actions.ordenarEjerciciosAsc()}
+                                >
+                                    ↑
+                                </button>
+                                <button type="button"
+                                    className="btn btn-outline-danger btn-sm"
+                                    style={{ marginLeft: "3px", fontSize: "12px" }}
+                                    onClick={() => actions.ordenarEjerciciosDesc()}
+                                >
+                                    ↓
+                                </button>
+                            </th>
+
+                            <th>Descripción</th>
+                            <th>Tipo
+                            <button type="button"
+                                    className="btn btn-outline-danger btn-sm"
+                                    style={{ marginLeft: "5px", fontSize: "12px" }}
+                                onClick={() => actions.ordenarEjerciciosTipoDesc()}
+                                >
+                                    ↑
+                                </button>
+                                <button type="button"
+                                    className="btn btn-outline-danger btn-sm"
+                                    style={{ marginLeft: "5px", fontSize: "12px" }}
+                                onClick={() => actions.ordenarEjerciciosTipoAsc()}
+                                >
+                                    ↓
+                                </button>
+                            </th>
                             <th scope="col"></th>
-                            <th scope="col">Nombre</th>
-                            <th scope="col">Descripción</th>
-                            <th scope="col">Tipo</th>
                             <th scope="col"></th>
                             <th scope="col"></th>
                         </tr>
@@ -100,8 +132,13 @@ function ListadoEjercicios() {
                                     <img src={item.foto} alt={item.nombre} style={{ width: "60px" }} />
                                 </td>
                                 <td className="align-middle text-center">{item.nombre}</td>
-                                <td>{item.descripcion}</td>
+                                <td className="align-middle">{item.descripcion}</td>
                                 <td className="align-middle text-center">{item.descripcionTipo}</td>
+                                <td className="align-middle text-center">
+                                    <Link to={"/individualEjercicio/" + item.id} style={{ color: "white" }}>
+                                        <i className="fa fa-eye"></i>
+                                    </Link>
+                                </td>
                                 <td className="align-middle text-center">
                                     <Link to={"/modificarEjercicio/" + item.id} style={{ color: "white" }}>
                                         <i className="fa fa-pen"></i>
@@ -109,7 +146,7 @@ function ListadoEjercicios() {
                                 </td>
                                 <td className="align-middle text-center">
                                     <i className="fa fa-trash"
-                                    onClick={(e) => borrar(e, item.id)}
+                                        onClick={(e) => borrar(e, item.id)}
                                     >
                                     </i>
                                 </td>

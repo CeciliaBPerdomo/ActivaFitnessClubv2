@@ -77,6 +77,8 @@ import ModificarTipoEjercicio from "./component/tipo_Ejercicios/ModificarTipoEje
 import ListadoEjercicios from "./component/ejercicios/ListadoEjercicios.jsx";
 import IngresarEjercicios from "./component/ejercicios/IngresarEjercicios.jsx";
 import ModificarEjercicios from "./component/ejercicios/ModificarEjercicios.jsx";
+import VerEjercicioIndividual from "./component/ejercicios/VerEjercicioIndividual.jsx";
+import EjerciciosPorTipo from "./component/ejercicios/EjerciciosPorTipo.jsx";
 
 
 //create your first component
@@ -161,7 +163,10 @@ const Layout = () => {
                         {/* Ejercicios */}
                         <Route element={<ListadoEjercicios />} path="/listadoEjercicios" />
                         <Route element={<IngresarEjercicios />} path="/ingresarEjercicio" />
-                        <Route element={<ModificarEjercicios />} path="/modificarEjercicio" />
+                        <Route element={<ModificarEjercicios />} path="/modificarEjercicio/:theid" />
+                        <Route element={<VerEjercicioIndividual />} path="/individualEjercicio/:theid" />
+                        <Route element={<EjerciciosPorTipo />} path="/ejercicioPorTipo" />
+
 
                         <Route element={<h1>Not found!</h1>} />
                     </Routes>

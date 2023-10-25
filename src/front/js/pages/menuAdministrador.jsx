@@ -193,6 +193,7 @@ export const MenuAdministrador = () => {
                         - Listado de tipos de ejercicios
                     </Link>
                 </p>
+                <br />
 
                 {/* Ejercicios */}
                 <p style={{ fontSize: "17px", lineHeight: "7px", color: "red" }}>
@@ -206,6 +207,11 @@ export const MenuAdministrador = () => {
                 <p style={{ fontSize: "15px", lineHeight: "7px", marginLeft: "10px" }}>
                     <Link to="/listadoEjercicios" style={{ textDecoration: "none", color: "white" }}>
                         - Listado de ejercicios
+                    </Link>
+                </p>
+                <p style={{ fontSize: "15px", lineHeight: "7px", marginLeft: "10px" }}>
+                    <Link to="/ejercicioPorTipo" style={{ textDecoration: "none", color: "white" }}>
+                        - Ejercicios por tipo de ejercicio
                     </Link>
                 </p>
             </div>

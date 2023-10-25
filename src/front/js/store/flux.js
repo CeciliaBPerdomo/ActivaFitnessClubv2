@@ -2205,6 +2205,103 @@ const getState = ({ getStore, getActions, setStore }) => {
         });
       },
 
+  // Buscador de ejercicios por tipo
+  buscadorEjercicioPorTipo: (valor) => {
+    let store = getStore();
+    let resultados = store.ejercicios.filter((item) => {
+      if (item.idTipo == valor){
+        return valor;
+      }
+    });
+    setStore({
+      ejercicios: resultados,
+    });
+  },
+
+       // Ordena los ejercicios de mayor a menor
+       ordenarEjerciciosDesc: async () => {
+        try {
+          const response = await axios.get(
+            direccion + "/api/ejercicios/nombDesc",
+            {
+              headers: {
+                Authorization: "Bearer " + localStorage.getItem("Token"),
+              },
+            },
+          );
+          setStore({
+            ejercicios: response.data,
+          });
+        } catch (error) {
+          if (error.code === "ERR_BAD_REQUEST") {
+            console.log(error.response.data.msg);
+          }
+        }
+      },
+
+      // Ordena los ejercicios de mayor a menor
+      ordenarEjerciciosAsc: async () => {
+        try {
+          const response = await axios.get(
+            direccion + "/api/ejercicios/nombAsc",
+            {
+              headers: {
+                Authorization: "Bearer " + localStorage.getItem("Token"),
+              },
+            },
+          );
+          setStore({
+            ejercicios: response.data,
+          });
+        } catch (error) {
+          if (error.code === "ERR_BAD_REQUEST") {
+            console.log(error.response.data.msg);
+          }
+        }
+      },
+
+      // Ordena los ejercicios de mayor a menor por tipo
+      ordenarEjerciciosTipoDesc: async () => {
+        try {
+          const response = await axios.get(
+            direccion + "/api/ejercicios/tipoDesc",
+            {
+              headers: {
+                Authorization: "Bearer " + localStorage.getItem("Token"),
+              },
+            },
+          );
+          setStore({
+            ejercicios: response.data,
+          });
+        } catch (error) {
+          if (error.code === "ERR_BAD_REQUEST") {
+            console.log(error.response.data.msg);
+          }
+        }
+      },
+
+      // Ordena los ejercicios por tipo de mayor a menor
+      ordenarEjerciciosTipoAsc: async () => {
+        try {
+          const response = await axios.get(
+            direccion + "/api/ejercicios/TipoAsc",
+            {
+              headers: {
+                Authorization: "Bearer " + localStorage.getItem("Token"),
+              },
+            },
+          );
+          setStore({
+            ejercicios: response.data,
+          });
+        } catch (error) {
+          if (error.code === "ERR_BAD_REQUEST") {
+            console.log(error.response.data.msg);
+          }
+        }
+      },
+
     },
   };
 };

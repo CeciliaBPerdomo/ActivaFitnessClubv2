@@ -1495,3 +1495,97 @@ def get_EjId(id):
     }, id))
 
     return jsonify(results), 200
+
+# Muestra los ejercicios ordenados en forma descendente (de mayor a menor) por nombre
+@api.route('/ejercicios/nombDesc', methods=['GET'])
+@jwt_required()
+def getnombDesc():
+    ejercicios = db.session.query(Ejercicio, Tipoejercicio).order_by(desc(Ejercicio.nombre)).join(Tipoejercicio).all()
+    
+    if ejercicios == []: 
+        return jsonify({"msg": "No hay ejercicios cargados"})
+    
+    results = list(map(lambda ejercicio: {
+        # Ejercicios
+        "id" : ejercicio[0].id,
+        "nombre": ejercicio[0].nombre,
+        "descripcion": ejercicio[0].descripcion,
+        "foto": ejercicio[0].foto,
+        "video": ejercicio[0].video,
+        #Tipo de ejercicios
+        "idTipo": ejercicio[1].id, 
+        "descripcionTipo": ejercicio[1].descripcion
+    }, ejercicios))
+
+    return jsonify(results), 200
+
+
+# Muestra los ejercicios ordenados en forma descendente (de mayor a menor) por nombre
+@api.route('/ejercicios/nombAsc', methods=['GET'])
+@jwt_required()
+def getNombAsc():
+    ejercicios = db.session.query(Ejercicio, Tipoejercicio).order_by(asc(Ejercicio.nombre)).join(Tipoejercicio).all()
+    
+    if ejercicios == []: 
+        return jsonify({"msg": "No hay ejercicios cargados"})
+    
+    results = list(map(lambda ejercicio: {
+        # Ejercicios
+        "id" : ejercicio[0].id,
+        "nombre": ejercicio[0].nombre,
+        "descripcion": ejercicio[0].descripcion,
+        "foto": ejercicio[0].foto,
+        "video": ejercicio[0].video,
+        #Tipo de ejercicios
+        "idTipo": ejercicio[1].id, 
+        "descripcionTipo": ejercicio[1].descripcion
+    }, ejercicios))
+
+    return jsonify(results), 200
+
+# Muestra los ejercicios ordenados en forma descendente (de mayor a menor) por tipo
+@api.route('/ejercicios/tipoDesc', methods=['GET'])
+@jwt_required()
+def get_TipoDesc():
+    ejercicios = db.session.query(Ejercicio, Tipoejercicio).order_by(desc(Tipoejercicio.descripcion)).join(Tipoejercicio).all()
+    
+    if ejercicios == []: 
+        return jsonify({"msg": "No hay ejercicios cargados"})
+    
+    results = list(map(lambda ejercicio: {
+        # Ejercicios
+        "id" : ejercicio[0].id,
+        "nombre": ejercicio[0].nombre,
+        "descripcion": ejercicio[0].descripcion,
+        "foto": ejercicio[0].foto,
+        "video": ejercicio[0].video,
+        #Tipo de ejercicios
+        "idTipo": ejercicio[1].id, 
+        "descripcionTipo": ejercicio[1].descripcion
+    }, ejercicios))
+
+    return jsonify(results), 200
+
+
+# Muestra los ejercicios ordenados en forma descendente (de mayor a menor) por nombre
+@api.route('/ejercicios/TipoAsc', methods=['GET'])
+@jwt_required()
+def get_TipoAsc():
+    ejercicios = db.session.query(Ejercicio, Tipoejercicio).order_by(asc(Tipoejercicio.descripcion)).join(Tipoejercicio).all()
+    
+    if ejercicios == []: 
+        return jsonify({"msg": "No hay ejercicios cargados"})
+    
+    results = list(map(lambda ejercicio: {
+        # Ejercicios
+        "id" : ejercicio[0].id,
+        "nombre": ejercicio[0].nombre,
+        "descripcion": ejercicio[0].descripcion,
+        "foto": ejercicio[0].foto,
+        "video": ejercicio[0].video,
+        #Tipo de ejercicios
+        "idTipo": ejercicio[1].id, 
+        "descripcionTipo": ejercicio[1].descripcion
+    }, ejercicios))
+
+    return jsonify(results), 200

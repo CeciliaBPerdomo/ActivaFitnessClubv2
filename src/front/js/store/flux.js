@@ -33,9 +33,11 @@ const getState = ({ getStore, getActions, setStore }) => {
       movimientosMensuales: [],
       movimientosDiarios: [],
       tiposEjercicios: [],
-      tipoEjercicio: {}, 
+      tipoEjercicio: {},
       ejercicios: [],
-      ejercicio: {}
+      ejercicio: {}, 
+      compras: [],
+      compra: {}
     },
 
     actions: {
@@ -2205,21 +2207,21 @@ const getState = ({ getStore, getActions, setStore }) => {
         });
       },
 
-  // Buscador de ejercicios por tipo
-  buscadorEjercicioPorTipo: (valor) => {
-    let store = getStore();
-    let resultados = store.ejercicios.filter((item) => {
-      if (item.idTipo == valor){
-        return valor;
-      }
-    });
-    setStore({
-      ejercicios: resultados,
-    });
-  },
+      // Buscador de ejercicios por tipo
+      buscadorEjercicioPorTipo: (valor) => {
+        let store = getStore();
+        let resultados = store.ejercicios.filter((item) => {
+          if (item.idTipo == valor) {
+            return valor;
+          }
+        });
+        setStore({
+          ejercicios: resultados,
+        });
+      },
 
-       // Ordena los ejercicios de mayor a menor
-       ordenarEjerciciosDesc: async () => {
+      // Ordena los ejercicios de mayor a menor
+      ordenarEjerciciosDesc: async () => {
         try {
           const response = await axios.get(
             direccion + "/api/ejercicios/nombDesc",
@@ -2301,6 +2303,138 @@ const getState = ({ getStore, getActions, setStore }) => {
           }
         }
       },
+
+
+      ////////////////////////////////////
+      //          Compras              ///
+      ////////////////////////////////////
+
+      /* Listar todas las compras */
+      obtenerCompras: async () => {
+        try {
+          const response = await axios.get(
+            direccion + "/api/compras",
+            {
+              headers: {
+                Authorization: "Bearer " + localStorage.getItem("Token"),
+              },
+            },
+          );
+          setStore({
+            compras: response.data,
+          });
+        } catch (error) {
+          if (error.code === "ERR_BAD_REQUEST") {
+            console.log(error.response.data.msg);
+          }
+        }
+      },
+
+      /* Agrega una nueva compra */
+      crearCompras: async (precioCompra, fecha, cantidad, observaciones, idProducto, idProveedor, idMetodo) => {
+        try {
+          const response = await axios.post(direccion + "/api/compras", {
+            preciocompra: precioCompra, 
+            fecha: fecha, 
+            cantidad: cantidad, 
+            observaciones: observaciones, 
+            idproducto: idProducto, 
+            idproveedor: idProveedor, 
+            idmetodo: idMetodo
+          }, {
+            headers: {
+              Authorization: "Bearer " + localStorage.getItem("Token"),
+            },
+          });
+          if (response.status === 200) {
+            return true;
+          }
+        } catch (error) {
+          console.error(
+            "Error " + error.response.status + ": " + error.response.statusText,
+          );
+          return false;
+        }
+      },
+
+      /* Borra una compra por el id */
+      borrarCompra: async (id) => {
+        try {
+          const response = await axios.delete(direccion + "/api/compras/" + id, {
+            headers: {
+              Authorization: "Bearer " + localStorage.getItem("Token"),
+            },
+          });
+          getActions().obtenerCompras();
+          if (response.status === 200) {
+            return true;
+          }
+        } catch (error) {
+          console.error(
+            "Error " + error.response.status + ": " + error.response.statusText,
+          );
+          return false;
+        }
+      },
+
+      // Modificar la compra por el id
+      modificarCompra: async (id, precioCompra, fecha, cantidad, observaciones, idProducto, idProveedor, idMetodo) => {
+        try {
+          const response = await axios.put(direccion + "/api/compras/" + id, {
+            preciocompra: precioCompra, 
+            fecha: fecha, 
+            cantidad: cantidad, 
+            observaciones: observaciones, 
+            idproducto: idProducto, 
+            idproveedor: idProveedor, 
+            idmetodo: idMetodo
+          }, {
+            headers: {
+              Authorization: "Bearer " + localStorage.getItem("Token"),
+            },
+          });
+          if (response.status === 200) {
+            return true;
+          }
+        } catch (error) {
+          console.error(
+            "Error " + error.response.status + ": " + error.response.statusText,
+          );
+          return false;
+        }
+      },
+
+      // Obtener compra por id
+      obtenerCompraId: async (id) => {
+        try {
+          const response = await axios.get(direccion + "/api/compras/" + id, {
+            headers: {
+              Authorization: "Bearer " + localStorage.getItem("Token"),
+            },
+          });
+          setStore({ compra: response.data });
+          if (response.status === 200) {
+            return true;
+          }
+        } catch (error) {
+          console.error(
+            "Error " + error.response.status + ": " + error.response.statusText,
+          );
+          return false;
+        }
+      },
+
+      // Buscador de productos en compras
+      buscadorCompras: (valor) => {
+        let store = getStore();
+        let resultados = store.compras.filter((item) => {
+          if ( item.idproducto == valor) {
+            return valor;
+          }
+        });
+        setStore({ compras: resultados });
+      },
+
 
     },
   };

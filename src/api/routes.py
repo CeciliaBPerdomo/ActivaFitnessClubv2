@@ -1589,3 +1589,144 @@ def get_TipoAsc():
     }, ejercicios))
 
     return jsonify(results), 200
+
+#####################################################################################
+#####################################################################################
+###                                                                               ###
+###                   COMPRAS                                                     ###
+###                                                                               ###
+#####################################################################################
+#####################################################################################
+
+# Muestra todas las compras realizadas
+@api.route('/compras', methods=['GET'])
+@jwt_required()
+def get_Compras():
+    compras = db.session.query(Compras, Productos, Proveedores, Metodospago).join(Productos, Compras.idproducto == Productos.id).join(Proveedores, Compras.idproveedor == Proveedores.id).join(Metodospago, Compras.idmetodo == Metodospago.id).all()
+    
+    if compras == []: 
+        return jsonify({"msg": "No hay compras realizadas"})
+    
+    results = list(map(lambda compra: {
+        # Compras
+        "idCompra" : compra[0].id,
+        "preciocompra": compra[0].preciocompra,
+        "fecha": compra[0].fecha,
+        "cantidad": compra[0].cantidad,
+        "observaciones": compra[0].observaciones,
+        
+        # Productos
+        "idProducto": compra[1].id, 
+        "nombreProducto": compra[1].nombre,
+
+        # Proveedores
+        "idProveedor": compra[2].id, 
+        "nombreProveedor": compra[2].nombre,
+
+        # Metodo de pago
+        "idMetodo": compra[3].id, 
+        "TipoMetodo": compra[3].tipo
+    }, compras))
+
+    return jsonify(results), 200
+
+# Agrega una nueva compra
+@api.route('/compras', methods=['POST'])
+@jwt_required()
+def add_compras():
+    body = json.loads(request.data)
+    
+    new_compra = Compras(
+        preciocompra = body["preciocompra"], 
+        fecha = body["fecha"],
+        cantidad = body["cantidad"],
+        observaciones = body["observaciones"], 
+        idproducto = body["idproducto"],
+        idproveedor = body["idproveedor"],
+        idmetodo = body["idmetodo"]
+    )
+
+    db.session.add(new_compra)
+    db.session.commit()
+
+    return jsonify(new_compra.serialize()), 200
+
+# Elimina una compra por el id
+@api.route('/compras/<int:id>', methods=['DELETE'])
+@jwt_required()
+def delete_compra(id):
+    compra = Compras.query.filter_by(id=id).first()
+  
+    if compra is None: 
+        return jsonify({"msg": "No existe ninguna compra con ese id"}), 404
+
+    db.session.delete(compra)
+    db.session.commit()
+    return jsonify( {"msg": "Compra eliminada"}), 200 
+
+# Modifica la compra por el id
+@api.route('/compras/<int:id>', methods=['PUT'])
+@jwt_required()
+def put_compras(id):
+    body = json.loads(request.data)
+    compras = Compras.query.filter_by(id=id).first()
+
+    if compras is None:
+        return jsonify({"msg": "No existe la compra seleccionada"}), 404    
+
+    if "preciocompra" in body:
+        compras.preciocompra = body["preciocompra"]
+        
+    if "fecha" in body:
+        compras.fecha = body["fecha"]
+
+    if "cantidad" in body:
+        compras.cantidad = body["cantidad"]
+    
+    if "observaciones" in body:
+        compras.observaciones = body["observaciones"]
+    
+    if "idproducto" in body:
+        compras.idproducto = body["idproducto"]
+    
+    if "idproveedor" in body:
+        compras.idproveedor = body["idproveedor"]
+
+    if "idmetodo" in body:
+        compras.idmetodo = body["idmetodo"]
+
+    db.session.commit()
+    return jsonify({"msg": "Compra modificada"}), 200
+
+#Muestra la compra por id
+@api.route('/compras/<int:id>', methods=['GET'])
+@jwt_required()
+def get_comprasId(id):
+    
+    id = db.session.query(Compras, Productos, Proveedores, Metodospago).filter_by(id=id).join(Productos, Compras.idproducto == Productos.id).join(Proveedores, Compras.idproveedor == Proveedores.id).join(Metodospago, Compras.idmetodo == Metodospago.id).all()
+    
+    if id == []: 
+        return jsonify({"msg": "Compra no encontrada."}), 404
+
+    results = list(map(lambda compra: {
+        # Compras
+        "idCompra" : compra[0].id,
+        "preciocompra": compra[0].preciocompra,
+        "fecha": compra[0].fecha,
+        "cantidad": compra[0].cantidad,
+        "observaciones": compra[0].observaciones,
+        
+        # Productos
+        "idProducto": compra[1].id, 
+        "nombreProducto": compra[1].nombre,
+
+        # Proveedores
+        "idProveedor": compra[2].id, 
+        "nombreProveedor": compra[2].nombre,
+
+        # Metodo de pago
+        "idMetodo": compra[3].id, 
+        "TipoMetodo": compra[3].tipo
+    }, id))
+
+    return jsonify(results), 200

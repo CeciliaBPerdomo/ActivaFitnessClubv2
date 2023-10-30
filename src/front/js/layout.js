@@ -80,6 +80,10 @@ import ModificarEjercicios from "./component/ejercicios/ModificarEjercicios.jsx"
 import VerEjercicioIndividual from "./component/ejercicios/VerEjercicioIndividual.jsx";
 import EjerciciosPorTipo from "./component/ejercicios/EjerciciosPorTipo.jsx";
 
+// Compras
+import ListadoCompras from "./component/compras/ListadoCompras.jsx";
+import CrearCompras from "./component/compras/CrearCompras.jsx";
+
 
 //create your first component
 const Layout = () => {
@@ -167,6 +171,9 @@ const Layout = () => {
                         <Route element={<VerEjercicioIndividual />} path="/individualEjercicio/:theid" />
                         <Route element={<EjerciciosPorTipo />} path="/ejercicioPorTipo" />
 
+                        {/* Compras */}
+                        <Route element={<ListadoCompras />} path="/listadoCompras" />
+                        <Route element={<CrearCompras />} path="/nuevaCompra" />
 
                         <Route element={<h1>Not found!</h1>} />
                     </Routes>

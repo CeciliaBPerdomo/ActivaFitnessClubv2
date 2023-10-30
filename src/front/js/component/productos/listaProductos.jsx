@@ -85,7 +85,7 @@ const buscar = async (valor) => {
                   <td>{item.nombre}</td>
                   <td className="text-center">{item.cantidad}</td>
                   <td className="text-center">$ {item.precioventa}</td>
-                  <td>{item.proveedorInfo.nombre}</td>
+                  <td>{item.nombreProveedor}</td>
                   <td className="text-center">
                     <Link
                       to={"/ProductoDetalle/" + item.id}

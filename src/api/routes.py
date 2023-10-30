@@ -675,8 +675,26 @@ def pago_mensualidad_id(idusuario):
 @api.route('/productos', methods=['GET'])
 @jwt_required()
 def getProductos():
-    products = Productos.query.all()
-    results = list(map(lambda x: {**x.serializeProveedor(), **x.serialize()}, products))
+   
+    producto = db.session.query(Productos, Proveedores).join(Proveedores, Productos.proveedorid == Proveedores.id).all()
+    
+    if producto == []: 
+        return jsonify({"msg": "No hay productos encontrados."}), 404
+    
+    results = list(map(lambda products: {
+        #Productos
+        "id": products[0].id, 
+        "nombre": products[0].nombre, 
+        "cantidad": products[0].cantidad, 
+        "precioventa": products[0].precioventa,
+        "foto": products[0].foto, 
+        "video": products[0].video, 
+        "observaciones": products[0].observaciones, 
+        #Proveedores 
+        "idProveedor": products[1].id, 
+        "nombreProveedor": products[1].nombre,
+    }, producto))
+   
     return jsonify(results), 200
 
 # Alta de un producto

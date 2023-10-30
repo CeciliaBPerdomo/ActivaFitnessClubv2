@@ -54,18 +54,6 @@ export const ModificarProductos = () => {
           theme: "dark",
         });
       }
-    // } else {
-    //   toast.error("Faltan completar datos", {
-    //     position: toast.POSITION.TOP_RIGHT,
-    //     autoClose: 3000,
-    //     hideProgressBar: false,
-    //     closeOnClick: true,
-    //     pauseOnHover: true,
-    //     draggable: true,
-    //     progress: undefined,
-    //     theme: "dark",
-    //   });
-    // }
   }
 
   return (
@@ -167,7 +155,7 @@ export const ModificarProductos = () => {
                 onChange={(e) => setProveedor(e.target.value)}
               >
                 <option selected>
-                  {store.producto[0]?.proveedorInfo.nombre}
+                  {store.producto[0]?.nombreProveedor}
                 </option>
                 {store.proveedores.map((item, id) => (
                   <option key={id} value={item.id}>{item.nombre}</option>

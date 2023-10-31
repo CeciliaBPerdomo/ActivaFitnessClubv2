@@ -11,38 +11,37 @@ function ListadoCompras() {
 
     const borrar = async (e, id) => {
         e.preventDefault();
-    
+
         let resultado = await actions.borrarCompra(id)
 
         if (resultado === true) {
-          toast.success("🤚 Borrado con éxito", {
-            position: toast.POSITION.TOP_RIGHT,
-            autoClose: 1000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "dark",
-          });
+            toast.success("🤚 Borrado con éxito", {
+                position: toast.POSITION.TOP_RIGHT,
+                autoClose: 1000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+            });
         } else {
-          toast.error("No se puede borrar", {
-            position: toast.POSITION.TOP_RIGHT,
-            autoClose: 1000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "dark",
-          });
+            toast.error("No se puede borrar", {
+                position: toast.POSITION.TOP_RIGHT,
+                autoClose: 1000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+            });
         }
-      };
+    };
 
     useEffect(() => {
         actions.obtenerCompras();
     }, []);
-
 
     return (
         <div className="container">
@@ -69,49 +68,61 @@ function ListadoCompras() {
             <br />
 
             <div style={{ marginTop: "35px" }}>
-                <table className="table" style={{ color: "white" }}>
-                    <thead>
-                        <tr>
-                            <th scope="col">Fecha compra</th>
-                            <th scope="col">Producto</th>
-                            <th scope="col" className="text-center">Cantidad</th>
-                            <th scope="col" className="text-center">Precio de compra</th>
-                            <th scope="col" className="text-center">Proveedor</th>
-                            <th scope="col">Pago</th>
-                            <th scope="col">Observaciones</th>
-                            <th scope="col"></th>
-                            <th scope="col"></th>
-                            <th scope="col"></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {store.compras.map((item, id) => (
-                            <tr key={id}>
-                                <td>{item.fecha.slice(5, 16)}</td>
-                                <td>{item.nombreProducto}</td>
-                                <td className="text-center">{item.cantidad}</td>
-                                <td className="text-center">$ {item.preciocompra}</td>
-                                <td className="text-center">{item.nombreProveedor}</td>
-                                <td>{item.TipoMetodo}</td>
-                                <td>{item.observaciones}</td>
-                                <td><i className="fa fa-eye"></i></td>
-                                <td>
-                                    <Link to={"//" + item.id} style={{ color: "white" }}>
-                                        <i className="fa fa-pen"></i>
-                                    </Link>
-                                </td>
-                                <td>
-                                    <i className="fa fa-trash"
-                                    onClick={(e) => borrar(e, item.idCompra)}
-                                    >
-                                    </i>
-                                </td>
+                {store.compras.msg == "No hay compras realizadas" ?
+                    <p>No hay compras realizadas aún.</p> :
+                    <table className="table" style={{ color: "white" }}>
+                        <thead>
+                            <tr>
+                                <th scope="col"></th>
+                                <th scope="col">Fecha compra</th>
+                                <th scope="col">Producto</th>
+                                <th scope="col" className="text-center">Cantidad</th>
+                                <th scope="col" className="text-center">Precio de compra</th>
+                                <th scope="col" className="text-center">Proveedor</th>
+                                <th scope="col">Pago</th>
+                                <th scope="col">Observaciones</th>
+                                <th scope="col"></th>
+                                <th scope="col"></th>
+                                <th scope="col"></th>
                             </tr>
-                        ))}
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            {store.compras.map((item, id) => (
+                                <tr key={id}>
+                                    <td className="align-middle">
+                                        <img src={item.fotoProducto} style={{ width: "40px" }} />
+                                    </td>
+                                    <td className="align-middle">{item.fecha.slice(5, 16)}</td>
+                                    <td className="align-middle">{item.nombreProducto}</td>
+                                    <td className="text-center align-middle">{item.cantidad}</td>
+                                    <td className="text-center align-middle">$ {item.preciocompra}</td>
+                                    <td className="text-center align-middle">{item.nombreProveedor}</td>
+                                    <td className="align-middle">{item.TipoMetodo}</td>
+                                    <td className="align-middle">{item.observaciones}</td>
+                                    <td className="align-middle">
+                                        <Link to={"/detalleCompra/" + item.idCompra} style={{ color: "white" }}>
+                                            <i className="fa fa-eye"></i>
+                                        </Link>
+                                    </td>
+                                    <td className="align-middle">
+                                        <Link to={"/modificarCompra/" + item.idCompra} style={{ color: "white" }}>
+                                            <i className="fa fa-pen"></i>
+                                        </Link>
+                                    </td>
+                                    <td className="align-middle">
+                                        <i className="fa fa-trash"
+                                            onClick={(e) => borrar(e, item.idCompra)}
+                                        >
+                                        </i>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                }
 
             </div>
+           
             <ToastContainer />
         </div>
     )

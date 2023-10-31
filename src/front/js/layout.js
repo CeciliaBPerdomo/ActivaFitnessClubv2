@@ -83,6 +83,8 @@ import EjerciciosPorTipo from "./component/ejercicios/EjerciciosPorTipo.jsx";
 // Compras
 import ListadoCompras from "./component/compras/ListadoCompras.jsx";
 import CrearCompras from "./component/compras/CrearCompras.jsx";
+import DetalleCompras from "./component/compras/DetalleCompras.jsx";
+import ModificarCompra from "./component/compras/modificarCompra.jsx";
 
 
 //create your first component
@@ -174,6 +176,8 @@ const Layout = () => {
                         {/* Compras */}
                         <Route element={<ListadoCompras />} path="/listadoCompras" />
                         <Route element={<CrearCompras />} path="/nuevaCompra" />
+                        <Route element={<DetalleCompras />} path="/detalleCompra/:theid" />
+                        <Route element={<ModificarCompra />} path="/modificarCompra/:theid" />
 
                         <Route element={<h1>Not found!</h1>} />
                     </Routes>

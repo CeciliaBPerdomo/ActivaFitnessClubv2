@@ -1636,6 +1636,7 @@ def get_Compras():
         # Productos
         "idProducto": compra[1].id, 
         "nombreProducto": compra[1].nombre,
+        "fotoProducto": compra[1].foto,
 
         # Proveedores
         "idProveedor": compra[2].id, 
@@ -1737,6 +1738,7 @@ def get_comprasId(id):
         # Productos
         "idProducto": compra[1].id, 
         "nombreProducto": compra[1].nombre,
+        "fotoProducto": compra[1].foto,
 
         # Proveedores
         "idProveedor": compra[2].id, 

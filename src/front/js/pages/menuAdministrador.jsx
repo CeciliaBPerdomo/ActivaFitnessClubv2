@@ -126,6 +126,22 @@ export const MenuAdministrador = () => {
                 </p>
                 <br />
 
+                {/* Proovedores */}
+                <p style={{ fontSize: "17px", lineHeight: "7px", color: "red" }}>
+                    Proveedores:
+                </p>
+                <p style={{ fontSize: "15px", lineHeight: "7px", marginLeft: "10px" }}>
+                    <Link to="/CrearProveedor" style={{ textDecoration: "none", color: "white" }}>
+                        - Ingresar nuevo proveedor
+                    </Link>
+                </p>
+                <p style={{ fontSize: "15px", lineHeight: "7px", marginLeft: "10px" }}>
+                    <Link to="/ListadoProveedores" style={{ textDecoration: "none", color: "white" }}>
+                        - Listado de proveedores
+                    </Link>
+                </p>
+                <br />
+
                 {/* Productos */}
                 <p style={{ fontSize: "17px", lineHeight: "7px", color: "red" }}>
                     Productos:
@@ -142,18 +158,18 @@ export const MenuAdministrador = () => {
                 </p>
                 <br />
 
-                {/* Proovedores */}
+                {/* Compras */}
                 <p style={{ fontSize: "17px", lineHeight: "7px", color: "red" }}>
-                    Proveedores:
+                    Compras:
                 </p>
                 <p style={{ fontSize: "15px", lineHeight: "7px", marginLeft: "10px" }}>
-                    <Link to="/CrearProveedor" style={{ textDecoration: "none", color: "white" }}>
-                        - Ingresar nuevo proveedor
+                    <Link to="/nuevaCompra" style={{ textDecoration: "none", color: "white" }}>
+                        - Ingresar nueva compra
                     </Link>
                 </p>
                 <p style={{ fontSize: "15px", lineHeight: "7px", marginLeft: "10px" }}>
-                    <Link to="/ListadoProveedores" style={{ textDecoration: "none", color: "white" }}>
-                        - Listado de proveedores
+                    <Link to="/listadoCompras" style={{ textDecoration: "none", color: "white" }}>
+                        - Listado de compras
                     </Link>
                 </p>
                 <br />

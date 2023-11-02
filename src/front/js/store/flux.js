@@ -2428,7 +2428,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       buscadorCompras: (valor) => {
         let store = getStore();
         let resultados = store.compras.filter((item) => {
-          if ( item.idproducto == valor) {
+          if ( item.idProducto == valor) {
             return valor;
           }
         });

@@ -7,7 +7,6 @@ import "react-toastify/dist/ReactToastify.css";
 export const ListadoProductos = () => {
   const { store, actions } = useContext(Context);
   let navegacion = useNavigate();
-
   const [busqueda, setBusqueda] = useState("");
 
   useEffect(() => {

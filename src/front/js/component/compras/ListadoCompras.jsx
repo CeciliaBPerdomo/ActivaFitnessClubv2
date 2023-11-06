@@ -1,42 +1,43 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Context } from "../../store/appContext";
 import { Link } from "react-router-dom";
+
+// Alertas
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Swal from 'sweetalert2'
+
 
 function ListadoCompras() {
-
     const { store, actions } = useContext(Context);
-    const [busqueda, setBusqueda] = useState("");
 
+    // Borra la compra
     const borrar = async (e, id) => {
         e.preventDefault();
-
-        let resultado = await actions.borrarCompra(id)
-
-        if (resultado === true) {
-            toast.success("🤚 Borrado con éxito", {
-                position: toast.POSITION.TOP_RIGHT,
-                autoClose: 1000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "dark",
-            });
-        } else {
-            toast.error("No se puede borrar", {
-                position: toast.POSITION.TOP_RIGHT,
-                autoClose: 1000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "dark",
-            });
-        }
+        Swal.fire({
+            position: 'top-end',
+            showClass: { popup: 'animate__animated animate__fadeInDown' },
+            hideClass: { popup: 'animate__animated animate__fadeOutUp' },
+            title: '¿Estás seguro?',
+            text: "No podrás recuperar la info luego!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Si, borralo!',
+            cancelButtonText: 'No!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                actions.borrarCompra(id),
+                    Swal.fire({
+                        position: 'top-end',
+                        title: 'Borrado!',
+                        text: 'La compra ha sido eliminada',
+                        icon: 'success'
+                    }
+                    )
+            }
+        })
     };
 
     useEffect(() => {
@@ -45,37 +46,50 @@ function ListadoCompras() {
 
     return (
         <div className="container">
-            <div className="input-group mb-3 w-25 float-end">
-                <input
-                    type="text"
-                    className="form-control "
-                    placeholder="🔎 Buscar productos"
-                // onChange={(e) => setBusqueda(e.target.value)}
-                //             value={busqueda}
-                />
-                <button
-                    className="btn btn-outline-danger"
-                    type="button"
-                    id="button-addon2"
-                // onClick={(e) => buscar(busqueda)}
-                >
-                    Buscar
-                </button>
-            </div>
-
             <h3 style={{ marginBottom: "25px" }}>Compras</h3>
             <hr />
             <br />
 
-            <div style={{ marginTop: "35px" }}>
+            <div>
                 {store.compras.msg == "No hay compras realizadas" ?
                     <p>No hay compras realizadas aún.</p> :
                     <table className="table" style={{ color: "white" }}>
                         <thead>
                             <tr>
                                 <th scope="col"></th>
-                                <th scope="col">Fecha compra</th>
-                                <th scope="col">Producto</th>
+                                <th scope="col">
+                                    Fecha compra
+                                    <button type="button"
+                                        className="btn btn-outline-danger btn-sm"
+                                        style={{ marginLeft: "3px", fontSize: "12px" }}
+                                        onClick={() => actions.ordenarComprasFechaAsc()}
+                                    >
+                                        ↑
+                                    </button>
+                                    <button type="button"
+                                        className="btn btn-outline-danger btn-sm"
+                                        style={{ marginLeft: "3px", fontSize: "12px" }}
+                                        onClick={() => actions.ordenarComprasFechaDesc()}
+                                    >
+                                        ↓
+                                    </button>
+                                </th>
+                                <th scope="col">Producto
+                                    <button type="button"
+                                        className="btn btn-outline-danger btn-sm"
+                                        style={{ marginLeft: "3px", fontSize: "12px" }}
+                                        onClick={() => actions.ordenarComprasProductoAsc()}
+                                    >
+                                        ↑
+                                    </button>
+                                    <button type="button"
+                                        className="btn btn-outline-danger btn-sm"
+                                        style={{ marginLeft: "3px", fontSize: "12px" }}
+                                        onClick={() => actions.ordenarComprasProductoDesc()}
+                                    >
+                                        ↓
+                                    </button>
+                                </th>
                                 <th scope="col" className="text-center">Cantidad</th>
                                 <th scope="col" className="text-center">Precio de compra</th>
                                 <th scope="col" className="text-center">Proveedor</th>
@@ -122,7 +136,7 @@ function ListadoCompras() {
                 }
 
             </div>
-           
+
             <ToastContainer />
         </div>
     )

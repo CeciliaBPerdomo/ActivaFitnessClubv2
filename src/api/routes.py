@@ -1750,3 +1750,191 @@ def get_comprasId(id):
     }, id))
 
     return jsonify(results), 200
+
+# Busca los movimientos de las compras por fecha
+@api.route('/comprasFechas/<string:fechaInicio>/<string:fechaFin>', methods=['GET'])
+#@jwt_required()
+def get_comprasFechas(fechaInicio, fechaFin):
+    
+    compras = db.session.query(Compras, Productos, Proveedores, Metodospago).filter(Compras.fecha>=fechaInicio).filter(Compras.fecha<=fechaFin).join(Productos, Compras.idproducto == Productos.id).join(Proveedores, Compras.idproveedor == Proveedores.id).join(Metodospago, Compras.idmetodo == Metodospago.id).all()
+
+    if compras is None: 
+        response_body = {"msg": "No hay movimientos para ese rango de fechas"}
+        return jsonify(response_body), 200
+    
+    if compras == []: 
+        return jsonify({"msg": "No hay movimientos para ese rango de fechas"}), 404
+
+    results = list(map(lambda compra: {
+        # Compras
+        "idCompra" : compra[0].id,
+        "preciocompra": compra[0].preciocompra,
+        "fecha": compra[0].fecha,
+        "cantidad": compra[0].cantidad,
+        "observaciones": compra[0].observaciones,
+        
+        # Productos
+        "idProducto": compra[1].id, 
+        "nombreProducto": compra[1].nombre,
+        "fotoProducto": compra[1].foto,
+
+        # Proveedores
+        "idProveedor": compra[2].id, 
+        "nombreProveedor": compra[2].nombre,
+
+        # Metodo de pago
+        "idMetodo": compra[3].id, 
+        "TipoMetodo": compra[3].tipo
+    }, compras))
+    
+    return jsonify(results), 200
+
+# Muestra las compras ordenados en forma descendente (de mayor a menor) por fecha
+@api.route('/compras/fechaDesc', methods=['GET'])
+@jwt_required()
+def get_fecha_Desc():
+    compras = db.session.query(Compras, Productos, Proveedores, Metodospago).order_by(desc(Compras.fecha)).join(Productos, Compras.idproducto == Productos.id).join(Proveedores, Compras.idproveedor == Proveedores.id).join(Metodospago, Compras.idmetodo == Metodospago.id).all()
+    
+    if compras is None: 
+        response_body = {"msg": "No hay movimientos para ese rango de fechas"}
+        return jsonify(response_body), 200
+    
+    if compras == []: 
+        return jsonify({"msg": "No hay movimientos para ese rango de fechas"}), 404
+
+    results = list(map(lambda compra: {
+        # Compras
+        "idCompra" : compra[0].id,
+        "preciocompra": compra[0].preciocompra,
+        "fecha": compra[0].fecha,
+        "cantidad": compra[0].cantidad,
+        "observaciones": compra[0].observaciones,
+        
+        # Productos
+        "idProducto": compra[1].id, 
+        "nombreProducto": compra[1].nombre,
+        "fotoProducto": compra[1].foto,
+
+        # Proveedores
+        "idProveedor": compra[2].id, 
+        "nombreProveedor": compra[2].nombre,
+
+        # Metodo de pago
+        "idMetodo": compra[3].id, 
+        "TipoMetodo": compra[3].tipo
+    }, compras))
+    
+    return jsonify(results), 200
+
+# Muestra las compras ordenados en forma ascendente (de menor a mayor) por fecha
+@api.route('/compras/fechaAsc', methods=['GET'])
+@jwt_required()
+def get_Compras_fecha_Asc():
+    compras = db.session.query(Compras, Productos, Proveedores, Metodospago).order_by(asc(Compras.fecha)).join(Productos, Compras.idproducto == Productos.id).join(Proveedores, Compras.idproveedor == Proveedores.id).join(Metodospago, Compras.idmetodo == Metodospago.id).all()
+    
+    if compras is None: 
+        response_body = {"msg": "No hay movimientos para ese rango de fechas"}
+        return jsonify(response_body), 200
+    
+    if compras == []: 
+        return jsonify({"msg": "No hay movimientos para ese rango de fechas"}), 404
+
+    results = list(map(lambda compra: {
+        # Compras
+        "idCompra" : compra[0].id,
+        "preciocompra": compra[0].preciocompra,
+        "fecha": compra[0].fecha,
+        "cantidad": compra[0].cantidad,
+        "observaciones": compra[0].observaciones,
+        
+        # Productos
+        "idProducto": compra[1].id, 
+        "nombreProducto": compra[1].nombre,
+        "fotoProducto": compra[1].foto,
+
+        # Proveedores
+        "idProveedor": compra[2].id, 
+        "nombreProveedor": compra[2].nombre,
+
+        # Metodo de pago
+        "idMetodo": compra[3].id, 
+        "TipoMetodo": compra[3].tipo
+    }, compras))
+    
+    return jsonify(results), 200
+
+
+# Muestra las compras ordenados en forma ascendente (de menor a mayor) por producto
+@api.route('/compras/productoAsc', methods=['GET'])
+@jwt_required()
+def get_Compras_producto_Asc():
+    compras = db.session.query(Compras, Productos, Proveedores, Metodospago).order_by(asc(Productos.nombre)).join(Productos, Compras.idproducto == Productos.id).join(Proveedores, Compras.idproveedor == Proveedores.id).join(Metodospago, Compras.idmetodo == Metodospago.id).all()
+    
+    if compras is None: 
+        response_body = {"msg": "No hay movimientos para ese rango de fechas"}
+        return jsonify(response_body), 200
+    
+    if compras == []: 
+        return jsonify({"msg": "No hay movimientos para ese rango de fechas"}), 404
+
+    results = list(map(lambda compra: {
+        # Compras
+        "idCompra" : compra[0].id,
+        "preciocompra": compra[0].preciocompra,
+        "fecha": compra[0].fecha,
+        "cantidad": compra[0].cantidad,
+        "observaciones": compra[0].observaciones,
+        
+        # Productos
+        "idProducto": compra[1].id, 
+        "nombreProducto": compra[1].nombre,
+        "fotoProducto": compra[1].foto,
+
+        # Proveedores
+        "idProveedor": compra[2].id, 
+        "nombreProveedor": compra[2].nombre,
+
+        # Metodo de pago
+        "idMetodo": compra[3].id, 
+        "TipoMetodo": compra[3].tipo
+    }, compras))
+    
+    return jsonify(results), 200
+
+
+# Muestra las compras ordenados en forma ascendente (de menor a mayor) por producto
+@api.route('/compras/productoDesc', methods=['GET'])
+@jwt_required()
+def get_Compras_producto_Desc():
+    compras = db.session.query(Compras, Productos, Proveedores, Metodospago).order_by(desc(Productos.nombre)).join(Productos, Compras.idproducto == Productos.id).join(Proveedores, Compras.idproveedor == Proveedores.id).join(Metodospago, Compras.idmetodo == Metodospago.id).all()
+    
+    if compras is None: 
+        response_body = {"msg": "No hay movimientos para ese rango de fechas"}
+        return jsonify(response_body), 200
+    
+    if compras == []: 
+        return jsonify({"msg": "No hay movimientos para ese rango de fechas"}), 404
+
+    results = list(map(lambda compra: {
+        # Compras
+        "idCompra" : compra[0].id,
+        "preciocompra": compra[0].preciocompra,
+        "fecha": compra[0].fecha,
+        "cantidad": compra[0].cantidad,
+        "observaciones": compra[0].observaciones,
+        
+        # Productos
+        "idProducto": compra[1].id, 
+        "nombreProducto": compra[1].nombre,
+        "fotoProducto": compra[1].foto,
+
+        # Proveedores
+        "idProveedor": compra[2].id, 
+        "nombreProveedor": compra[2].nombre,
+
+        # Metodo de pago
+        "idMetodo": compra[3].id, 
+        "TipoMetodo": compra[3].tipo
+    }, compras))
+    
+    return jsonify(results), 200

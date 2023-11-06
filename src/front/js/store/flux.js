@@ -35,9 +35,10 @@ const getState = ({ getStore, getActions, setStore }) => {
       tiposEjercicios: [],
       tipoEjercicio: {},
       ejercicios: [],
-      ejercicio: {}, 
+      ejercicio: {},
       compras: [],
-      compra: {}
+      compra: {},
+      comprasMensuales: [],
     },
 
     actions: {
@@ -2334,12 +2335,12 @@ const getState = ({ getStore, getActions, setStore }) => {
       crearCompras: async (precioCompra, fecha, cantidad, observaciones, idProducto, idProveedor, idMetodo) => {
         try {
           const response = await axios.post(direccion + "/api/compras", {
-            preciocompra: precioCompra, 
-            fecha: fecha, 
-            cantidad: cantidad, 
-            observaciones: observaciones, 
-            idproducto: idProducto, 
-            idproveedor: idProveedor, 
+            preciocompra: precioCompra,
+            fecha: fecha,
+            cantidad: cantidad,
+            observaciones: observaciones,
+            idproducto: idProducto,
+            idproveedor: idProveedor,
             idmetodo: idMetodo
           }, {
             headers: {
@@ -2381,12 +2382,12 @@ const getState = ({ getStore, getActions, setStore }) => {
       modificarCompra: async (id, precioCompra, fecha, cantidad, observaciones, idProducto, idProveedor, idMetodo) => {
         try {
           const response = await axios.put(direccion + "/api/compras/" + id, {
-            preciocompra: precioCompra, 
-            fecha: fecha, 
-            cantidad: cantidad, 
-            observaciones: observaciones, 
-            idproducto: idProducto, 
-            idproveedor: idProveedor, 
+            preciocompra: precioCompra,
+            fecha: fecha,
+            cantidad: cantidad,
+            observaciones: observaciones,
+            idproducto: idProducto,
+            idproveedor: idProveedor,
             idmetodo: idMetodo
           }, {
             headers: {
@@ -2428,14 +2429,123 @@ const getState = ({ getStore, getActions, setStore }) => {
       buscadorCompras: (valor) => {
         let store = getStore();
         let resultados = store.compras.filter((item) => {
-          if ( item.idProducto == valor) {
+          if (item.idProducto == valor) {
             return valor;
           }
         });
         setStore({ compras: resultados });
       },
 
+      // Obtener compras por rango de fechas
+      obtenerComprasPorFechas: async (fechaInicio, fechaFin) => {
+        try {
+          const response = await axios.get(
+            direccion + "/api/comprasFechas/" + fechaInicio + "/" + fechaFin, {},
+            {
+              headers: {
+                Authorization: "Bearer " + localStorage.getItem("Token"),
+              },
+            },
+          );
+          setStore({
+            comprasMensuales: response.data,
+          });
+          if (response.status === 200) {
+            return true;
+          }
+        } catch (error) {
+          console.error(
+            "Error " + error.response.status + ": " + error.response.statusText,
+          );
+          return false;
+        }
+      },
 
+      // Ordena las compras de mayor a menor por fecha
+      ordenarComprasFechaDesc: async () => {
+        try {
+          const response = await axios.get(
+            direccion + "/api/compras/fechaDesc",
+            {
+              headers: {
+                Authorization: "Bearer " + localStorage.getItem("Token"),
+              },
+            },
+          );
+          setStore({
+            compras: response.data,
+          });
+        } catch (error) {
+          if (error.code === "ERR_BAD_REQUEST") {
+            console.log(error.response.data.msg);
+          }
+        }
+      },
+
+      // Ordena las compras por producto de menor a mayor
+      ordenarComprasProductoAsc: async () => {
+        try {
+          const response = await axios.get(
+            direccion + "/api/compras/productoAsc",
+            {
+              headers: {
+                Authorization: "Bearer " + localStorage.getItem("Token"),
+              },
+            },
+          );
+          setStore({
+            compras: response.data,
+          });
+        } catch (error) {
+          if (error.code === "ERR_BAD_REQUEST") {
+            console.log(error.response.data.msg);
+          }
+        }
+      },
+
+
+            // Ordena las compras de mayor a menor por producto
+            ordenarComprasProductoDesc: async () => {
+              try {
+                const response = await axios.get(
+                  direccion + "/api/compras/productoDesc",
+                  {
+                    headers: {
+                      Authorization: "Bearer " + localStorage.getItem("Token"),
+                    },
+                  },
+                );
+                setStore({
+                  compras: response.data,
+                });
+              } catch (error) {
+                if (error.code === "ERR_BAD_REQUEST") {
+                  console.log(error.response.data.msg);
+                }
+              }
+            },
+      
+            // Ordena las compras por fecha de menor a mayor
+            ordenarComprasFechaAsc: async () => {
+              try {
+                const response = await axios.get(
+                  direccion + "/api/compras/fechaAsc",
+                  {
+                    headers: {
+                      Authorization: "Bearer " + localStorage.getItem("Token"),
+                    },
+                  },
+                );
+                setStore({
+                  compras: response.data,
+                });
+              } catch (error) {
+                if (error.code === "ERR_BAD_REQUEST") {
+                  console.log(error.response.data.msg);
+                }
+              }
+            },
+      
     },
   };
 };

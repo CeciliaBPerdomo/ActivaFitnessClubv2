@@ -177,6 +177,11 @@ export const MenuAdministrador = () => {
                         - Compras por producto
                     </Link>
                 </p>
+                <p style={{ fontSize: "15px", lineHeight: "7px", marginLeft: "10px" }}>
+                    <Link to="/compras_por_fechas" style={{ textDecoration: "none", color: "white" }}>
+                        - Compras por fechas
+                    </Link>
+                </p>
                 <br />
 
                 {/* Pago a proovedores */}

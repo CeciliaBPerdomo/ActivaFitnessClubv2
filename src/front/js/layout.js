@@ -86,6 +86,7 @@ import CrearCompras from "./component/compras/CrearCompras.jsx";
 import DetalleCompras from "./component/compras/DetalleCompras.jsx";
 import ModificarCompra from "./component/compras/modificarCompra.jsx";
 import ListadoComprasPorProducto from "./component/compras/ListadoComprasPorProducto.jsx";
+import ListadoComprasFechas from "./component/compras/ListadoComprasFechas.jsx";
 
 
 //create your first component
@@ -180,6 +181,7 @@ const Layout = () => {
                         <Route element={<DetalleCompras />} path="/detalleCompra/:theid" />
                         <Route element={<ModificarCompra />} path="/modificarCompra/:theid" />
                         <Route element={<ListadoComprasPorProducto />} path="/compras_por_producto" />
+                        <Route element={<ListadoComprasFechas />} path="/compras_por_fechas" />
 
                         <Route element={<h1>Not found!</h1>} />
                     </Routes>

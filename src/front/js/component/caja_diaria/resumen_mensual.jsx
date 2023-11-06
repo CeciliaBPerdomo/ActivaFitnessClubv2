@@ -18,7 +18,7 @@ import Chart from 'chart.js/auto'
 
 export const BalanceMensual = () => {
     const { store, actions } = useContext(Context)
-const [border, setBorder] = useState("")
+    const [border, setBorder] = useState("")
     let yearSelected = 0
 
     //PDF
@@ -49,7 +49,7 @@ const [border, setBorder] = useState("")
                     Swal.fire({
                         position: 'top-end',
                         title: 'Borrado!',
-                        text: 'El balance mensual a sido eliminado.',
+                        text: 'El balance mensual ha sido eliminado.',
                         icon: 'success'
                     }
                     )
@@ -318,9 +318,9 @@ const [border, setBorder] = useState("")
 
 
                 {/* Grafica */}
-                <div className="container text-center" style={{marginTop: "60px"}}>
+                <div className="container text-center" style={{ marginTop: "60px" }}>
                     <div className="row" style={{}}>
-                        <div className={"col " + border} style={{marginRight: "10px", padding: "10px"}}>
+                        <div className={"col " + border} style={{ marginRight: "10px", padding: "10px" }}>
                             <canvas id="grafica"></canvas>
                         </div>
                         <div className={"col " + border}>

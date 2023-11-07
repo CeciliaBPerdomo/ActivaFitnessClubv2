@@ -81,79 +81,82 @@ function ListadoEjercicios() {
             <hr />
 
             <div >
-                <table className="table"
-                    style={{ color: "white" }}>
-                    <thead>
-                        <tr>
-                            <th></th>
-                            <th>Nombre
-                                <button type="button"
-                                    className="btn btn-outline-danger btn-sm"
-                                    style={{ marginLeft: "3px", fontSize: "12px" }}
-                                    onClick={() => actions.ordenarEjerciciosAsc()}
-                                >
-                                    ↑
-                                </button>
-                                <button type="button"
-                                    className="btn btn-outline-danger btn-sm"
-                                    style={{ marginLeft: "3px", fontSize: "12px" }}
-                                    onClick={() => actions.ordenarEjerciciosDesc()}
-                                >
-                                    ↓
-                                </button>
-                            </th>
-
-                            <th>Descripción</th>
-                            <th>Tipo
-                            <button type="button"
-                                    className="btn btn-outline-danger btn-sm"
-                                    style={{ marginLeft: "5px", fontSize: "12px" }}
-                                onClick={() => actions.ordenarEjerciciosTipoDesc()}
-                                >
-                                    ↑
-                                </button>
-                                <button type="button"
-                                    className="btn btn-outline-danger btn-sm"
-                                    style={{ marginLeft: "5px", fontSize: "12px" }}
-                                onClick={() => actions.ordenarEjerciciosTipoAsc()}
-                                >
-                                    ↓
-                                </button>
-                            </th>
-                            <th scope="col"></th>
-                            <th scope="col"></th>
-                            <th scope="col"></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {store.ejercicios.map((item, id) => (
-                            <tr key={id}>
-                                <td className="align-middle">
-                                    <img src={item.foto} alt={item.nombre} style={{ width: "60px" }} />
-                                </td>
-                                <td className="align-middle text-center">{item.nombre}</td>
-                                <td className="align-middle">{item.descripcion}</td>
-                                <td className="align-middle text-center">{item.descripcionTipo}</td>
-                                <td className="align-middle text-center">
-                                    <Link to={"/individualEjercicio/" + item.id} style={{ color: "white" }}>
-                                        <i className="fa fa-eye"></i>
-                                    </Link>
-                                </td>
-                                <td className="align-middle text-center">
-                                    <Link to={"/modificarEjercicio/" + item.id} style={{ color: "white" }}>
-                                        <i className="fa fa-pen"></i>
-                                    </Link>
-                                </td>
-                                <td className="align-middle text-center">
-                                    <i className="fa fa-trash"
-                                        onClick={(e) => borrar(e, item.id)}
+                {store.ejercicios.msg == "No hay ejercicios cargados" ?
+                    <p>No hay ejercicios cargados aún.</p> :
+                    <table className="table"
+                        style={{ color: "white" }}>
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>Nombre
+                                    <button type="button"
+                                        className="btn btn-outline-danger btn-sm"
+                                        style={{ marginLeft: "3px", fontSize: "12px" }}
+                                        onClick={() => actions.ordenarEjerciciosAsc()}
                                     >
-                                    </i>
-                                </td>
+                                        ↑
+                                    </button>
+                                    <button type="button"
+                                        className="btn btn-outline-danger btn-sm"
+                                        style={{ marginLeft: "3px", fontSize: "12px" }}
+                                        onClick={() => actions.ordenarEjerciciosDesc()}
+                                    >
+                                        ↓
+                                    </button>
+                                </th>
+
+                                <th>Descripción</th>
+                                <th>Tipo
+                                    <button type="button"
+                                        className="btn btn-outline-danger btn-sm"
+                                        style={{ marginLeft: "5px", fontSize: "12px" }}
+                                        onClick={() => actions.ordenarEjerciciosTipoDesc()}
+                                    >
+                                        ↑
+                                    </button>
+                                    <button type="button"
+                                        className="btn btn-outline-danger btn-sm"
+                                        style={{ marginLeft: "5px", fontSize: "12px" }}
+                                        onClick={() => actions.ordenarEjerciciosTipoAsc()}
+                                    >
+                                        ↓
+                                    </button>
+                                </th>
+                                <th scope="col"></th>
+                                <th scope="col"></th>
+                                <th scope="col"></th>
                             </tr>
-                        ))}
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            {store.ejercicios.map((item, id) => (
+                                <tr key={id}>
+                                    <td className="align-middle">
+                                        <img src={item.foto} alt={item.nombre} style={{ width: "60px" }} />
+                                    </td>
+                                    <td className="align-middle text-center">{item.nombre}</td>
+                                    <td className="align-middle">{item.descripcion}</td>
+                                    <td className="align-middle text-center">{item.descripcionTipo}</td>
+                                    <td className="align-middle text-center">
+                                        <Link to={"/individualEjercicio/" + item.id} style={{ color: "white" }}>
+                                            <i className="fa fa-eye"></i>
+                                        </Link>
+                                    </td>
+                                    <td className="align-middle text-center">
+                                        <Link to={"/modificarEjercicio/" + item.id} style={{ color: "white" }}>
+                                            <i className="fa fa-pen"></i>
+                                        </Link>
+                                    </td>
+                                    <td className="align-middle text-center">
+                                        <i className="fa fa-trash"
+                                            onClick={(e) => borrar(e, item.id)}
+                                        >
+                                        </i>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                }
             </div>
 
             <ToastContainer />

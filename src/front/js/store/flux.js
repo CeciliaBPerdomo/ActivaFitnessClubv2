@@ -2503,49 +2503,68 @@ const getState = ({ getStore, getActions, setStore }) => {
         }
       },
 
+      // Ordena las compras de mayor a menor por producto
+      ordenarComprasProductoDesc: async () => {
+        try {
+          const response = await axios.get(
+            direccion + "/api/compras/productoDesc",
+            {
+              headers: {
+                Authorization: "Bearer " + localStorage.getItem("Token"),
+              },
+            },
+          );
+          setStore({
+            compras: response.data,
+          });
+        } catch (error) {
+          if (error.code === "ERR_BAD_REQUEST") {
+            console.log(error.response.data.msg);
+          }
+        }
+      },
 
-            // Ordena las compras de mayor a menor por producto
-            ordenarComprasProductoDesc: async () => {
-              try {
-                const response = await axios.get(
-                  direccion + "/api/compras/productoDesc",
-                  {
-                    headers: {
-                      Authorization: "Bearer " + localStorage.getItem("Token"),
-                    },
-                  },
-                );
-                setStore({
-                  compras: response.data,
-                });
-              } catch (error) {
-                if (error.code === "ERR_BAD_REQUEST") {
-                  console.log(error.response.data.msg);
-                }
-              }
+      // Ordena las compras por fecha de menor a mayor
+      ordenarComprasFechaAsc: async () => {
+        try {
+          const response = await axios.get(
+            direccion + "/api/compras/fechaAsc",
+            {
+              headers: {
+                Authorization: "Bearer " + localStorage.getItem("Token"),
+              },
             },
-      
-            // Ordena las compras por fecha de menor a mayor
-            ordenarComprasFechaAsc: async () => {
-              try {
-                const response = await axios.get(
-                  direccion + "/api/compras/fechaAsc",
-                  {
-                    headers: {
-                      Authorization: "Bearer " + localStorage.getItem("Token"),
-                    },
-                  },
-                );
-                setStore({
-                  compras: response.data,
-                });
-              } catch (error) {
-                if (error.code === "ERR_BAD_REQUEST") {
-                  console.log(error.response.data.msg);
-                }
-              }
+          );
+          setStore({
+            compras: response.data,
+          });
+        } catch (error) {
+          if (error.code === "ERR_BAD_REQUEST") {
+            console.log(error.response.data.msg);
+          }
+        }
+      },
+
+      // Actualiza la cantidad de producto segun la compra por el id
+      actualizarCantidadProducto: async (id, cantidad) => {
+        try {
+          const response = await axios.put(direccion + "/api/productos/cantidad/" + id, {
+            cantidad: parseInt(cantidad),
+          }, {
+            headers: {
+              Authorization: "Bearer " + localStorage.getItem("Token"),
             },
-      
+          });
+          if (response.status === 200) {
+            return true;
+          }
+        } catch (error) {
+          console.error(
+            "Error " + error.response.status + ": " + error.response.statusText,
+          );
+          return false;
+        }
+      },
     },
   };
 };

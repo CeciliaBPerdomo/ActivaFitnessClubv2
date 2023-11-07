@@ -20,7 +20,20 @@ export const CrearProductos = () => {
   const guardar = async (e) => {
     e.preventDefault();
 
-    if (nombre !== "" || cantidad !== "" || precioVenta !== "" || proveedor !== "") {
+    function mensaje(texto) {
+      toast.error(texto, {
+        position: toast.POSITION.TOP_RIGHT,
+        autoClose: 1000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
+    }
+
+    if (nombre !== "" && cantidad !== "" && precioVenta !== "" && proveedor !== "") {
       let resultado = await actions.crearProductos(
         nombre,
         cantidad,
@@ -34,7 +47,7 @@ export const CrearProductos = () => {
       if (resultado === true) {
         toast.success("💪 Guardado con éxito", {
           position: toast.POSITION.TOP_RIGHT,
-          autoClose: 1500,
+          autoClose: 1000,
           hideProgressBar: false,
           closeOnClick: true,
           pauseOnHover: true,
@@ -64,16 +77,21 @@ export const CrearProductos = () => {
         });
       }
     } else {
-      toast.error("Faltan completar datos", {
-        position: toast.POSITION.TOP_RIGHT,
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "dark",
-      });
+      if (!nombre) {
+        mensaje("Falta el nombre del producto")
+      }
+
+      if (!cantidad) {
+        mensaje("Falta la cantidad del producto")
+      }
+
+      if (!precioVenta) {
+        mensaje("Falta el precio de venta")
+      }
+
+      if (!proveedor) {
+        mensaje("Falta seleccionar el proveedor")
+      }
     }
   };
 

@@ -770,6 +770,20 @@ def productoModif_porId(producto_id):
     response_body = {"msg": "Producto modificado"}
     return jsonify(response_body), 200
 
+# Modifica un producto por id
+@api.route('/productos/cantidad/<int:producto_id>', methods=['PUT'])
+@jwt_required()
+def productoModif_cantidad_porId(producto_id):
+    producto = Productos.query.filter_by(id=producto_id).first()
+    body = json.loads(request.data)
+
+    if producto is None:
+        return jsonify({"msg": "No existe el producto"}), 400    
+    
+    producto.cantidad = producto.cantidad + body["cantidad"]
+    db.session.commit()
+    return jsonify({"msg": "Producto modificado"}), 200
+
 # Muestra el producto por id
 @api.route('/productos/<int:producto_id>', methods=['GET'])
 @jwt_required()

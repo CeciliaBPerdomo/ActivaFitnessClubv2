@@ -40,8 +40,9 @@ function CrearCompras() {
         if (fechaCompra != "" && precio != "" && idProducto != "" && idProveedor != "" && cantidad != "" && idMetodo != "") {
 
             let resultado = await actions.crearCompras(precio, fechaCompra, cantidad, observaciones, idProducto, idProveedor, idMetodo)
+            let results = await actions.actualizarCantidadProducto(idProducto, cantidad)
 
-            if (resultado === true) {
+            if (resultado === true && results === true) {
                 toast.success("💪 Guardado con éxito", {
                     position: toast.POSITION.TOP_RIGHT,
                     autoClose: 1000,
@@ -129,20 +130,6 @@ function CrearCompras() {
                         />
                     </div>
 
-                    {/* Precio de compra */}
-                    <div className="col">
-                        <label htmlFor="precio" style={{ marginBottom: "10px" }}>
-                            Precio <label style={{ color: "red" }}>(Obligatorio)</label>:
-                        </label>
-                        <input
-                            type="text"
-                            className="form-control"
-                            placeholder="Precio de compra"
-                            value={precio}
-                            onChange={(e) => setPrecio(e.target.value)}
-                        />
-                    </div>
-
                     {/* Producto */}
                     <div className="col">
                         <label htmlFor="precio" style={{ marginBottom: "10px" }}>
@@ -157,6 +144,20 @@ function CrearCompras() {
                                 <option key={id} value={item.id}>{item.nombre}</option>
                             ))}
                         </select>
+                    </div>
+
+                    {/* Precio de compra */}
+                    <div className="col">
+                        <label htmlFor="precio" style={{ marginBottom: "10px" }}>
+                            Precio <label style={{ color: "red" }}>(Obligatorio)</label>:
+                        </label>
+                        <input
+                            type="text"
+                            className="form-control"
+                            placeholder="Precio de compra"
+                            value={precio}
+                            onChange={(e) => setPrecio(e.target.value)}
+                        />
                     </div>
                 </div>
 

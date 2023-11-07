@@ -16,6 +16,7 @@ export const ListadoProductos = () => {
     actions.obtenerProductos();
   }, []);
 
+  // Borrar producto
   const borrar = (e, id) => {
     e.preventDefault();
     Swal.fire({

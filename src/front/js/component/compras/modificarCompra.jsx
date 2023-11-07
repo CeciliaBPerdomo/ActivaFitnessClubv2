@@ -25,6 +25,7 @@ function ModificarCompra() {
         actions.obtenerMetodos()
     }, []);
 
+    // Actualiza la informacion
     const modificar = async (e) => {
         e.preventDefault();
         let id = parseInt(params.theid)
@@ -79,20 +80,6 @@ function ModificarCompra() {
                         />
                     </div>
 
-                    {/* Precio de compra */}
-                    <div className="col">
-                        <label htmlFor="precio" style={{ marginBottom: "10px" }}>
-                            Precio <label style={{ color: "red" }}>(Obligatorio)</label>:
-                        </label>
-                        <input
-                            type="text"
-                            className="form-control"
-                            placeholder="Precio de compra"
-                            defaultValue={store.compra[0]?.preciocompra}
-                            onChange={(e) => setPrecio(e.target.value)}
-                        />
-                    </div>
-
                     {/* Producto */}
                     <div className="col">
                         <label htmlFor="precio" style={{ marginBottom: "10px" }}>
@@ -107,6 +94,20 @@ function ModificarCompra() {
                                 <option key={id} value={item.id}>{item.nombre}</option>
                             ))}
                         </select>
+                    </div>
+
+                    {/* Precio de compra */}
+                    <div className="col">
+                        <label htmlFor="precio" style={{ marginBottom: "10px" }}>
+                            Precio <label style={{ color: "red" }}>(Obligatorio)</label>:
+                        </label>
+                        <input
+                            type="text"
+                            className="form-control"
+                            placeholder="Precio de compra"
+                            defaultValue={store.compra[0]?.preciocompra}
+                            onChange={(e) => setPrecio(e.target.value)}
+                        />
                     </div>
                 </div>
 
@@ -191,7 +192,6 @@ function ModificarCompra() {
                 </div>
             </form>
             <br />
-
 
             <ToastContainer />
         </div>

@@ -1,7 +1,12 @@
 import React, { useContext } from "react";
 import { Context } from "../store/appContext";
 import "../../styles/home.css";
-import logo  from "../../img/Logo.png"
+
+// imagenes
+import logo from "../../img/Logo.png"
+import landing from "../../img/landing.jpg"
+
+// Info adicional
 import { PreFooter } from "../component/preFooter.jsx"
 
 
@@ -10,17 +15,9 @@ export const Home = () => {
 
 	return (
 		<div className="text-center mt-5">
-			
-			<br/>
 			<h1>Activa Fitness Club</h1>
 			<br />
-			
-			<p>
-				<img src={logo} style={{width: "10%"}}/>
-			</p>
-
-			<br /><br /><br />
-			
+			<img src={landing} style={{ width: "30%", marginBottom: "30px" }} />
 			<PreFooter />
 		</div>
 	);

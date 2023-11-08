@@ -1952,3 +1952,258 @@ def get_Compras_producto_Desc():
     }, compras))
     
     return jsonify(results), 200
+
+#####################################################################################
+#####################################################################################
+###                                                                               ###
+###                      VENTAS                                                   ###
+###                                                                               ###
+#####################################################################################
+#####################################################################################
+
+# Muestra todas las ventas
+@api.route('/ventas', methods=['GET'])
+@jwt_required()
+def get_ventas():
+    ventas = db.session.query(Ventas, Productos, Usuarios, Metodospago).join(Productos, Ventas.idproducto == Productos.id).join(Usuarios, Ventas.idusuario == Usuarios.id).join(Metodospago, Ventas.idmetodo == Metodospago.id).all()
+    
+    if ventas == []: 
+        return jsonify({"msg": "No hay ventas realizadas"}), 404
+    
+    results = list(map(lambda venta: {
+        # Ventas
+        "idVenta" : venta[0].id,
+        "fechacompra": venta[0].fechacompra,
+        "fechapago": venta[0].fechapago,
+        "cantidad": venta[0].cantidad,
+        "observaciones": venta[0].observaciones,
+        "preciounitario": venta[0].preciounitario,
+        
+        # Productos
+        "idProducto": venta[1].id, 
+        "nombreProducto": venta[1].nombre,
+        "fotoProducto": venta[1].foto,
+
+        # Usuarios
+        "idUsuario": venta[2].id,
+        "nombreUsuario": venta[2].nombre + " " + venta[2].apellido,
+
+        # Metodo de pago
+        "idMetodo": venta[3].id, 
+        "TipoMetodo": venta[3].tipo
+    }, ventas))
+
+    return jsonify(results), 200
+
+# Agrega una nueva venta
+@api.route('/ventas', methods=['POST'])
+@jwt_required()
+def add_ventas():
+    body = json.loads(request.data)
+    
+    new_venta = Ventas(
+        fechacompra = body["fechacompra"], 
+        cantidad = body["cantidad"],
+        preciounitario = body["preciounitario"],
+        observaciones = body["observaciones"], 
+        fechapago = body["fechapago"],
+        idproducto = body["idproducto"],
+        idusuario = body["idusuario"],
+        idmetodo = body["idmetodo"]
+    )
+
+    db.session.add(new_venta)
+    db.session.commit()
+
+    return jsonify(new_venta.serialize()), 200
+
+# Elimina una venta por el id
+@api.route('/ventas/<int:id>', methods=['DELETE'])
+@jwt_required()
+def delete_venta(id):
+    venta = Ventas.query.filter_by(id=id).first()
+  
+    if venta is None: 
+        return jsonify({"msg": "No existe ninguna venta con ese id"}), 404
+
+    db.session.delete(venta)
+    db.session.commit()
+    return jsonify( {"msg": "Venta eliminada"}), 200 
+
+# Modifica la compra por el id
+@api.route('/ventas/<int:id>', methods=['PUT'])
+@jwt_required()
+def put_ventas(id):
+    body = json.loads(request.data)
+    venta = Ventas.query.filter_by(id=id).first()
+
+    if venta is None:
+        return jsonify({"msg": "No existe la venta seleccionada"}), 404    
+
+    if "fechacompra" in body:
+        venta.fechacompra = body["fechacompra"]
+        
+    if "cantidad" in body:
+        venta.cantidad = body["cantidad"]
+
+    if "preciounitario" in body:
+        venta.preciounitario = body["preciounitario"]
+
+    if "observaciones" in body:
+        venta.observaciones = body["observaciones"]
+
+    if "fechapago" in body:
+        venta.fechapago = body["fechapago"]
+
+    if "idproducto" in body:
+        venta.idproducto = body["idproducto"]
+    
+    if "idusuario" in body:
+        venta.idusuario = body["idusuario"]
+
+    if "idmetodo" in body:
+        venta.idmetodo = body["idmetodo"]
+
+    db.session.commit()
+    return jsonify({"msg": "Venta modificada"}), 200
+
+#Muestra la ventas por id
+@api.route('/ventas/<int:id>', methods=['GET'])
+@jwt_required()
+def get_ventas_id(id):
+
+    id = db.session.query(Ventas, Productos, Usuarios, Metodospago).filter_by(id=id).join(Productos, Ventas.idproducto == Productos.id).join(Usuarios, Ventas.idusuario == Usuarios.id).join(Metodospago, Ventas.idmetodo == Metodospago.id).all()
+    
+    if id == []: 
+        return jsonify({"msg": "Venta no encontrada."}), 404
+
+    results = list(map(lambda venta: {
+        # Ventas
+        "idVenta" : venta[0].id,
+        "fechacompra": venta[0].fechacompra,
+        "fechapago": venta[0].fechapago,
+        "cantidad": venta[0].cantidad,
+        "observaciones": venta[0].observaciones,
+        "preciounitario": venta[0].preciounitario,
+        
+        # Productos
+        "idProducto": venta[1].id, 
+        "nombreProducto": venta[1].nombre,
+        "fotoProducto": venta[1].foto,
+
+        # Usuarios
+        "idUsuario": venta[2].id,
+        "nombreUsuario": venta[2].nombre + " " + venta[2].apellido,
+
+        # Metodo de pago
+        "idMetodo": venta[3].id, 
+        "TipoMetodo": venta[3].tipo
+    }, id))
+    
+    return jsonify(results), 200
+
+# Busca los movimientos de las ventas por un rango de fecha
+@api.route('/ventas/<string:fechaInicio>/<string:fechaFin>', methods=['GET'])
+@jwt_required()
+def get_ventas_fechas(fechaInicio, fechaFin):
+    
+    ventas = db.session.query(Ventas, Productos, Usuarios, Metodospago).filter(Ventas.fechacompra>=fechaInicio).filter(Ventas.fechacompra<=fechaFin).join(Productos, Ventas.idproducto == Productos.id).join(Usuarios, Ventas.idusuario == Usuarios.id).join(Metodospago, Ventas.idmetodo == Metodospago.id).all()
+
+    if ventas is None: 
+        return jsonify({"msg": "No hay movimientos para ese rango de fechas"}), 404
+    
+    if ventas == []: 
+        return jsonify({"msg": "No hay movimientos para ese rango de fechas"}), 404
+
+    results = list(map(lambda venta: {
+        # Ventas
+        "idVenta" : venta[0].id,
+        "fechacompra": venta[0].fechacompra,
+        "fechapago": venta[0].fechapago,
+        "cantidad": venta[0].cantidad,
+        "observaciones": venta[0].observaciones,
+        "preciounitario": venta[0].preciounitario,
+        
+        # Productos
+        "idProducto": venta[1].id, 
+        "nombreProducto": venta[1].nombre,
+        "fotoProducto": venta[1].foto,
+
+        # Usuarios
+        "idUsuario": venta[2].id,
+        "nombreUsuario": venta[2].nombre + " " + venta[2].apellido,
+
+        # Metodo de pago
+        "idMetodo": venta[3].id, 
+        "TipoMetodo": venta[3].tipo
+    }, ventas))
+    
+    return jsonify(results), 200
+
+# Muestra todas las ventas ordenados ascendentemente
+@api.route('/ventas/fechaAsc', methods=['GET'])
+@jwt_required()
+def get_ventas_fechaAsc():
+    ventas = db.session.query(Ventas, Productos, Usuarios, Metodospago).order_by(asc(Ventas.fechacompra)).join(Productos, Ventas.idproducto == Productos.id).join(Usuarios, Ventas.idusuario == Usuarios.id).join(Metodospago, Ventas.idmetodo == Metodospago.id).all()
+    
+    if ventas == []: 
+        return jsonify({"msg": "No hay ventas realizadas"}), 404
+    
+    results = list(map(lambda venta: {
+        # Ventas
+        "idVenta" : venta[0].id,
+        "fechacompra": venta[0].fechacompra,
+        "fechapago": venta[0].fechapago,
+        "cantidad": venta[0].cantidad,
+        "observaciones": venta[0].observaciones,
+        "preciounitario": venta[0].preciounitario,
+        
+        # Productos
+        "idProducto": venta[1].id, 
+        "nombreProducto": venta[1].nombre,
+        "fotoProducto": venta[1].foto,
+
+        # Usuarios
+        "idUsuario": venta[2].id,
+        "nombreUsuario": venta[2].nombre + " " + venta[2].apellido,
+
+        # Metodo de pago
+        "idMetodo": venta[3].id, 
+        "TipoMetodo": venta[3].tipo
+    }, ventas))
+
+    return jsonify(results), 200
+
+# Muestra todas las ventas ordenados desc
+@api.route('/ventas/fechaDesc', methods=['GET'])
+@jwt_required()
+def get_ventas_fechaDesc():
+    ventas = db.session.query(Ventas, Productos, Usuarios, Metodospago).order_by(desc(Ventas.fechacompra)).join(Productos, Ventas.idproducto == Productos.id).join(Usuarios, Ventas.idusuario == Usuarios.id).join(Metodospago, Ventas.idmetodo == Metodospago.id).all()
+    
+    if ventas == []: 
+        return jsonify({"msg": "No hay ventas realizadas"}), 404
+    
+    results = list(map(lambda venta: {
+        # Ventas
+        "idVenta" : venta[0].id,
+        "fechacompra": venta[0].fechacompra,
+        "fechapago": venta[0].fechapago,
+        "cantidad": venta[0].cantidad,
+        "observaciones": venta[0].observaciones,
+        "preciounitario": venta[0].preciounitario,
+        
+        # Productos
+        "idProducto": venta[1].id, 
+        "nombreProducto": venta[1].nombre,
+        "fotoProducto": venta[1].foto,
+
+        # Usuarios
+        "idUsuario": venta[2].id,
+        "nombreUsuario": venta[2].nombre + " " + venta[2].apellido,
+
+        # Metodo de pago
+        "idMetodo": venta[3].id, 
+        "TipoMetodo": venta[3].tipo
+    }, ventas))
+
+    return jsonify(results), 200

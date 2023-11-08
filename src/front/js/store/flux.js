@@ -39,6 +39,8 @@ const getState = ({ getStore, getActions, setStore }) => {
       compras: [],
       compra: {},
       comprasMensuales: [],
+      ventas: [],
+      venta: {},
     },
 
     actions: {
@@ -2565,6 +2567,194 @@ const getState = ({ getStore, getActions, setStore }) => {
           return false;
         }
       },
+
+      ////////////////////////////////////
+      //           Ventas              ///
+      ////////////////////////////////////
+
+      /* Listar todas las ventas */
+      obtenerVentas: async () => {
+        try {
+          const response = await axios.get(
+            direccion + "/api/ventas",
+            {
+              headers: {
+                Authorization: "Bearer " + localStorage.getItem("Token"),
+              },
+            },
+          );
+          setStore({
+            ventas: response.data,
+          });
+        } catch (error) {
+          if (error.code === "ERR_BAD_REQUEST") {
+            console.log(error.response.data.msg);
+          }
+        }
+      },
+
+      /* Agrega una nueva venta */
+      crearVentas: async (fechaCompra, cantidad, precioUnitario, observaciones, fechaPago, idProducto, idUsuario, idMetodo) => {
+        try {
+          const response = await axios.post(direccion + "/api/ventas", {
+            fechacompra: fechaCompra,
+            cantidad: cantidad,
+            preciounitario: precioUnitario,
+            observaciones: observaciones,
+            fechapago: fechaPago,
+            idproducto: idProducto,
+            idusuario: idUsuario,
+            idmetodo: idMetodo
+          }, {
+            headers: {
+              Authorization: "Bearer " + localStorage.getItem("Token"),
+            },
+          });
+          if (response.status === 200) {
+            return true;
+          }
+        } catch (error) {
+          console.error(
+            "Error " + error.response.status + ": " + error.response.statusText,
+          );
+          return false;
+        }
+      },
+
+      /* Borra una venta por el id */
+      borrarVenta: async (id) => {
+        try {
+          const response = await axios.delete(direccion + "/api/ventas/" + id, {
+            headers: {
+              Authorization: "Bearer " + localStorage.getItem("Token"),
+            },
+          });
+          getActions().obtenerVentas();
+          if (response.status === 200) {
+            return true;
+          }
+        } catch (error) {
+          console.error(
+            "Error " + error.response.status + ": " + error.response.statusText,
+          );
+          return false;
+        }
+      },
+
+      // Modificar la venta por el id
+      modificarVenta: async (id, fechaCompra, cantidad, precioUnitario, observaciones, fechaPago, idProducto, idUsuario, idMetodo) => {
+        try {
+          const response = await axios.put(direccion + "/api/ventas/" + id, {
+            fechacompra: fechaCompra,
+            cantidad: cantidad,
+            preciounitario: precioUnitario,
+            observaciones: observaciones,
+            fechapago: fechaPago,
+            idproducto: idProducto,
+            idusuario: idUsuario,
+            idmetodo: idMetodo
+          }, {
+            headers: {
+              Authorization: "Bearer " + localStorage.getItem("Token"),
+            },
+          });
+          if (response.status === 200) {
+            return true;
+          }
+        } catch (error) {
+          console.error(
+            "Error " + error.response.status + ": " + error.response.statusText,
+          );
+          return false;
+        }
+      },
+
+      // Obtener venta por id
+      obtenerVentaId: async (id) => {
+        try {
+          const response = await axios.get(direccion + "/api/ventas/" + id, {
+            headers: {
+              Authorization: "Bearer " + localStorage.getItem("Token"),
+            },
+          });
+          setStore({ venta: response.data });
+          if (response.status === 200) {
+            return true;
+          }
+        } catch (error) {
+          console.error(
+            "Error " + error.response.status + ": " + error.response.statusText,
+          );
+          return false;
+        }
+      },
+
+      // Obtener ventas por rango de fechas
+      obtenerVentasPorFechas: async (fechaInicio, fechaFin) => {
+        try {
+          const response = await axios.get(
+            direccion + "/api/ventas/" + fechaInicio + "/" + fechaFin, {},
+            {
+              headers: {
+                Authorization: "Bearer " + localStorage.getItem("Token"),
+              },
+            },
+          );
+          setStore({
+            ventas: response.data,
+          });
+          if (response.status === 200) {
+            return true;
+          }
+        } catch (error) {
+          console.error(
+            "Error " + error.response.status + ": " + error.response.statusText,
+          );
+          return false;
+        }
+      },
+      // Ordena las ventas de mayor a menor por fecha
+      ordenarVentasFechaDesc: async () => {
+        try {
+          const response = await axios.get(
+            direccion + "/api/ventas/fechaDesc",
+            {
+              headers: {
+                Authorization: "Bearer " + localStorage.getItem("Token"),
+              },
+            },
+          );
+          setStore({
+            ventas: response.data,
+          });
+        } catch (error) {
+          if (error.code === "ERR_BAD_REQUEST") {
+            console.log(error.response.data.msg);
+          }
+        }
+      },
+
+      // Ordena las ventas por fecha de menor a mayor
+      ordenarVentasFechaAsc: async () => {
+        try {
+          const response = await axios.get(
+            direccion + "/api/ventas/fechaAsc",
+            {
+              headers: {
+                Authorization: "Bearer " + localStorage.getItem("Token"),
+              },
+            },
+          );
+          setStore({
+            ventas: response.data,
+          });
+        } catch (error) {
+          if (error.code === "ERR_BAD_REQUEST") {
+            console.log(error.response.data.msg);
+          }
+        }
+      },
+
     },
   };
 };

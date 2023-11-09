@@ -5,6 +5,7 @@ import "../../styles/home.css";
 // imagenes
 import logo from "../../img/Logo.png"
 import landing from "../../img/landing.jpg"
+import banner from "../../img/banner.png"
 
 // Info adicional
 import { PreFooter } from "../component/preFooter.jsx"
@@ -15,9 +16,16 @@ export const Home = () => {
 
 	return (
 		<div className="text-center mt-5">
-			<h1>Activa Fitness Club</h1>
-			<br />
-			<img src={landing} style={{ width: "30%", marginBottom: "30px" }} />
+			<div className="row">
+				<div className="col-5"></div>
+				<div className="col">
+					<img src={banner}
+						style={{ height: "350px", marginBottom: "30px" }}
+					/>
+				</div>
+				<div className="col"></div>
+			</div>
+
 			<PreFooter />
 		</div>
 	);

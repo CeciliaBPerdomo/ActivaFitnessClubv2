@@ -88,6 +88,9 @@ import ModificarCompra from "./component/compras/modificarCompra.jsx";
 import ListadoComprasPorProducto from "./component/compras/ListadoComprasPorProducto.jsx";
 import ListadoComprasFechas from "./component/compras/ListadoComprasFechas.jsx";
 
+// Ventas
+import ListadodeVentas from "./component/ventas/ListadodeVentas.jsx";
+
 
 //create your first component
 const Layout = () => {
@@ -182,6 +185,10 @@ const Layout = () => {
                         <Route element={<ModificarCompra />} path="/modificarCompra/:theid" />
                         <Route element={<ListadoComprasPorProducto />} path="/compras_por_producto" />
                         <Route element={<ListadoComprasFechas />} path="/compras_por_fechas" />
+                        
+                        {/* Ventas */}
+                        <Route element={<ListadodeVentas />} path="/listadoVentas" />
+
 
                         <Route element={<h1>Not found!</h1>} />
                     </Routes>

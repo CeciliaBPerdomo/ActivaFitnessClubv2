@@ -184,6 +184,22 @@ export const MenuAdministrador = () => {
                 </p>
                 <br />
 
+                {/* Ventas */}
+                <p style={{ fontSize: "17px", lineHeight: "7px", color: "red" }}>
+                    Ventas:
+                </p>
+                <p style={{ fontSize: "15px", lineHeight: "7px", marginLeft: "10px" }}>
+                    <Link to="/" style={{ textDecoration: "none", color: "white" }}>
+                        - Ingresar nueva venta
+                    </Link>
+                </p>
+                <p style={{ fontSize: "15px", lineHeight: "7px", marginLeft: "10px" }}>
+                    <Link to="/listadoVentas" style={{ textDecoration: "none", color: "white" }}>
+                        - Listado de ventas
+                    </Link>
+                </p>
+                <br />
+
                 {/* Pago a proovedores */}
                 <p style={{ fontSize: "17px", lineHeight: "7px", color: "red" }}>
                     Pago a proveedores:

@@ -189,7 +189,7 @@ export const MenuAdministrador = () => {
                     Ventas:
                 </p>
                 <p style={{ fontSize: "15px", lineHeight: "7px", marginLeft: "10px" }}>
-                    <Link to="/" style={{ textDecoration: "none", color: "white" }}>
+                    <Link to="/ingresarVenta" style={{ textDecoration: "none", color: "white" }}>
                         - Ingresar nueva venta
                     </Link>
                 </p>

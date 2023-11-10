@@ -90,6 +90,7 @@ import ListadoComprasFechas from "./component/compras/ListadoComprasFechas.jsx";
 
 // Ventas
 import ListadodeVentas from "./component/ventas/ListadodeVentas.jsx";
+import IngresarVenta from "./component/ventas/IngresarVenta.jsx";
 
 
 //create your first component
@@ -188,6 +189,7 @@ const Layout = () => {
                         
                         {/* Ventas */}
                         <Route element={<ListadodeVentas />} path="/listadoVentas" />
+                        <Route element={<IngresarVenta />} path="/ingresarVenta" />
 
 
                         <Route element={<h1>Not found!</h1>} />

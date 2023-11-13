@@ -122,7 +122,7 @@ function ListadodeVentas() {
                                         </Link>
                                     </td>
                                     <td className="align-middle">
-                                        <Link to={"/modificarCompra/" + item.idCompra} style={{ color: "white" }}>
+                                        <Link to={"/modificarVenta/" + item.idVenta} style={{ color: "white" }}>
                                             <i className="fa fa-pen"></i>
                                         </Link>
                                     </td>

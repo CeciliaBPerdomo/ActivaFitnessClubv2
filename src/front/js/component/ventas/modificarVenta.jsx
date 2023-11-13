@@ -1,23 +1,25 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Context } from "../../store/appContext";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-
-function IngresarVenta() {
+function ModificarVenta() {
     const { store, actions } = useContext(Context)
+    const params = useParams();
 
-    const [fechaCompra, setFechaCompra] = useState("")
-    const [fechaPago, setFechaPago] = useState("")
-    const [precio, setPrecio] = useState("")
-    const [idUsuario, setIdUsuario] = useState("")
-    const [idProducto, setIdProducto] = useState("")
-    const [cantidad, setCantidad] = useState("")
-    const [idMetodo, setIdMetodo] = useState("")
-    const [observaciones, setObservaciones] = useState("")
+    const [fechaCompra, setFechaCompra] = useState(store.venta[0]?.fechacompra)
+    const [fechaPago, setFechaPago] = useState(store.venta[0]?.fechapago)
+    const [precio, setPrecio] = useState(store.venta[0]?.preciounitario)
+    const [idUsuario, setIdUsuario] = useState(store.venta[0]?.idUsuario)
+    const [idProducto, setIdProducto] = useState(store.venta[0]?.idProducto)
+    const [cantidad, setCantidad] = useState(store.venta[0]?.cantidad)
+    const [idMetodo, setIdMetodo] = useState(store.venta[0]?.idMetodo)
+    const [observaciones, setObservaciones] = useState(store.venta[0]?.observaciones)
 
     useEffect(() => {
+        // Venta a modificar
+        actions.obtenerVentaId(params.theid)
         // Productos disponibles
         actions.obtenerProductos()
 
@@ -28,12 +30,25 @@ function IngresarVenta() {
         actions.obtenerAlumnos();
     }, []);
 
-    // Guarda la venta
-    const guardar = async (e) => {
-        e.preventDefault()
+    const modificar = async (e) => {
+        e.preventDefault();
+        let id = parseInt(params.theid)
 
-        function mensaje(texto) {
-            toast.error(texto, {
+        // modificarVenta: async                    (id, fechaCompra, cantidad, precioUnitario, observaciones, fechaPago, idProducto, idUsuario, idMetodo)
+        let resultado = await actions.modificarVenta(id, fechaCompra, cantidad, precio, observaciones, fechaPago, idProducto, idUsuario, idMetodo)
+        if (resultado === true) {
+            toast.success("💪 Modificado con éxito", {
+                position: toast.POSITION.TOP_RIGHT,
+                autoClose: 1000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+            });
+        } else {
+            toast.error("No se puede modificar", {
                 position: toast.POSITION.TOP_RIGHT,
                 autoClose: 1000,
                 hideProgressBar: false,
@@ -44,87 +59,11 @@ function IngresarVenta() {
                 theme: "dark",
             });
         }
-
-        let fechaP
-        if (fechaPago == ""){
-            fechaP = null
-        } else {
-            fechaP = fechaPago
-        }
-        
-        
-        if (fechaCompra != "" && idUsuario != "" && precio != "" && idProducto != ""  && cantidad != "" && idMetodo != "") {
-            console.log(fechaP)
-
-            let resultado = await actions.crearVentas(fechaCompra, cantidad, precio, observaciones, fechaP, idProducto, idUsuario, idMetodo)
-            //let results = await actions.actualizarCantidadProducto(idProducto, cantidad)
-
-            if (resultado === true) {
-                toast.success("💪 Guardado con éxito", {
-                    position: toast.POSITION.TOP_RIGHT,
-                    autoClose: 1000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "dark",
-                });
-
-                /* Limpiar el formulario */
-                setFechaCompra("");
-                setPrecio("");
-                setIdProducto("")
-                setIdProveedor("")
-                setIdMetodo("")
-                setCantidad("")
-                setObservaciones("")
-
-            } else {
-                toast.error("🖐️ No se pudo guardar", {
-                    position: toast.POSITION.TOP_RIGHT,
-                    autoClose: 1000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "dark",
-                });
-            }
-
-            // Chequea los datos que faltan y avisa, soy la mejor, lo se
-        } else {
-            if (!fechaCompra) {
-                mensaje("🖐️ Falta fecha de venta")
-            }
-
-            if (!idUsuario) {
-                mensaje("🖐️ Falta seleccionar el alumno")
-            }
-
-            if (!idProducto) {
-                mensaje("🖐️ Falta seleccionar el producto")
-            }
-
-            if (!precio) {
-                mensaje("🖐️ Falta precio de venta")
-            }
-
-            if (!cantidad) {
-                mensaje("🖐️ Falta la cantidad comprada")
-            }
-
-            if (!idMetodo) {
-                mensaje("🖐️ Falta seleccionar el metodo de pago")
-            }
-        }
     }
-
 
     return (
         <div className="container">
-            <h3 style={{ marginBottom: "25px" }}>Ingresar venta</h3>
+            <h3 style={{ marginBottom: "25px" }}>Modificar venta</h3>
             <hr />
             <br />
 
@@ -139,7 +78,7 @@ function IngresarVenta() {
                             type="date"
                             className="form-control"
                             placeholder="Fecha de compra"
-                            value={fechaCompra}
+                            value={store.venta[0]?.fechacompra}
                             onChange={(e) => setFechaCompra(e.target.value)}
                         />
                     </div>
@@ -152,7 +91,7 @@ function IngresarVenta() {
                         <select className="form-select" aria-label="Default select example"
                             value={idUsuario}
                             onChange={(e) => setIdUsuario(e.target.value)}>
-                            <option selected>Alumno</option>
+                            <option selected>{store.venta[0]?.nombreUsuario}</option>
                             {store.alumnos.map((item, id) => (
                                 <option key={id} value={item.id}>{item.nombre} {item.apellido}</option>
                             ))}
@@ -168,7 +107,7 @@ function IngresarVenta() {
                             value={idProducto}
                             onChange={(e) => setIdProducto(e.target.value)}
                         >
-                            <option selected>Producto</option>
+                            <option selected>{store.venta[0]?.nombreProducto}</option>
                             {store.productos.map((item, id) => (
                                 <option key={id} value={item.id}>{item.nombre}</option>
                             ))}
@@ -187,7 +126,7 @@ function IngresarVenta() {
                             type="text"
                             className="form-control"
                             placeholder="Precio unitario de venta"
-                            value={precio}
+                            defaultValue={store.venta[0]?.preciounitario}
                             onChange={(e) => setPrecio(e.target.value)}
                         />
                     </div>
@@ -201,7 +140,7 @@ function IngresarVenta() {
                             type="text"
                             className="form-control"
                             placeholder="Cantidad comprada"
-                            value={cantidad}
+                            defaultValue={store.venta[0]?.cantidad}
                             onChange={(e) => setCantidad(e.target.value)}
                         />
                     </div>
@@ -215,7 +154,7 @@ function IngresarVenta() {
                             value={idMetodo}
                             onChange={(e) => setIdMetodo(e.target.value)}
                         >
-                            <option selected>Método de pago</option>
+                            <option selected>{store.venta[0]?.TipoMetodo}</option>
                             {store.metodos.map((item, id) => (
                                 <option key={id} value={item.id}>{item.tipo}</option>
                             ))}
@@ -234,7 +173,7 @@ function IngresarVenta() {
                             type="date"
                             className="form-control"
                             placeholder="Fecha de pago"
-                            value={fechaPago}
+                            defaultChecked={store.venta[0]?.fechapago}
                             onChange={(e) => setFechaPago(e.target.value)}
                         />
                     </div>
@@ -248,7 +187,7 @@ function IngresarVenta() {
                             type="text"
                             className="form-control"
                             placeholder="Observaciones / comentarios"
-                            value={observaciones}
+                            defaultValue={store.venta[0]?.observaciones}
                             onChange={(e) => setObservaciones(e.target.value)}
                         />
                     </div>
@@ -261,9 +200,9 @@ function IngresarVenta() {
                         <button
                             type="submit"
                             className="btn btn-outline-danger float-end"
-                            onClick={(e) => guardar(e)}
+                            onClick={(e) => modificar(e)}
                         >
-                            Guardar venta
+                            Modificar venta
                         </button>
                     </div>
                 </div>
@@ -274,4 +213,4 @@ function IngresarVenta() {
     )
 }
 
-export default IngresarVenta
+export default ModificarVenta

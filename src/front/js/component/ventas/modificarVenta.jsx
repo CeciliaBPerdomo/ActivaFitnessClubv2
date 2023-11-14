@@ -3,6 +3,7 @@ import { Context } from "../../store/appContext";
 import { Link, useParams } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import moment from "moment";
 
 function ModificarVenta() {
     const { store, actions } = useContext(Context)
@@ -30,6 +31,7 @@ function ModificarVenta() {
         actions.obtenerAlumnos();
     }, []);
 
+    // Modifica la informacion
     const modificar = async (e) => {
         e.preventDefault();
         let id = parseInt(params.theid)
@@ -75,10 +77,10 @@ function ModificarVenta() {
                             Fecha <label style={{ color: "red" }}>(Obligatorio)</label>:
                         </label>
                         <input
-                            type="date"
+                            type="text"
                             className="form-control"
                             placeholder="Fecha de compra"
-                            value={store.venta[0]?.fechacompra}
+                            value={store.venta[0]?.fechacompra.slice(5,16)}
                             onChange={(e) => setFechaCompra(e.target.value)}
                         />
                     </div>
@@ -170,10 +172,10 @@ function ModificarVenta() {
                             Fecha de pago:
                         </label>
                         <input
-                            type="date"
+                            type="text"
                             className="form-control"
                             placeholder="Fecha de pago"
-                            defaultChecked={store.venta[0]?.fechapago}
+                            value={store.venta[0]?.fechapago.slice(5,16)}
                             onChange={(e) => setFechaPago(e.target.value)}
                         />
                     </div>

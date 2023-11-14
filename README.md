@@ -1,29 +1,12 @@
-# WebApp boilerplate with React JS and Flask API
+# Activa Fitnes Club
 
-[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io#https://github.com/4GeeksAcademy/react-flask-hello.git)
+### Información
+Se trata de una aplicación diseñada a medida para un gimnasio (o centro de entrenamiento), teniendo en cuenta su necesidad de llevar el control de la informacion personal de los alumnos, facturacion, compras, ventas y rutinas de entrenamiento.
 
-> Documentation: https://start.4geeksacademy.com/
+### Desarrollo
+Realizado y desarrollado por: Cecilia Perdomo, desde Enero del 2023 y aún en proceso. 
 
-<p align="center">
-<a href="https://www.loom.com/share/f37c6838b3f1496c95111e515e83dd9b"><img src="https://github.com/4GeeksAcademy/flask-rest-hello/blob/main/docs/assets/how-to.png?raw=true?raw=true" /></a>
-</p>
-
-- React.js front end and python/flask backend for your web application.
-- Extensive documentation [here](https://start.4geeksacademy.com/).
-- Integrated with Pipenv for package managing.
-- Fast deloyment to heroku [in just a few steps here](https://start.4geeksacademy.com/backend/deploy-heroku-posgres).
-- Use of .env file.
-- SQLAlchemy integration for database abstraction.
-
-### Styles
-
-You can update the `styles/index.scss` or create new `.scss` files inside `styles/` and import them into your current scss or js files depending on your needs.
-
-### Components
-
-Add more files into your `./src/js/components` or styles folder as you need them and import them into your current files as needed.
-
-💡Note: There is an example using the Context API inside `views/demo.js`;
+<!-- 💡Note: There is an example using the Context API inside `views/demo.js`;
 
 ### Views (Components)
 
@@ -96,4 +79,4 @@ To update with all yours tables you can edit the file app.py and go to the line 
 
 ## Publish your website!
 
-This boilerplate it's 100% read to deploy with Render.com and Herkou in a matter of minutes. Please read the [official documentation about it](https://start.4geeksacademy.com/deploy).
+This boilerplate it's 100% read to deploy with Render.com and Herkou in a matter of minutes. Please read the [official documentation about it](https://start.4geeksacademy.com/deploy). -->

@@ -56,7 +56,6 @@ function ListadodeVentas() {
                     <table className="table" style={{ color: "white" }}>
                         <thead>
                             <tr>
-                                {/* <th scope="col"></th> */}
                                 <th scope="col">
                                     Fecha de venta
                                     <button type="button"
@@ -76,26 +75,11 @@ function ListadodeVentas() {
                                 </th>
                                 <th scope="col" className="text-center">Alumno</th>
                                 <th scope="col" className="text-center">Producto
-                                    {/* <button type="button"
-                                        className="btn btn-outline-danger btn-sm"
-                                        style={{ marginLeft: "3px", fontSize: "12px" }}
-                                        onClick={() => actions.ordenarComprasProductoAsc()}
-                                    >
-                                        ↑
-                                    </button>
-                                    <button type="button"
-                                        className="btn btn-outline-danger btn-sm"
-                                        style={{ marginLeft: "3px", fontSize: "12px" }}
-                                        onClick={() => actions.ordenarComprasProductoDesc()}
-                                    >
-                                        ↓
-                                    </button> */}
                                 </th>
                                 <th scope="col" className="text-center">Cantidad</th>
                                 <th scope="col" className="text-center">Precio unitario</th>
                                 <th scope="col" className="text-center">Total</th>
                                 <th scope="col">Pago</th>
-                                {/* <th scope="col">Observaciones</th> */}
                                 <th scope="col"></th>
                                 <th scope="col"></th>
                                 <th scope="col"></th>
@@ -104,20 +88,15 @@ function ListadodeVentas() {
                         <tbody>
                             {store.ventas.map((item, id) => (
                                 <tr key={id}>
-                                    {/* <td className="align-middle">
-                                        <img src={item.fotoProducto} style={{ width: "40px" }} />
-                                    </td> */}
                                     <td className="align-middle">{item.fechacompra.slice(5, 16)}</td>
                                     <td className="align-middle text-center">{item.nombreUsuario}</td>
                                     <td className="align-middle text-center">{item.nombreProducto}</td>
                                     <td className="text-center align-middle">{item.cantidad}</td>
                                     <td className="text-center align-middle">$ {item.preciounitario}</td>
                                     <td className="text-center align-middle">$ {item.preciounitario * item.cantidad}</td>
-                                    {/* <td className="text-center align-middle">{item.nombreProveedor}</td> */}
                                     <td className="align-middle">{item.TipoMetodo}</td>
-                                    {/* <td className="align-middle">{item.observaciones}</td> */}
                                     <td className="align-middle">
-                                        <Link to={"/detalleCompra/" + item.idCompra} style={{ color: "white" }}>
+                                        <Link to={"/detalleVenta/" + item.idVenta} style={{ color: "white" }}>
                                             <i className="fa fa-eye"></i>
                                         </Link>
                                     </td>

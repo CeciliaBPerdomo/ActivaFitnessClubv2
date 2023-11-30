@@ -6,10 +6,10 @@ import { Context } from "../store/appContext";
 import { MenuAdministrador } from "./menuAdministrador.jsx";
 import { Pendientes } from "../component/mensualidades/pendientes.jsx"
 import { Cumples } from "../component/alumnos/cumple.jsx";
+import VentasPendientes from "../component/ventas/ventaspendientes_mp.jsx"
 
 // Fecha
 import moment from "moment";
-
 
 export const HomeAdministrador = () => {
     const { store, actions } = useContext(Context);
@@ -62,6 +62,19 @@ export const HomeAdministrador = () => {
                         </p>
                         <hr />
                         < Pendientes />
+                    </div>
+
+<br />
+                    {/* Ventas pendientes */}
+                    <div className="container bg-danger bg-opacity-10 border border-danger rounded border-2"
+                    style={{paddingTop: "10px"}}>
+                        <p style={{fontSize: "18px"}}>
+                            <b>
+                                Ventas pendientes
+                            </b> 
+                        </p>
+                        <hr />
+                        < VentasPendientes />
                     </div>
 
                 </div>

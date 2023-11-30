@@ -198,6 +198,11 @@ export const MenuAdministrador = () => {
                         - Listado de ventas
                     </Link>
                 </p>
+                <p style={{ fontSize: "15px", lineHeight: "7px", marginLeft: "10px" }}>
+                    <Link to="/ventas_pendientes" style={{ textDecoration: "none", color: "white" }}>
+                        - Listado de ventas pendientes
+                    </Link>
+                </p>
                 <br />
 
                 {/* Pago a proovedores */}

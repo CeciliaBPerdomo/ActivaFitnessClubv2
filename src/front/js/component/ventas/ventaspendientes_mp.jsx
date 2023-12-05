@@ -30,39 +30,43 @@ function Ventaspendientes_mp() {
 
     return (
         <div>
-        {store.ventas.msg == "No hay ventas realizadas" ?
-            <p>No hay ventas realizadas aún.</p> :
-            <table className="table" style={{ color: "white" }}>
-                <thead>
-                    <tr>
-                        <th scope="col">
-                            Fecha de venta
-                        </th>
-                        <th scope="col" className="text-center">Alumno</th>
-                        <th scope="col" className="text-center">Producto
-                        </th>
-                        <th scope="col" className="text-center">Cantidad</th>
-                        <th scope="col" className="text-center">Total</th>
-                        <th scope="col" className="text-center"></th>
+            {store.ventas.msg == "No hay ventas realizadas" ?
+                <p>No hay ventas realizadas aún.</p> :
+                <table className="table" style={{ color: "white" }}>
+                    <thead>
+                        <tr>
+                            <th scope="col">
+                                Fecha de venta
+                            </th>
+                            <th scope="col" className="text-center">Alumno</th>
+                            <th scope="col" className="text-center">Producto
+                            </th>
+                            <th scope="col" className="text-center">Cantidad</th>
+                            <th scope="col" className="text-center">Total</th>
+                            <th scope="col" className="text-center"></th>
 
-                    </tr>
-                </thead>
-                <tbody>
-                    {ventasPendientesPago.map((item, id) => (
-                        <tr key={id}>
-                            <td className="align-middle">{item.fechacompra.slice(5, 16)}</td>
-                            <td className="align-middle text-center">{item.nombreUsuario}</td>
-                            <td className="align-middle text-center">{item.nombreProducto}</td>
-                            <td className="text-center align-middle">{item.cantidad}</td>
-                            <td className="text-center align-middle">$ {item.preciounitario * item.cantidad}</td>
-                            <td className="text-center align-middle"><i className="fa fa-pen"></i></td>
                         </tr>
-                    ))}
-                </tbody>
-            </table>
-        }
+                    </thead>
+                    <tbody>
+                        {ventasPendientesPago.map((item, id) => (
+                            <tr key={id}>
+                                <td className="align-middle">{item.fechacompra.slice(5, 16)}</td>
+                                <td className="align-middle text-center">{item.nombreUsuario}</td>
+                                <td className="align-middle text-center">{item.nombreProducto}</td>
+                                <td className="text-center align-middle">{item.cantidad}</td>
+                                <td className="text-center align-middle">$ {item.preciounitario * item.cantidad}</td>
+                                <td className="text-center align-middle">
+                                    <Link to={"/pagos_pendientes/" + item.idVenta} style={{color: "white"}}>
+                                        <i className="fa fa-ban"></i>
+                                    </Link>
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            }
 
-    </div>
+        </div>
     )
 }
 

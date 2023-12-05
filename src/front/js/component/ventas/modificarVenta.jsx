@@ -21,6 +21,7 @@ function ModificarVenta() {
     useEffect(() => {
         // Venta a modificar
         actions.obtenerVentaId(params.theid)
+        
         // Productos disponibles
         actions.obtenerProductos()
 

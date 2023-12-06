@@ -204,6 +204,12 @@ export const MenuAdministrador = () => {
                         - Ventas por rango de fechas
                     </Link>
                 </p>
+                
+                <p style={{ fontSize: "15px", lineHeight: "7px", marginLeft: "10px" }}>
+                    <Link to="/ventas_porproducto" style={{ textDecoration: "none", color: "white" }}>
+                        - Ventas por producto
+                    </Link>
+                </p>
                 <p style={{ fontSize: "15px", lineHeight: "7px", marginLeft: "10px" }}>
                     <Link to="/ventas_pendientes" style={{ textDecoration: "none", color: "white" }}>
                         - Listado de ventas pendientes

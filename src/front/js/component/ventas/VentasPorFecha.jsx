@@ -110,7 +110,7 @@ function VentasPorFecha() {
             bodyStyles: { halign: "right" },
 
             body: [
-                ["Total de compras: $"
+                ["Total de ventas: $"
                     + montoTotal
                 ],
             ]

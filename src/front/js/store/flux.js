@@ -41,6 +41,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       comprasMensuales: [],
       ventas: [],
       venta: {},
+      ventasMensuales: [], 
     },
 
     actions: {
@@ -2701,7 +2702,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           },
         );
         setStore({
-          ventas: response.data,
+          ventasMensuales: response.data,
         });
         if (response.status === 200) {
           return true;
@@ -2754,6 +2755,7 @@ const getState = ({ getStore, getActions, setStore }) => {
         }
       }
     },
+
 
   },
   };

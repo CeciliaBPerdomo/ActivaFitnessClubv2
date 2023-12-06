@@ -30,8 +30,8 @@ function Ventaspendientes_mp() {
 
     return (
         <div>
-            {store.ventas.msg == "No hay ventas realizadas" ?
-                <p>No hay ventas realizadas aún.</p> :
+            {ventasPendientesPago.length < 1 ?
+                <p>No hay ventas pendientes.</p> :
                 <table className="table" style={{ color: "white" }}>
                     <thead>
                         <tr>

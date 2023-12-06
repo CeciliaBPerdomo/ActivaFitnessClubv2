@@ -2104,7 +2104,7 @@ def get_ventas_id(id):
 
 # Busca los movimientos de las ventas por un rango de fecha
 @api.route('/ventas/<string:fechaInicio>/<string:fechaFin>', methods=['GET'])
-@jwt_required()
+#@jwt_required()
 def get_ventas_fechas(fechaInicio, fechaFin):
     
     ventas = db.session.query(Ventas, Productos, Usuarios, Metodospago).filter(Ventas.fechacompra>=fechaInicio).filter(Ventas.fechacompra<=fechaFin).join(Productos, Ventas.idproducto == Productos.id).join(Usuarios, Ventas.idusuario == Usuarios.id).join(Metodospago, Ventas.idmetodo == Metodospago.id).all()

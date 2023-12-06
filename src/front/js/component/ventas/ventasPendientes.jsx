@@ -94,7 +94,7 @@ function VentasPendientes() {
             <br />
 
             <div>
-                {store.ventas.msg == "No hay ventas realizadas" ?
+                {ventasPendientesPago.length < 1  ?
                     <p>No hay ventas pendientes.</p> :
                     <table className="table" style={{ color: "white" }}>
                         <thead>

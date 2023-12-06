@@ -12,25 +12,26 @@ import autoTable from 'jspdf-autotable'
 // Logo
 import activa from "../../../img/LogoSinFondo.png"
 
-function VentasPorProducto() {
+
+function VentasPorAlumno() {
     const { store, actions } = useContext(Context)
 
-    const [idProducto, setIdProducto] = useState("")
+    const [idUsuario, setIdUsuario] = useState("")
     const [docImprimir, setDocImprimir] = useState([])
-    const [nombreProducto, setNombreProducto] = useState("")
+    const [nombreAlumno, setNombreAlumno] = useState("")
 
     useEffect(() => {
-        actions.obtenerProductos()
+        actions.obtenerAlumnos();
     }, []);
 
     // Buscador
     const buscar = async () => {
         await actions.obtenerVentas();
-        await actions.buscadorVentas(idProducto, "Producto");
+        await actions.buscadorVentas(idUsuario, "Alumnos");
 
         // Pdf info
         setDocImprimir(store.ventas)
-        setNombreProducto(store.ventas[0].nombreProducto)
+        setNombreAlumno(store.ventas[0].nombreUsuario)
     };
 
     // Imprimir 
@@ -46,7 +47,7 @@ function VentasPorProducto() {
         doc.addImage(activa, 'PNG', 15, 10, 16, 15);
 
         // Titulo
-        doc.text("Ventas de: " + nombreProducto, 65, 20)
+        doc.text("Ventas a: " + nombreAlumno, 65, 20)
 
         // Info tabla
         docImprimir.map((item, id) => {
@@ -92,28 +93,27 @@ function VentasPorProducto() {
             ]
         })
 
-        doc.save("Ventas_de_" + nombreProducto + ".pdf");
+        doc.save("Ventas_de_" + nombreAlumno + ".pdf");
     }
 
     return (
         <div className="container">
-            <h4 style={{ marginBottom: "25px" }}>Ventas por producto</h4>
+            <h4 style={{ marginBottom: "25px" }}>Ventas por alumno</h4>
             <hr />
             <br />
 
-            {/* Seleccionar producto */}
+            {/* Seleccionar alumno */}
             <div className="row">
                 <div className="col-2 text-end align-middle">
-                    Seleccione el producto:
+                    Seleccione el alumno:
                 </div>
                 <div className="col-4">
-                    <select className="form-select"
-                        value={idProducto}
-                        onChange={(e) => setIdProducto(e.target.value)}
-                    >
-                        <option selected>Productos</option>
-                        {store.productos.map((item, id) => (
-                            <option key={id} value={item.id}>{item.nombre}</option>
+                    <select className="form-select" aria-label="Default select example"
+                        value={idUsuario}
+                        onChange={(e) => setIdUsuario(e.target.value)}>
+                        <option selected>Alumno</option>
+                        {store.alumnos.map((item, id) => (
+                            <option key={id} value={item.id}>{item.nombre} {item.apellido}</option>
                         ))}
                     </select>
                 </div>
@@ -127,14 +127,13 @@ function VentasPorProducto() {
                     </button>
                 </div>
             </div>
-
             <hr />
             <br />
 
             {/* Tabla de ventas por producto */}
             <div>
                 {store.ventas.length < 1 ?
-                    <p>No hay ventas para el producto seleccionado.</p> :
+                    <p>No hay ventas para el alumno seleccionado.</p> :
                     <table className="table" style={{ color: "white" }}>
                         <thead>
                             <tr>
@@ -204,4 +203,4 @@ function VentasPorProducto() {
     )
 }
 
-export default VentasPorProducto
+export default VentasPorAlumno

@@ -2757,13 +2757,27 @@ const getState = ({ getStore, getActions, setStore }) => {
       },
 
       // Buscador de productos en ventas
-      buscadorVentas: (id_producto) => {
+      buscadorVentas: (id, tipo) => {
         let store = getStore();
-        let resultados = store.ventas.filter((item) => {
-          if (item.idProducto == id_producto) {
-            return id_producto;
-          }
-        });
+        let resultados = []
+
+        // Busca por producto
+        if (tipo == "Producto") {
+          resultados = store.ventas.filter((item) => {
+            if (item.idProducto == id) {
+              return id;
+            }
+          });
+        }
+
+        // Busca por alumno
+        if (tipo == "Alumnos") {
+          resultados = store.ventas.filter((item) => {
+            if (item.idUsuario == id) {
+              return id;
+            }
+          });
+        }
         setStore({ ventas: resultados });
       },
 

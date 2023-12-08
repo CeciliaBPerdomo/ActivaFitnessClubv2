@@ -106,16 +106,17 @@ export const ListaAlumnos = () => {
                 <th scope="col"></th>
                 <th scope="col"></th>
                 <th scope="col"></th>
+                <th scope="col"></th>
               </tr>
             </thead>
             <tbody>
               {store.alumnos.map((item, id) => (
                 <tr key={id}>
-                  <td> {moment(item.fechaingreso).format("DD-MM-YYYY")}</td>
-                  <td>{item.nombre} {item.apellido}</td>
-                  <td>{item.direccion}</td>
-                  <td>{item.cuotasInfo.descripcion}</td>
-                  <td className="text-center">
+                  <td className="align-middle"> {moment(item.fechaingreso).format("DD-MM-YYYY")}</td>
+                  <td className="align-middle">{item.nombre} {item.apellido}</td>
+                  <td className="align-middle">{item.direccion}</td>
+                  <td className="align-middle">{item.cuotasInfo.descripcion}</td>
+                  <td className="text-center align-middle"> 
                     <Link
                       to={"/AlumnoIndividual/" + item.id +
                         "/" + item.idmutualista}
@@ -124,15 +125,20 @@ export const ListaAlumnos = () => {
                       <i className="fa fa-eye"></i>
                     </Link>
                   </td>
-                  <td>
+                  <td className="text-center align-middle">
                     <Link to={"/MensualidadporAlumno/" + item.id} style={{ color: "white" }}>
                       <i className="fa fa-credit-card"></i>
                     </Link>
                   </td>
-                  <td className="text-center">
+                  <td className="text-center align-middle">
                     <i className="fa fa-dumbbell"></i>
                   </td>
-                  <td className="text-center">
+                  <td className="text-center align-middle">
+                    <Link to={"/ingresar_ventas_por_alumno/" + item.id} style={{ color: "white" }}>
+                    <i className="fa fa-cart-plus"></i>
+                    </Link>
+                  </td>
+                  <td className="text-center align-middle">
                     <Link
                       to={"/ModificarAlumno/" + item.id}
                       style={{ color: "white" }}
@@ -140,7 +146,7 @@ export const ListaAlumnos = () => {
                       <i className="fa fa-pen"></i>
                     </Link>
                   </td>
-                  <td className="text-center">
+                  <td className="text-center align-middle">
                     <i
                       className="fa fa-trash"
                       onClick={(e) => borrar(e, item.id)}

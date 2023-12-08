@@ -1,16 +1,21 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Context } from "../../store/appContext";
+import { useParams } from "react-router-dom";
+
+// Alertas
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 
-function IngresarVenta() {
+
+function IngresarVentaPorAlumno() {
     const { store, actions } = useContext(Context)
+    const params = useParams();
 
     const [fechaCompra, setFechaCompra] = useState("")
     const [fechaPago, setFechaPago] = useState("")
     const [precio, setPrecio] = useState("")
-    const [idUsuario, setIdUsuario] = useState("")
+    const [idUsuario, setIdUsuario] = useState(store.alumno[0]?.id)
     const [idProducto, setIdProducto] = useState("")
     const [cantidad, setCantidad] = useState("")
     const [idMetodo, setIdMetodo] = useState("")
@@ -24,7 +29,7 @@ function IngresarVenta() {
         actions.obtenerMetodos()
 
         // Alumnos 
-        actions.obtenerAlumnos();
+        actions.obtenerAlumnoId(parseInt(params.theid))
     }, []);
 
     // Guarda la venta
@@ -54,7 +59,7 @@ function IngresarVenta() {
         
         if (fechaCompra != "" && idUsuario != "" && precio != "" && idProducto != ""  && cantidad != "" && idMetodo != "") {
 
-            let resultado = await actions.crearVentas(fechaCompra, cantidad, precio, observaciones, fechaP, idProducto, idUsuario, idMetodo)
+            let resultado = await actions.crearVentas(fechaCompra, cantidad, precio, observaciones, fechaP, idProducto, store.alumno[0]?.id, idMetodo)
             let results = await actions.actualizarCantidadProducto(idProducto, cantidad, "Venta")
 
             if (resultado === true && results === true) {
@@ -119,9 +124,8 @@ function IngresarVenta() {
         }
     }
 
-
-    return (
-        <div className="container">
+  return (
+    <div className="container">
             <h3 style={{ marginBottom: "25px" }}>Ingresar venta</h3>
             <hr />
             <br />
@@ -147,14 +151,12 @@ function IngresarVenta() {
                         <label htmlFor="alumno" style={{ marginBottom: "10px" }}>
                             Alumno <label style={{ color: "red" }}>(Obligatorio)</label>:
                         </label>
-                        <select className="form-select" aria-label="Default select example"
-                            value={idUsuario}
-                            onChange={(e) => setIdUsuario(e.target.value)}>
-                            <option selected>Alumno</option>
-                            {store.alumnos.map((item, id) => (
-                                <option key={id} value={item.id}>{item.nombre} {item.apellido}</option>
-                            ))}
-                        </select>
+                        <input
+                            type="text"
+                            className="form-control"
+                            placeholder="Alumno"
+                            value={store.alumno[0]?.nombre + " " + store.alumno[0]?.apellido}
+                        />
                     </div>
 
                     {/* Producto */}
@@ -269,7 +271,7 @@ function IngresarVenta() {
             </form>
             <ToastContainer />
         </div>
-    )
+  )
 }
 
-export default IngresarVenta
+export default IngresarVentaPorAlumno

@@ -780,7 +780,12 @@ def productoModif_cantidad_porId(producto_id):
     if producto is None:
         return jsonify({"msg": "No existe el producto"}), 400    
     
-    producto.cantidad = producto.cantidad + body["cantidad"]
+    if (body["tipo"] == "Compra"):
+        producto.cantidad = producto.cantidad + body["cantidad"]
+    
+    if (body["tipo"] == "Venta"):
+        producto.cantidad = producto.cantidad - body["cantidad"]
+    
     db.session.commit()
     return jsonify({"msg": "Producto modificado"}), 200
 

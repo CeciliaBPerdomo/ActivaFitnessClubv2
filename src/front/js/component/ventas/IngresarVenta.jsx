@@ -54,12 +54,11 @@ function IngresarVenta() {
         
         
         if (fechaCompra != "" && idUsuario != "" && precio != "" && idProducto != ""  && cantidad != "" && idMetodo != "") {
-            console.log(fechaP)
 
             let resultado = await actions.crearVentas(fechaCompra, cantidad, precio, observaciones, fechaP, idProducto, idUsuario, idMetodo)
-            //let results = await actions.actualizarCantidadProducto(idProducto, cantidad)
+            let results = await actions.actualizarCantidadProducto(idProducto, cantidad, "Venta")
 
-            if (resultado === true) {
+            if (resultado === true && results === true) {
                 toast.success("💪 Guardado con éxito", {
                     position: toast.POSITION.TOP_RIGHT,
                     autoClose: 1000,

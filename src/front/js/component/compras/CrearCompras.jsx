@@ -40,7 +40,7 @@ function CrearCompras() {
         if (fechaCompra != "" && precio != "" && idProducto != "" && idProveedor != "" && cantidad != "" && idMetodo != "") {
 
             let resultado = await actions.crearCompras(precio, fechaCompra, cantidad, observaciones, idProducto, idProveedor, idMetodo)
-            let results = await actions.actualizarCantidadProducto(idProducto, cantidad)
+            let results = await actions.actualizarCantidadProducto(idProducto, cantidad, "Compra")
 
             if (resultado === true && results === true) {
                 toast.success("💪 Guardado con éxito", {

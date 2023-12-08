@@ -2549,10 +2549,11 @@ const getState = ({ getStore, getActions, setStore }) => {
       },
 
       // Actualiza la cantidad de producto segun la compra por el id
-      actualizarCantidadProducto: async (id, cantidad) => {
+      actualizarCantidadProducto: async (id, cantidad, tipo) => {
         try {
           const response = await axios.put(direccion + "/api/productos/cantidad/" + id, {
             cantidad: parseInt(cantidad),
+            tipo: tipo,
           }, {
             headers: {
               Authorization: "Bearer " + localStorage.getItem("Token"),

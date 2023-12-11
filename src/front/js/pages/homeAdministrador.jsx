@@ -15,8 +15,9 @@ export const HomeAdministrador = () => {
     const { store, actions } = useContext(Context);
 
     useEffect(() => {
-        //actions.clima()
+        actions.clima()
     }, [])
+
 
     return (
         <>
@@ -31,9 +32,13 @@ export const HomeAdministrador = () => {
                     <div className="col-1"></div>
 
                     <div className="col-8">
-                        {/* Fecha actual */}
+                        {/* Fecha actual y clima */}
+                        <p className="text-end" style={{ fontSize: "18px", marginBottom: "1px"}}>
+                            <img src={"http://openweathermap.org/img/w/" + store.clima?.weather?.[0]?.icon + ".png"}/>
+                            {Math.round(store.clima?.main?.temp)  +" °C"}
+                        </p>
                         <p className="text-end" style={{ fontSize: "18px" }}>
-                            {moment().format('DD/MM/YYYY')}
+                            {moment().format('DD/MM/YYYY')} 
                         </p>
 
                         <hr />

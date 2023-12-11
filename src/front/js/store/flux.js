@@ -42,6 +42,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       ventas: [],
       venta: {},
       ventasMensuales: [],
+      clima: {}, 
     },
 
     actions: {
@@ -1895,21 +1896,22 @@ const getState = ({ getStore, getActions, setStore }) => {
       ////////////////////////////////////
       ///         Clima                ///
       ////////////////////////////////////
+     
       //Clima
       clima: async () => {
-        const params = {
-          access_key: process.env.CLIMA,
-          query: 'Montevideo'
-        }
+        // Colonia del Sacramento
+        let latitud = "-34.46262"
+        let longitud = "-57.83976"
+     
+        try {
+        const response = await axios.get("https://api.openweathermap.org/data/2.5/weather?lat="+ latitud + "&lon="+longitud+"&appid=" + process.env.CLIMA + "&units=metric") 
+        // console.log(response.data)
+        setStore({clima: response.data})
+       
+      } catch(error) {
+        console.error(error)
+      }
 
-        axios.get('https://api.weatherstack.com/current', { params })
-          .then(response => {
-            const apiResponse = response.data;
-            console.log(response.data.current)
-            console.log(`Current temperature in ${apiResponse.location} is ${apiResponse.current}℃`);
-          }).catch(error => {
-            console.log(error);
-          });
       },
 
       ////////////////////////////////////

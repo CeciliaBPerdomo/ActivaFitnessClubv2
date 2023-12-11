@@ -66,7 +66,7 @@ export const HomeAdministrador = () => {
 
                         <br />
                         {/* Ventas pendientes */}
-                        <div className="container bg-danger bg-opacity-10 border border-danger rounded border-2"
+                        {/* <div className="container bg-danger bg-opacity-10 border border-danger rounded border-2"
                             style={{ paddingTop: "10px" }}>
                             <p style={{ fontSize: "18px" }}>
                                 <b>
@@ -75,7 +75,7 @@ export const HomeAdministrador = () => {
                             </p>
                             <hr />
                             < VentasPendientes />
-                        </div>
+                        </div> */}
 
                     </div>
 

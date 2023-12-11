@@ -33,10 +33,12 @@ export const HomeAdministrador = () => {
 
                     <div className="col-8">
                         {/* Fecha actual y clima */}
+                        { store.clima ? 
                         <p className="text-end" style={{ fontSize: "18px", marginBottom: "1px"}}>
                             <img src={"http://openweathermap.org/img/w/" + store.clima?.weather?.[0]?.icon + ".png"}/>
                             {Math.round(store.clima?.main?.temp)  +" °C"}
-                        </p>
+                        </p> : null
+                        }
                         <p className="text-end" style={{ fontSize: "18px" }}>
                             {moment().format('DD/MM/YYYY')} 
                         </p>

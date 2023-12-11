@@ -1905,7 +1905,6 @@ const getState = ({ getStore, getActions, setStore }) => {
      
         try {
         const response = await axios.get("https://api.openweathermap.org/data/2.5/weather?lat="+ latitud + "&lon="+longitud+"&appid=" + process.env.CLIMA + "&units=metric") 
-        // console.log(response.data)
         setStore({clima: response.data})
        
       } catch(error) {

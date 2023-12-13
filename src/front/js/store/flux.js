@@ -42,7 +42,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       ventas: [],
       venta: {},
       ventasMensuales: [],
-      clima: {}, 
+      clima: {},
     },
 
     actions: {
@@ -1896,20 +1896,20 @@ const getState = ({ getStore, getActions, setStore }) => {
       ////////////////////////////////////
       ///         Clima                ///
       ////////////////////////////////////
-     
+
       //Clima
       clima: async () => {
         // Colonia del Sacramento
         let latitud = "-34.46262"
         let longitud = "-57.83976"
-     
+
         try {
-        const response = await axios.get("https://api.openweathermap.org/data/2.5/weather?lat="+ latitud + "&lon="+longitud+"&appid=" + process.env.CLIMA + "&units=metric") 
-        setStore({clima: response.data})
-       
-      } catch(error) {
-        console.error(error)
-      }
+          const response = await axios.get("https://api.openweathermap.org/data/2.5/weather?lat=" + latitud + "&lon=" + longitud + "&appid=" + process.env.CLIMA + "&units=metric")
+          setStore({ clima: response.data })
+
+        } catch (error) {
+          console.error(error)
+        }
 
       },
 
@@ -2215,14 +2215,18 @@ const getState = ({ getStore, getActions, setStore }) => {
       // Buscador de ejercicios por tipo
       buscadorEjercicioPorTipo: (valor) => {
         let store = getStore();
-        let resultados = store.ejercicios.filter((item) => {
-          if (item.idTipo == valor) {
-            return valor;
-          }
-        });
-        setStore({
-          ejercicios: resultados,
-        });
+        if (!store.ejercicio) {
+          let resultados = store.ejercicios.filter((item) => {
+            if (item.idTipo == valor) {
+              return valor;
+            }
+          });
+          setStore({
+            ejercicios: resultados,
+          });
+        } else {
+          console.log("No hay ejercicios cargados")
+        }
       },
 
       // Ordena los ejercicios de mayor a menor

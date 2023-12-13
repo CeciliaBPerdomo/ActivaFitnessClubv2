@@ -1,6 +1,6 @@
 import React from "react";
-import { Link } from "react-router-dom";
 
+// Menu
 import Alumnos from "./Menu/Alumnos.jsx";
 import Mensualidades from "./Menu/Mensualidades.jsx";
 import BalanceDiario from "./Menu/BalanceDiario.jsx";

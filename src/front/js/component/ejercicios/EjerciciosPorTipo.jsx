@@ -43,64 +43,67 @@ function EjerciciosPorTipo() {
             <hr />
 
             <div className="container">
-                <div className="row">
-                    <div className="col-2">
-                        Seleccione el tipo de ejercicio:
+                {store.tiposEjercicios ?
+                    <div className="row">
+                        <div className="col-2">
+                            Seleccione el tipo de ejercicio:
+                        </div>
+                        <div className="col">
+                            <select className="form-select"
+                                value={idTipo}
+                                onChange={(e) => setIdTipo(e.target.value)}
+                            >
+                                <option selected>Tipo de Ejercicio</option>
+                                {store.tiposEjercicios.map((item, id) => (
+                                    <option key={id} value={item.id}>
+                                        {item.descripcion}
+                                    </option>
+                                ))}
+                            </select>
+
+                        </div>
+                        <div className="col">
+                            <button
+                                type="submit"
+                                className="btn btn-outline-danger"
+                                onClick={(e) => buscar(idTipo)}
+                            >
+                                Buscar
+                            </button>
+                        </div>
                     </div>
-                    <div className="col">
-                        <select className="form-select"
-                            value={idTipo}
-                            onChange={(e) => setIdTipo(e.target.value)}
-                        >
-                            <option selected>Tipo de Ejercicio</option>
-                            {store.tiposEjercicios.map((item, id) => (
-                                <option key={id} value={item.id}>
-                                    {item.descripcion}
-                                </option>
-                            ))}
-                        </select>
-                    </div>
-                    <div className="col">
-                        <button
-                            type="submit"
-                            className="btn btn-outline-danger"
-                            onClick={(e) => buscar(idTipo)}
-                        >
-                            Buscar
-                        </button>
-                    </div>
-                </div>
+                    : <p>No hay tipos de ejercicios especificados</p>}
                 <hr />
 
-                <div >
-                    <table className="table"
-                        style={{ color: "white" }}>
-                        <thead>
-                            <tr>
-                                <th></th>
-                                <th>Nombre
+                {!store.ejercicios ?
+                    <div >
+                        <table className="table" style={{ color: "white" }}>
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>Nombre
 
-                                </th>
+                                    </th>
 
-                                <th>Descripción</th>
-                                <th>Tipo
+                                    <th>Descripción</th>
+                                    <th>Tipo
 
-                                </th>
-                                {/* <th scope="col"></th>
+                                    </th>
+                                    {/* <th scope="col"></th>
                             <th scope="col"></th>
                             <th scope="col"></th> */}
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {store.ejercicios.map((item, id) => (
-                                <tr key={id}>
-                                    <td className="align-middle">
-                                        <img src={item.foto} alt={item.nombre} style={{ width: "60px" }} />
-                                    </td>
-                                    <td className="align-middle text-center">{item.nombre}</td>
-                                    <td className="align-middle">{item.descripcion}</td>
-                                    <td className="align-middle text-center">{item.descripcionTipo}</td>
-                                    {/* <td className="align-middle text-center">
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {store.ejercicios.map((item, id) => (
+                                    <tr key={id}>
+                                        <td className="align-middle">
+                                            <img src={item.foto} alt={item.nombre} style={{ width: "60px" }} />
+                                        </td>
+                                        <td className="align-middle text-center">{item.nombre}</td>
+                                        <td className="align-middle">{item.descripcion}</td>
+                                        <td className="align-middle text-center">{item.descripcionTipo}</td>
+                                        {/* <td className="align-middle text-center">
                                     <Link to={"/individualEjercicio/" + item.id} style={{ color: "white" }}>
                                         <i className="fa fa-eye"></i>
                                     </Link>
@@ -116,11 +119,12 @@ function EjerciciosPorTipo() {
                                     >
                                     </i>
                                 </td> */}
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
-                </div>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+                    : <p>No hay ejercicios para este tipo especifico</p>}
             </div>
             <ToastContainer />
         </div>

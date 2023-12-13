@@ -2212,3 +2212,115 @@ def get_ventas_fechaDesc():
     }, ventas))
 
     return jsonify(results), 200
+
+
+#####################################################################################
+#####################################################################################
+###                                                                               ###
+###                      RUTINAS                                                  ###
+###                                                                               ###
+#####################################################################################
+#####################################################################################
+
+#Muestra todas las rutinas
+@api.route('/rutina', methods=['GET'])
+#@jwt_required()
+def get_rutinas():
+    rutinas = db.session.query(Rutina, Usuarios).join(Usuarios).all()
+
+    if rutinas is None:
+        return jsonify({"msg": "No existen rutinas"}), 400
+    
+    if rutinas == []:
+        return jsonify({"msg": "No existen rutinas"}), 400
+    
+    results = list(map(lambda rutina: {
+        # Rutina
+        "idRutina" : rutina[0].id,
+        "fechacomienzo": rutina[0].fechacomienzo,
+        "fechafinalizacion": rutina[0].fechafinalizacion,
+        # Usuarios
+        "idUsuario": rutina[1].id,
+        "nombreUsuario": rutina[1].nombre + " " + rutina[1].apellido,
+    }, rutinas))
+
+    return jsonify(results), 200
+
+
+# Alta de un rutina
+@api.route('/rutina', methods=['POST'])
+#@jwt_required()
+def add_rutina():
+    body = json.loads(request.data)
+
+    new_rutina = Rutina(
+        fechacomienzo=body["fechacomienzo"],
+        fechafinalizacion=body["fechafinalizacion"],
+        idusuario=body["idusuario"]
+    )
+
+    db.session.add(new_rutina)
+    db.session.commit()
+
+    return jsonify(new_rutina.serialize()), 200
+
+# Eliminacion de una rutina
+@api.route('/rutina/<int:rutina_id>', methods=['DELETE'])
+# @jwt_required()
+def delete_rutina(rutina_id):
+    rutinaId = Rutina.query.filter_by(id=rutina_id).first()
+  
+    if rutinaId is None: 
+        return jsonify({"msg": "Id de rutina no encontrada"}), 400
+
+    db.session.delete(rutinaId)
+    db.session.commit()
+
+    return jsonify({"msg": "Rutina: " + str(rutina_id) + " borrada"}), 200 
+
+# Modifica una rutina por id
+@api.route('/rutina/<int:rutina_id>', methods=['PUT'])
+# @jwt_required()
+def update_rutina(rutina_id):
+    rutinaModif = Rutina.query.filter_by(id=rutina_id).first()
+    body = json.loads(request.data)
+
+    if rutinaModif is None:
+        return jsonify({"msg": "No existe la rutina que quiere modificar"}), 400    
+
+    if "fechacomienzo" in body:
+        rutinaModif.fechacomienzo =  body["fechacomienzo"]
+
+    if "fechafinalizacion" in body:
+        rutinaModif.fechafinalizacion = body["fechafinalizacion"]
+
+    if "idusuario" in body:
+        rutinaModif.idusuario = body["idusuario"]
+    
+    db.session.commit()
+    return jsonify({"msg": "Rutina: " + str(rutina_id) + " modificada"}), 200
+
+# Muestra la rutina por id
+@api.route('/rutina/<int:rutina_id>', methods=['GET'])
+# @jwt_required()
+def get_rutina_id(rutina_id):
+    id =db.session.query(Rutina, Usuarios).filter_by(id=rutina_id).join(Usuarios).all()
+
+    if id is None: 
+        return jsonify({"msg": "Rutina: " + str(rutina_id) + " no encontrada."}), 400
+    
+    if id == []: 
+        return jsonify({"msg": "Rutina: " + str(rutina_id) + " no encontrada."}), 400
+
+    results = list(map(lambda rutina: {
+        # Rutina
+        "idRutina" : rutina[0].id,
+        "fechacomienzo": rutina[0].fechacomienzo,
+        "fechafinalizacion": rutina[0].fechafinalizacion,
+
+        # Usuarios
+        "idUsuario": rutina[1].id,
+        "nombreUsuario": rutina[1].nombre + " " + rutina[1].apellido,
+    }, id))
+    
+    return jsonify(results), 200

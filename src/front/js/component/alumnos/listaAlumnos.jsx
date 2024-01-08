@@ -131,7 +131,9 @@ export const ListaAlumnos = () => {
                     </Link>
                   </td>
                   <td className="text-center align-middle">
+                  <Link to={"/nueva_rutina/" + item.id} style={{ color: "white" }}>
                     <i className="fa fa-dumbbell"></i>
+                    </Link>
                   </td>
                   <td className="text-center align-middle">
                     <Link to={"/ingresar_ventas_por_alumno/" + item.id} style={{ color: "white" }}>

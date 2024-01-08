@@ -43,6 +43,8 @@ const getState = ({ getStore, getActions, setStore }) => {
       venta: {},
       ventasMensuales: [],
       clima: {},
+      rutinas: [], 
+      rutina: {}
     },
 
     actions: {
@@ -1701,10 +1703,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 
       cajadiariaControlFecha: async (fecha) => {
         try {
-          const response = await axios.get(
-            direccion + "/api/cajadiariaControlFecha",
-            { fecha: fecha },
-            {
+          const response = await axios.get( direccion + "/api/cajadiariaControlFecha/" + fecha, 
+          {
               headers: {
                 Authorization: "Bearer " + localStorage.getItem("Token"),
               },
@@ -2785,6 +2785,118 @@ const getState = ({ getStore, getActions, setStore }) => {
           });
         }
         setStore({ ventas: resultados });
+      },
+
+
+      ////////////////////////////////////
+      //           Rutinas             ///
+      ////////////////////////////////////
+
+      /* Listar todas las rutinas */
+      obtenerRutinas: async () => {
+        try {
+          const response = await axios.get(
+            direccion + "/api/rutina",
+            {
+              headers: {
+                Authorization: "Bearer " + localStorage.getItem("Token"),
+              },
+            },
+          );
+          setStore({
+            rutinas: response.data,
+          });
+        } catch (error) {
+          if (error.code === "ERR_BAD_REQUEST") {
+            console.log(error.response.data.msg);
+          }
+        }
+      },
+
+      /* Agrega una nueva rutina */
+      crearRutina: async (fechacomienzo, fechafinalizacion, idUsuario) => {
+        try {
+          const response = await axios.post(direccion + "/api/rutina", {
+            fechacomienzo: fechacomienzo,
+            fechafinalizacion: fechafinalizacion,
+            idusuario: idUsuario,
+          }, {
+            headers: {
+              Authorization: "Bearer " + localStorage.getItem("Token"),
+            },
+          });
+          if (response.status === 200) {
+            return true;
+          }
+        } catch (error) {
+          console.error(
+            "Error " + error.response.status + ": " + error.response.statusText,
+          );
+          return false;
+        }
+      },
+
+      /* Borra una rutina por el id */
+      borrarRutina: async (id) => {
+        try {
+          const response = await axios.delete(direccion + "/api/rutina/" + id, {
+            headers: {
+              Authorization: "Bearer " + localStorage.getItem("Token"),
+            },
+          });
+          getActions().obtenerRutinas();
+          if (response.status === 200) {
+            return true;
+          }
+        } catch (error) {
+          console.error(
+            "Error " + error.response.status + ": " + error.response.statusText,
+          );
+          return false;
+        }
+      },
+
+      // Modificar la rutina por el id
+      modificarRutina: async (fechacomienzo, fechafinalizacion, idUsuario) => {
+        try {
+          const response = await axios.put(direccion + "/api/rutina/" + id, {
+            fechacomienzo: fechacomienzo,
+            fechafinalizacion: fechafinalizacion,
+            idusuario: idUsuario,
+          }, {
+            headers: {
+              Authorization: "Bearer " + localStorage.getItem("Token"),
+            },
+          });
+          if (response.status === 200) {
+            return true;
+          }
+        } catch (error) {
+          console.error(
+            "Error " + error.response.status + ": " + error.response.statusText,
+          );
+          return false;
+        }
+      },
+
+      // Obtener rutina por id
+      obtenerRutinaId: async (id) => {
+        try {
+          const response = await axios.get(direccion + "/api/rutina/" + id, {
+            headers: {
+              Authorization: "Bearer " + localStorage.getItem("Token"),
+            },
+          });
+          setStore({ rutina: response.data });
+          if (response.status === 200) {
+            return true;
+          }
+        } catch (error) {
+          console.error(
+            "Error " + error.response.status + ": " + error.response.statusText,
+          );
+          return false;
+        }
       },
 
     },

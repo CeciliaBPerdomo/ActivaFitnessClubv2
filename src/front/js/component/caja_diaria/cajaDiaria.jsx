@@ -50,7 +50,7 @@ export const CajaDiaria = () => {
 
         let controlFecha = await actions.cajadiariaControlFecha(fecha)
 
-        if (controlFecha !== true) {
+        if (!controlFecha) {
             let resultado = await actions.cerrarCajaDiaria(fecha, totalIngresos, CantidadAlumnos, 0, totalEgresos, observaciones)
 
             if (resultado === true) {

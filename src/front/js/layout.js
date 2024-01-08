@@ -99,6 +99,7 @@ import VentasPorFecha from "./component/ventas/VentasPorFecha.jsx";
 import VentasPorProducto from "./component/ventas/VentasPorProducto.jsx";
 import VentasPorAlumno from "./component/ventas/VentasPorAlumno.jsx";
 import IngresarVentaPorAlumno from "./component/ventas/IngresarVentaPorAlumno.jsx";
+import CrearRutina from "./component/rutinas/crearRutina.jsx";
 
 
 //create your first component
@@ -207,6 +208,8 @@ const Layout = () => {
                         <Route element={<VentasPorAlumno />} path="/ventas_por_alumno" />
                         <Route element={<IngresarVentaPorAlumno />} path="/ingresar_ventas_por_alumno/:theid" />
 
+                        {/* Rutinas */}
+                        <Route element={<CrearRutina />} path="/nueva_rutina/:theid" />
 
                         <Route element={<h1>Not found!</h1>} />
                     </Routes>

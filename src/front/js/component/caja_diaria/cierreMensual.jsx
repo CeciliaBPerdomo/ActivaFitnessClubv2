@@ -214,7 +214,7 @@ export const CierreMensual = () => {
                                 <tbody>
                                     {store.movimientosMensuales.map((item, id) => (
                                         <tr key={id}>
-                                            <td>{moment(item.fecha).format("DD-MM-YYYY")}</td>
+                                            <td>{(item.fecha).slice(5, 16)}</td>
                                             <td>{item.cantidadalumnos}</td>
                                             <td>$ {item.totalmensualidades}</td>
                                             <td>$ {item.totalventas}</td>

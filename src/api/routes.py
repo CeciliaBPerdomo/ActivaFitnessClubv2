@@ -506,7 +506,7 @@ def getVencimientos(fechaActual):
 #@jwt_required()
 def getRangodeMensualidades(fechaInicio, fechaFin):
 
-    rango = db.session.query(Mensualidades, Metodospago, Usuarios).filter(Mensualidades.fechapago>=fechaInicio).filter(Mensualidades.fechapago<=fechaFin).join(Metodospago).join(Usuarios).all()
+    rango = db.session.query(Mensualidades, Metodospago, Usuarios).filter(Mensualidades.fechapago>=fechaInicio).filter(Mensualidades.fechapago<=fechaFin).join(Metodospago).join(Usuarios).order_by(desc(Mensualidades.fechapago)).all()
 
     if rango is None: 
         return jsonify({"msg": "No hay pago de mensualidades para las fechas solicitadas."}), 404
@@ -1188,19 +1188,16 @@ def get_Cajaid(cajadiaria_id):
     return jsonify(results), 200
 
 # Chequeo de la caja Diaria por fecha
-@api.route('/cajadiariaControlFecha/', methods=['GET'])
+@api.route('/cajadiariaControlFecha/<string:fecha>', methods=['GET'])
 @jwt_required()
-def get_CajaFecha():
-    body = json.loads(request.data)
-    fecha = body["fecha"]
+def get_CajaFecha(fecha):
 
     caja = CajaDiaria.query.filter_by(fecha=fecha).first()
 
     if caja is None: 
-        response_body = {"msg": "Fecha no encontrada"}
-        return jsonify(response_body), 200
+        return jsonify({"msg": "Fecha no encontrada"}), 200
 
-    return jsonify({"msg": "La fecha existe"}), 400
+    return jsonify({"msg": "La fecha existe"}), 200
 
 # Actualiza los movimientos de la caja Diaria segun la fecha
 @api.route('/cajadiaria', methods=['PUT'])
@@ -2224,7 +2221,7 @@ def get_ventas_fechaDesc():
 
 #Muestra todas las rutinas
 @api.route('/rutina', methods=['GET'])
-#@jwt_required()
+@jwt_required()
 def get_rutinas():
     rutinas = db.session.query(Rutina, Usuarios).join(Usuarios).all()
 
@@ -2239,6 +2236,7 @@ def get_rutinas():
         "idRutina" : rutina[0].id,
         "fechacomienzo": rutina[0].fechacomienzo,
         "fechafinalizacion": rutina[0].fechafinalizacion,
+        
         # Usuarios
         "idUsuario": rutina[1].id,
         "nombreUsuario": rutina[1].nombre + " " + rutina[1].apellido,
@@ -2249,7 +2247,7 @@ def get_rutinas():
 
 # Alta de un rutina
 @api.route('/rutina', methods=['POST'])
-#@jwt_required()
+@jwt_required()
 def add_rutina():
     body = json.loads(request.data)
 
@@ -2266,7 +2264,7 @@ def add_rutina():
 
 # Eliminacion de una rutina
 @api.route('/rutina/<int:rutina_id>', methods=['DELETE'])
-# @jwt_required()
+@jwt_required()
 def delete_rutina(rutina_id):
     rutinaId = Rutina.query.filter_by(id=rutina_id).first()
   
@@ -2280,7 +2278,7 @@ def delete_rutina(rutina_id):
 
 # Modifica una rutina por id
 @api.route('/rutina/<int:rutina_id>', methods=['PUT'])
-# @jwt_required()
+@jwt_required()
 def update_rutina(rutina_id):
     rutinaModif = Rutina.query.filter_by(id=rutina_id).first()
     body = json.loads(request.data)
@@ -2302,7 +2300,7 @@ def update_rutina(rutina_id):
 
 # Muestra la rutina por id
 @api.route('/rutina/<int:rutina_id>', methods=['GET'])
-# @jwt_required()
+@jwt_required()
 def get_rutina_id(rutina_id):
     id =db.session.query(Rutina, Usuarios).filter_by(id=rutina_id).join(Usuarios).all()
 

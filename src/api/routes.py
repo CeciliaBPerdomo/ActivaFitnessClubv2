@@ -1065,7 +1065,7 @@ def pagoProveedorModif_porId(pago_id):
 @api.route('/cajadiaria', methods=['GET'])
 @jwt_required()
 def get_CajaDiaria():
-    cajaDiaria = CajaDiaria.query.all()
+    cajaDiaria = CajaDiaria.query.order_by(desc(CajaDiaria.fecha)).all()
     results = list(map(lambda x: x.serialize(), cajaDiaria))
     return jsonify(results), 200
 

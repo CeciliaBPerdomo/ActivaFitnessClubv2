@@ -1710,12 +1710,11 @@ const getState = ({ getStore, getActions, setStore }) => {
               },
             },
           );
-          if (response.status === 200) {
-            // Fecha no encontrada
-            return true;
+          // console.log(response.data.msg) //La fecha existe
+          if (response.data.msg === "La fecha existe") {
+            return true; // Fecha encontrada --> Modifico
           } else {
-            // Existe la fecha
-            return false;
+            return false; //Fecha no econtrada --> Guardo
           }
         } catch (error) {
           console.error(

@@ -1254,7 +1254,7 @@ def get_balanceMensual():
 @api.route('/rangoFechas/<string:fechaInicio>/<string:fechaFin>', methods=['GET'])
 # @jwt_required()
 def get_rangoFechas(fechaInicio, fechaFin):
-    caja = CajaDiaria.query.filter(CajaDiaria.fecha>=fechaInicio).filter(CajaDiaria.fecha<=fechaFin).all()
+    caja = CajaDiaria.query.filter(CajaDiaria.fecha>=fechaInicio).filter(CajaDiaria.fecha<=fechaFin).order_by(desc(CajaDiaria.fecha)).all()
     results = list(map(lambda x: x.serialize(), caja))
 
     if results is None: 

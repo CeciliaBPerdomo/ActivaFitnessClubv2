@@ -50,6 +50,12 @@ export const CajaDiaria = () => {
 
         let controlFecha = await actions.cajadiariaControlFecha(fecha)
 
+        // if (!controlFecha) {
+        //     console.log("Guardo")
+        // } else {
+        //     console.log("Modifico")
+        // }
+
         if (!controlFecha) {
             let resultado = await actions.cerrarCajaDiaria(fecha, totalIngresos, CantidadAlumnos, 0, totalEgresos, observaciones)
 

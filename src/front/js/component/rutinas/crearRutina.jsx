@@ -3,7 +3,6 @@ import { Context } from "../../store/appContext";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { func } from "prop-types";
 
 function CrearRutina() {
     const { store, actions } = useContext(Context);
@@ -12,17 +11,28 @@ function CrearRutina() {
     const [fechaInicio, setFechaInicio] = useState("")
     const [fechaFin, setFechaFin] = useState("")
     const [idUsuario, setIdUsuario] = useState("")
+    let tabla = false
 
     useEffect(() => {
         const info = async () => {
             await actions.obtenerAlumnoId(parseInt(params.theid));
+
+            let rutina = await actions.obtenerRutinas()
+
+            if (!rutina) {
+               let buscador = await actions.buscadorRutinas(parseInt(params.theid))
+               if(buscador){
+                tabla = true
+               }
+            }
         };
 
         info();
 
-        setIdUsuario(params.theid)
+        setIdUsuario(params.theid) // Para guardar el id de usuario en la rutina
     }, []);
 
+    // Crea una nueva rutina
     const guardar = async (e) => {
         e.preventDefault()
 
@@ -65,9 +75,14 @@ function CrearRutina() {
 
     }
 
+    // Elimina una nueva rutina 
+    const eliminar = async(id) => {
+
+    }
+
     return (
         <div className='container'>
-            <h3 style={{ marginBottom: "25px" }}>Nueva rutina de: {store.alumno[0]?.nombre} {store.alumno[0]?.apellido}</h3>
+            <h3 style={{ marginBottom: "25px" }}>Rutina de: {store.alumno[0]?.nombre} {store.alumno[0]?.apellido}</h3>
             <hr />
             <br />
 
@@ -104,6 +119,41 @@ function CrearRutina() {
                 </div>
             </div>
             <hr />
+
+            <br />
+            <div>
+                <h5 style={{ marginBottom: "25px" }}><u>Listado de rutinas</u></h5>
+                { !tabla ? 
+                <table className="table" style={{ color: "white" }}>
+                    <thead>
+                        <tr>
+                            <th scope="col">Fecha de finalización</th>
+                            <th scope="col">Fecha de inicio</th>
+                            {/* Modificar */}
+                            <th scope="col"></th>
+                             {/* Ver */}
+                             <th scope="col"></th>
+                            {/* Borrar */}
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        {store.rutinas.map((item, id) => (
+                            <tr key={id}>
+                                <td>{item.fechafinalizacion.slice(5, 16)}</td>
+                                <td>{item.fechacomienzo.slice(5, 16)}</td>
+                                <td><i className="fa fa-eye"></i></td>
+                                <td><i className="fa fa-pen"></i></td>
+                                <td><i className="fa fa-trash"></i></td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+                : <p>No hay rutinas para este alumno</p>
+            }
+            </div>
+
             <ToastContainer />
         </div>
     )

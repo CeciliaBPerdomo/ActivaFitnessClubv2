@@ -43,7 +43,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       venta: {},
       ventasMensuales: [],
       clima: {},
-      rutinas: [], 
+      rutinas: [],
       rutina: {}
     },
 
@@ -1053,6 +1053,26 @@ const getState = ({ getStore, getActions, setStore }) => {
         }
       },
 
+      ordenarMensualidades: async (fechaInicio, fechaFin, ordenar, tipo) => {
+        // ordenar: asc, desc
+        // tipo: factura, alumno, fecha, metodo
+        try {
+          const response = await axios.get(
+            direccion + "/api/mensualidadesRango/" + fechaInicio + "/" + fechaFin + "/" + ordenar + "/" + tipo, {},
+            { headers: { Authorization: "Bearer " + localStorage.getItem("Token") } },
+          );
+          setStore({ movimientosDiarios: response.data });
+          if (response.status === 200) {
+            return true;
+          }
+        } catch (error) {
+          console.error(
+            "Error " + error.response.status + ": " + error.response.statusText,
+          );
+          return false;
+        }
+      },
+
       ////////////////////////////////////
       //       Productos               ///
       ////////////////////////////////////
@@ -1703,8 +1723,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 
       cajadiariaControlFecha: async (fecha) => {
         try {
-          const response = await axios.get( direccion + "/api/cajadiariaControlFecha/" + fecha, 
-          {
+          const response = await axios.get(direccion + "/api/cajadiariaControlFecha/" + fecha,
+            {
               headers: {
                 Authorization: "Bearer " + localStorage.getItem("Token"),
               },
@@ -2825,6 +2845,7 @@ const getState = ({ getStore, getActions, setStore }) => {
             },
           });
           if (response.status === 200) {
+            getActions().buscadorRutinas(idUsuario)
             return true;
           }
         } catch (error) {
@@ -2896,6 +2917,19 @@ const getState = ({ getStore, getActions, setStore }) => {
           );
           return false;
         }
+      },
+
+      // Buscador de rutinas por id de Usuario
+      buscadorRutinas: (id) => {
+
+        let resultados = getStore().rutinas.filter((item) => {
+          if (item.idUsuario == id) {
+            return item;
+          }
+        });
+
+        setStore({ rutinas: resultados });
+        return true
       },
 
     },

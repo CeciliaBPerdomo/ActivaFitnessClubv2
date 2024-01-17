@@ -83,10 +83,9 @@ export const BalanceMensual = () => {
         }
     }
 
-    // Busca los datos del año seleccionado
+    // Busca los datos del año seleccionado para la grafica
     const buscar = async () => {
         let resp = await actions.obtenerBalanceMensual();
-        let total = 0
 
         if (resp) {
             store.mensual.map((item) => {

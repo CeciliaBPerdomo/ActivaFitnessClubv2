@@ -526,6 +526,67 @@ def getRangodeMensualidades(fechaInicio, fechaFin):
 
     return jsonify(results), 200
 
+@api.route('/mensualidadesRango/<string:fechaInicio>/<string:fechaFin>/<string:ordenar>/<string:tipo>', methods=['GET'])
+#@jwt_required()
+def mensualidades_rango_ord(fechaInicio, fechaFin, ordenar, tipo):
+    try: 
+        # ordenar   :   asc o Desc
+        # tipo      :   factura, alumno, fecha de pago, metodo de pago
+
+        # Ordena de forma ascendente
+        if ordenar == "asc":
+            # Por factura
+            if tipo == "factura":
+                rango = db.session.query(Mensualidades, Metodospago, Usuarios).filter(Mensualidades.fechapago>=fechaInicio).filter(Mensualidades.fechapago<=fechaFin).join(Metodospago).join(Usuarios).order_by(asc(Mensualidades.factura)).all()
+            # Por alumnos
+            elif tipo == "alumno": 
+                rango = db.session.query(Mensualidades, Metodospago, Usuarios).filter(Mensualidades.fechapago>=fechaInicio).filter(Mensualidades.fechapago<=fechaFin).join(Metodospago).join(Usuarios).order_by(asc(Usuarios.nombre)).all()
+            # Por fecha de pago
+            elif tipo == "fecha": 
+                rango = db.session.query(Mensualidades, Metodospago, Usuarios).filter(Mensualidades.fechapago>=fechaInicio).filter(Mensualidades.fechapago<=fechaFin).join(Metodospago).join(Usuarios).order_by(asc(Mensualidades.fechapago)).all()
+            # Por metodo de pago
+            elif tipo == "metodo": 
+                rango = db.session.query(Mensualidades, Metodospago, Usuarios).filter(Mensualidades.fechapago>=fechaInicio).filter(Mensualidades.fechapago<=fechaFin).join(Metodospago).join(Usuarios).order_by(asc(Metodospago.tipo)).all()
+
+
+        # Ordena de forma descendente
+        elif ordenar == "desc": 
+            if tipo == "factura":
+                rango = db.session.query(Mensualidades, Metodospago, Usuarios).filter(Mensualidades.fechapago>=fechaInicio).filter(Mensualidades.fechapago<=fechaFin).join(Metodospago).join(Usuarios).order_by(desc(Mensualidades.factura)).all()
+            # Por alumnos
+            elif tipo == "alumno": 
+                rango = db.session.query(Mensualidades, Metodospago, Usuarios).filter(Mensualidades.fechapago>=fechaInicio).filter(Mensualidades.fechapago<=fechaFin).join(Metodospago).join(Usuarios).order_by(desc(Usuarios.nombre)).all()
+            # Por fecha de pago
+            elif tipo == "fecha": 
+                rango = db.session.query(Mensualidades, Metodospago, Usuarios).filter(Mensualidades.fechapago>=fechaInicio).filter(Mensualidades.fechapago<=fechaFin).join(Metodospago).join(Usuarios).order_by(desc(Mensualidades.fechapago)).all()
+            # Por metodo de pago
+            elif tipo == "metodo": 
+                rango = db.session.query(Mensualidades, Metodospago, Usuarios).filter(Mensualidades.fechapago>=fechaInicio).filter(Mensualidades.fechapago<=fechaFin).join(Metodospago).join(Usuarios).order_by(desc(Metodospago.tipo)).all()
+
+        if rango is None: 
+            return jsonify({"msg": "No hay pago de mensualidades para las fechas solicitadas."}), 404
+        
+        if rango == []: 
+            return jsonify({"msg": "No hay pago de mensualidades para las fechas solicitadas."}), 404
+        
+        results = list(map(lambda movimientos: {
+            "id": movimientos[0].id,
+            "fechapago": movimientos[0].fechapago,
+            "monto": movimientos[0].monto,
+            "factura": movimientos[0].factura,
+            "observaciones": movimientos[0].observaciones,
+            #Metodospago
+            "metodo": movimientos[1].tipo, 
+            # Alumno
+            "alumnoNombre": movimientos[2].nombre,
+            "alumnoApellido": movimientos[2].apellido
+        }, rango))
+
+        return jsonify(results), 200
+    
+    except json.decoder.JSONDecodeError as e:
+        return jsonify({"error": "Invalid JSON data"}), 400
+
 #####################################################################################
 #####################################################################################
 ###                                                                               ###
@@ -1252,7 +1313,7 @@ def get_balanceMensual():
 
 # Busca los movimientos de la caja diaria por fecha
 @api.route('/rangoFechas/<string:fechaInicio>/<string:fechaFin>', methods=['GET'])
-# @jwt_required()
+#@jwt_required()
 def get_rangoFechas(fechaInicio, fechaFin):
     caja = CajaDiaria.query.filter(CajaDiaria.fecha>=fechaInicio).filter(CajaDiaria.fecha<=fechaFin).order_by(desc(CajaDiaria.fecha)).all()
     results = list(map(lambda x: x.serialize(), caja))
@@ -2223,7 +2284,7 @@ def get_ventas_fechaDesc():
 @api.route('/rutina', methods=['GET'])
 @jwt_required()
 def get_rutinas():
-    rutinas = db.session.query(Rutina, Usuarios).join(Usuarios).all()
+    rutinas = db.session.query(Rutina, Usuarios).join(Usuarios).order_by(desc(Rutina.fechafinalizacion)).all()
 
     if rutinas is None:
         return jsonify({"msg": "No existen rutinas"}), 400

@@ -35,7 +35,7 @@ export const ResumenCajaDiariaPorFecha = () => {
         let i = 35              // Renglones
 
         // Agregar la imagen al PDF (X, Y, Width, Height)
-        doc.addImage(activa, 'PNG', 15, 10, 16, 15);
+        //doc.addImage(activa, 'PNG', 15, 10, 16, 15);
 
         // Titulo
         doc.text("Facturación", 65, 20)
@@ -90,7 +90,7 @@ export const ResumenCajaDiariaPorFecha = () => {
             ]
         })
 
-       doc.save("Facturacion_" + fechaFin + ".pdf");
+        doc.save("Facturacion_" + fechaFin + ".pdf");
     }
 
 
@@ -128,6 +128,12 @@ export const ResumenCajaDiariaPorFecha = () => {
                 })
             }
         }
+    }
+
+    const ordenarMensualidades = async (ordenar, tipo) => {
+        let fechaI = fechaInicio.slice(0, 10)
+        let fechaF = fechaFin.slice(0, 10)
+        await actions.ordenarMensualidades(fechaI, fechaF, ordenar, tipo)
     }
 
     return (
@@ -180,22 +186,94 @@ export const ResumenCajaDiariaPorFecha = () => {
                     <table className="table" style={{ color: "white" }}>
                         <thead>
                             <tr>
-                                <th scope="col">Fecha</th>
-                                <th scope="col">Alumno</th>
-                                <th scope="col">Factura</th>
-                                <th scope="col">Monto</th>
-                                <th scope="col">Método de pago</th>
+                                {/* Fecha */}
+                                <th scope="col" className="text-start align-middle">Fecha
+                                    <button type="button"
+                                        className="btn btn-outline-danger btn-sm"
+                                        style={{ marginLeft: "5px", fontSize: "12px" }}
+                                        onClick={() => ordenarMensualidades("desc", "fecha")}
+                                    >
+                                        ↑
+                                    </button>
+
+                                    <button type="button"
+                                        className="btn btn-outline-danger btn-sm"
+                                        style={{ marginLeft: "5px", fontSize: "12px" }}
+                                        onClick={() => ordenarMensualidades("asc", "fecha")}
+                                    >
+                                        ↓
+                                    </button>
+                                </th>
+                                {/* Alumnos */}
+                                <th scope="col" className="text-center align-middle">Alumnos
+                                    <button type="button"
+                                        className="btn btn-outline-danger btn-sm"
+                                        style={{ marginLeft: "5px", fontSize: "12px" }}
+                                        onClick={() => ordenarMensualidades("desc", "alumno")}
+                                    >
+                                        ↑
+                                    </button>
+
+                                    <button type="button"
+                                        className="btn btn-outline-danger btn-sm"
+                                        style={{ marginLeft: "5px", fontSize: "12px" }}
+                                        onClick={() => ordenarMensualidades("asc", "alumno")}
+                                    >
+                                        ↓
+                                    </button>
+                                </th>
+
+                                {/* Facturas */}
+                                <th scope="col" className="text-center align-middle">Factura
+                                    <button type="button"
+                                        className="btn btn-outline-danger btn-sm"
+                                        style={{ marginLeft: "5px", fontSize: "12px" }}
+                                        onClick={() => ordenarMensualidades("desc", "factura")}
+                                    >
+                                        ↑
+                                    </button>
+
+                                    <button type="button"
+                                        className="btn btn-outline-danger btn-sm"
+                                        style={{ marginLeft: "5px", fontSize: "12px" }}
+                                        onClick={() => ordenarMensualidades("asc", "factura")}
+                                    >
+                                        ↓
+                                    </button>
+                                </th>
+
+                                {/* Monto */}
+                                <th scope="col" className="text-center align-middle">Monto</th>
+
+                                {/* Metodo de pago */}
+                                <th scope="col" className="text-center align-middle">Método de pago
+                                    <button type="button"
+                                        className="btn btn-outline-danger btn-sm"
+                                        style={{ marginLeft: "5px", fontSize: "12px" }}
+                                        onClick={() => ordenarMensualidades("desc", "metodo")}
+                                    >
+                                        ↑
+                                    </button>
+
+                                    <button type="button"
+                                        className="btn btn-outline-danger btn-sm"
+                                        style={{ marginLeft: "5px", fontSize: "12px" }}
+                                        onClick={() => ordenarMensualidades("asc", "metodo")}
+                                    >
+                                        ↓
+                                    </button>
+                                </th>
                             </tr>
                         </thead>
 
                         <tbody>
                             {store.movimientosDiarios.map((item, id) => (
                                 <tr key={id}>
-                                    <td>{moment(item.fechapago).format("DD-MM-YYYY")}</td>
-                                    <td>{item.alumnoNombre} {item.alumnoApellido}</td>
-                                    <td>{item.factura}</td>
-                                    <td>$ {item.monto}</td>
-                                    <td>{item.metodo}</td>
+                                    <td className="text-start align-middle">{moment(item.fechapago).format("DD-MM-YYYY")}</td>
+                                    <td className="text-center align-middle">{item.alumnoNombre} {item.alumnoApellido}</td>
+                                    <td className="text-center align-middle">{item.factura}</td>
+                                    <td className="text-center align-middle">$ {item.monto}</td>
+                                    <td className="text-center align-middle">{item.metodo}</td>
                                 </tr>
                             ))}
 

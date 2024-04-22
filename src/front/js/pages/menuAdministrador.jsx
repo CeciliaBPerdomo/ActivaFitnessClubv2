@@ -20,7 +20,7 @@ export const MenuAdministrador = () => {
         <>
             <div>
                 {/* Facturacion */}
-                <div class="accordion accordion-flush border border-1 border-danger" id="accordionFlushExample">
+                <div className="accordion accordion-flush border border-1 border-danger" id="accordionFlushExample">
                     {/* Alumnos */}
                     <Alumnos />
 
@@ -59,7 +59,7 @@ export const MenuAdministrador = () => {
                 <br />
 
                 {/* Rutinas */}
-                <div class="accordion accordion-flush border border-1 border-danger" id="accordionFlushExample">
+                <div className="accordion accordion-flush border border-1 border-danger" id="accordionFlushExample">
                     {/* Ejercicios */}
                     <Ejercicios />
 

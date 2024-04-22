@@ -3,8 +3,6 @@ import { Context } from "../store/appContext";
 import "../../styles/home.css";
 
 // imagenes
-import logo from "../../img/Logo.png"
-import landing from "../../img/landing.jpg"
 import banner from "../../img/banner.png"
 
 // Info adicional

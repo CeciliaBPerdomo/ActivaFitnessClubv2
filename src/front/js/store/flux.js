@@ -958,6 +958,27 @@ const getState = ({ getStore, getActions, setStore }) => {
         });
       },
 
+      // Buscador de Mensualidad
+      buscadorMensualidadxMetodo: (valor) => {
+        let store = getStore();
+        console.log(valor)
+        console.log(store.movimientosDiarios)
+        let resultados = store.movimientosDiarios.filter((item) => {
+          if (
+            item.metodo.toString().toLowerCase().includes(
+              valor.toLowerCase(),
+            )
+          ) {
+            return valor;
+          }
+        });
+        setStore({
+          movimientosDiarios: resultados,
+        });
+      },
+
+
+
       // Obtener mensualidad por id
       obtenerMensualidadId: async (id) => {
         try {

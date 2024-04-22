@@ -100,6 +100,7 @@ import VentasPorProducto from "./component/ventas/VentasPorProducto.jsx";
 import VentasPorAlumno from "./component/ventas/VentasPorAlumno.jsx";
 import IngresarVentaPorAlumno from "./component/ventas/IngresarVentaPorAlumno.jsx";
 import CrearRutina from "./component/rutinas/crearRutina.jsx";
+import FacturacionxMetodo from "./component/caja_diaria/FacturacionxMetodo.jsx";
 
 
 //create your first component
@@ -171,6 +172,8 @@ const Layout = () => {
                         <Route element={<CierreMensual />} path="/cierreMensual" />
                         <Route element={<Instructivo />} path="/instructivo" />
                         <Route element={<ResumenCajaDiariaPorFecha />} path="/cajaDiariaporFecha" />
+                        <Route element={<FacturacionxMetodo />} path="/facturacion_metodo" />
+
 
                         {/* InicionSesion */}
                         <Route element={<InicioSesion />} path="iniciosesion" />

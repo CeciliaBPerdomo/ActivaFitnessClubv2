@@ -26,6 +26,12 @@ function BalanceDiario() {
                                 Facturación mensual
                             </Link>
                         </p>
+                        
+                        <p style={{ fontSize: "15px", marginLeft: "10px" }}>
+                            <Link to="/facturacion_metodo" style={{ textDecoration: "none", color: "white" }}>
+                                Facturación por método de pago
+                            </Link>
+                        </p>
                         <p style={{ fontSize: "15px", marginLeft: "10px" }}>
                             <Link to="/resumenMovimientos" style={{ textDecoration: "none", color: "white" }}>
                                 Resumen de movimientos diarios

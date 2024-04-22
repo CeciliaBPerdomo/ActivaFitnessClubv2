@@ -32,16 +32,22 @@ export const HomeAdministrador = () => {
                     <div className="col-1"></div>
 
                     <div className="col-8">
-                        {/* Fecha actual y clima */}
-                        { store.clima ? 
-                        <p className="text-end" style={{ fontSize: "18px", marginBottom: "1px"}}>
-                            <img src={"http://openweathermap.org/img/w/" + store.clima?.weather?.[0]?.icon + ".png"}/>
-                            {Math.round(store.clima?.main?.temp)  +" °C"}
-                        </p> : null
-                        }
-                        <p className="text-end" style={{ fontSize: "18px" }}>
-                            {moment().format('DD/MM/YYYY')} 
-                        </p>
+                        <div className="row">
+                            <div className="col-10 float-end">
+                                {/* Fecha actual y clima */}
+                                {store.clima ?
+                                    <p className="text-end" style={{ fontSize: "18px"}}>
+                                        <img src={"http://openweathermap.org/img/w/" + store.clima?.weather?.[0]?.icon + ".png"} />
+                                        {Math.round(store.clima?.main?.temp) + " °C"}
+                                    </p> : null
+                                }
+                            </div>
+                            <div className="col items-center">
+                                <p style={{ fontSize: "18px", marginTop: "7px" }}>
+                                    {moment().format('DD/MM/YYYY')}
+                                </p>
+                            </div>
+                        </div>
 
                         <hr />
 

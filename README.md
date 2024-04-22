@@ -1,7 +1,9 @@
-# Activa Fitness Club
+<h1 align="center">
+Activa Fitness Club
+<h1>
 
 <p align="center">
-  <img src="./src/front/img/Logo.png" width="75px">
+  <img src="./src/front/img/Logo.png" width="150px">
 </p>
 
 <h2 align="center">https://activafitnessclub.herokuapp.com</h2>

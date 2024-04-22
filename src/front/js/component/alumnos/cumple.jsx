@@ -33,8 +33,7 @@ export const Cumples = () => {
         <>
             <div className="row" style={{ paddingBottom: "15px" }}>
                 <div className="col-3">
-                    <img src={torta} alt=""
-                        style={{ width: "150px" }} />
+                    <img src={torta} alt="Cumpleaños" style={{ width: "150px" }} className="rounded mx-auto d-block opacity-75" />
                 </div>
 
                 {cumples != "" ?

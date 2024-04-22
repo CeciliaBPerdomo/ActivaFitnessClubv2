@@ -42,6 +42,12 @@ export const Pendientes = () => {
                     </tbody>
                 </table>
 
+                <p style={{ textAlign: "right", paddingRight: "8px" }}>
+                    <Link to="/CuotasPendientes" style={{ color: "white", textDecoration: "none" }}>
+                        Más mensualidades pendientes ...
+                    </Link>
+                </p>
+
                 <ToastContainer />
             </div >
         </>

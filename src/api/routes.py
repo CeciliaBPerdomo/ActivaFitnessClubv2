@@ -2383,3 +2383,28 @@ def get_rutina_id(rutina_id):
     }, id))
     
     return jsonify(results), 200
+
+# Muestra la rutina por id de usuario
+@api.route('/rutina_usuario/<int:rutina_idUsuario>', methods=['GET'])
+@jwt_required()
+def get_rutina_usuario_id(rutina_idUsuario):
+    id =db.session.query(Rutina, Usuarios).order_by(desc(Rutina.fechafinalizacion)).filter_by(idusuario=rutina_idUsuario).join(Usuarios).all()
+
+    if id is None: 
+        return jsonify({"msg": "Rutina: " + str(rutina_idUsuario) + " no encontrada."}), 400
+    
+    if id == []: 
+        return jsonify({"msg": "Rutina: " + str(rutina_idUsuario) + " no encontrada."}), 400
+
+    results = list(map(lambda rutina: {
+        # Rutina
+        "idRutina" : rutina[0].id,
+        "fechacomienzo": rutina[0].fechacomienzo,
+        "fechafinalizacion": rutina[0].fechafinalizacion,
+
+        # Usuarios
+        "idUsuario": rutina[1].id,
+        "nombreUsuario": rutina[1].nombre + " " + rutina[1].apellido,
+    }, id))
+    
+    return jsonify(results), 200

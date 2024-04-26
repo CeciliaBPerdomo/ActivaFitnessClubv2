@@ -102,6 +102,9 @@ import IngresarVentaPorAlumno from "./component/ventas/IngresarVentaPorAlumno.js
 import CrearRutina from "./component/rutinas/crearRutina.jsx";
 import FacturacionxMetodo from "./component/caja_diaria/FacturacionxMetodo.jsx";
 
+// Rutinas
+import AgregarEjerciciosRutina from "../js/component/rutinas/agregarEjerciciosRutina.jsx"
+
 
 //create your first component
 const Layout = () => {
@@ -213,6 +216,7 @@ const Layout = () => {
 
                         {/* Rutinas */}
                         <Route element={<CrearRutina />} path="/nueva_rutina/:theid" />
+                        <Route element={<AgregarEjerciciosRutina />} path="AgregarEjerciciosRutina/:theid" />
 
                         <Route element={<h1>Not found!</h1>} />
                     </Routes>

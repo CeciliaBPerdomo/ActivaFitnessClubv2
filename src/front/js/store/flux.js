@@ -2255,17 +2255,18 @@ const getState = ({ getStore, getActions, setStore }) => {
       // Buscador de ejercicios por tipo
       buscadorEjercicioPorTipo: (valor) => {
         let store = getStore();
-        if (!store.ejercicio) {
+        if (store.ejercicio) {
           let resultados = store.ejercicios.filter((item) => {
             if (item.idTipo == valor) {
               return valor;
             }
           });
-          setStore({
-            ejercicios: resultados,
-          });
-        } else {
-          console.log("No hay ejercicios cargados")
+          if (resultados == "") {
+            setStore({ ejercicios: [] })
+            return false
+          }
+          setStore({ ejercicios: resultados });
+          return true
         }
       },
 
@@ -2846,6 +2847,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           setStore({
             rutinas: response.data,
           });
+          return response.data
         } catch (error) {
           if (error.code === "ERR_BAD_REQUEST") {
             console.log(error.response.data.msg);
@@ -2866,7 +2868,7 @@ const getState = ({ getStore, getActions, setStore }) => {
             },
           });
           if (response.status === 200) {
-            getActions().buscadorRutinas(idUsuario)
+            //getActions().buscadorRutinas(idUsuario)
             return true;
           }
         } catch (error) {
@@ -2929,6 +2931,26 @@ const getState = ({ getStore, getActions, setStore }) => {
             },
           });
           setStore({ rutina: response.data });
+          if (response.status === 200) {
+            return true;
+          }
+        } catch (error) {
+          console.error(
+            "Error " + error.response.status + ": " + error.response.statusText,
+          );
+          return false;
+        }
+      },
+
+      // Obtener rutina por id de usuario
+      obtenerRutina_IdUsuario: async (idUsuario) => {
+        try {
+          const response = await axios.get(direccion + "/api/rutina_usuario/" + idUsuario, {
+            headers: {
+              Authorization: "Bearer " + localStorage.getItem("Token"),
+            },
+          });
+          setStore({ rutinas: response.data });
           if (response.status === 200) {
             return true;
           }

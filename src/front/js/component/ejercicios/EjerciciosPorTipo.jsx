@@ -9,9 +9,9 @@ import Swal from 'sweetalert2'
 
 
 function EjerciciosPorTipo() {
-
     const { store, actions } = useContext(Context);
     const [idTipo, setIdTipo] = useState("")
+    const [resultados, setResultados] = useState(false)
 
     useEffect(() => {
         actions.obtenerEjercicios();
@@ -20,6 +20,7 @@ function EjerciciosPorTipo() {
 
     // Buscador de tipo de ejercicio
     const buscar = async (valor) => {
+        console.log(valor)
         if (idTipo === "") {
             toast.error("Debe seleccionar un tipo de ejercicio, boboncho", {
                 position: toast.POSITION.TOP_RIGHT,
@@ -33,7 +34,8 @@ function EjerciciosPorTipo() {
             });
         } else {
             await actions.obtenerEjercicios();
-            await actions.buscadorEjercicioPorTipo(valor);
+            let resp = await actions.buscadorEjercicioPorTipo(valor);
+            setResultados(resp)
         }
     };
 
@@ -75,7 +77,7 @@ function EjerciciosPorTipo() {
                     : <p>No hay tipos de ejercicios especificados</p>}
                 <hr />
 
-                {!store.ejercicios ?
+                {resultados ?
                     <div >
                         <table className="table" style={{ color: "white" }}>
                             <thead>

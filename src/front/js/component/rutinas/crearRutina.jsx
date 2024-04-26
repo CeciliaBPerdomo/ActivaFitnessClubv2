@@ -11,26 +11,19 @@ function CrearRutina() {
     const [fechaInicio, setFechaInicio] = useState("")
     const [fechaFin, setFechaFin] = useState("")
     const [idUsuario, setIdUsuario] = useState("")
-    let tabla = false
 
     useEffect(() => {
         const info = async () => {
+            // Datos del alumno --> Nombre en titulo
             await actions.obtenerAlumnoId(parseInt(params.theid));
-
-            let rutina = await actions.obtenerRutinas()
-
-            if (!rutina) {
-               let buscador = await actions.buscadorRutinas(parseInt(params.theid))
-               if(buscador){
-                tabla = true
-               }
-            }
+            await actions.obtenerRutina_IdUsuario(parseInt(params.theid))
         };
 
         info();
 
         setIdUsuario(params.theid) // Para guardar el id de usuario en la rutina
     }, []);
+
 
     // Crea una nueva rutina
     const guardar = async (e) => {
@@ -63,6 +56,7 @@ function CrearRutina() {
                     theme: "dark",
                 });
             }
+            await actions.obtenerRutina_IdUsuario(idUsuario)
         } else {
             if (!fechaInicio) {
                 mensaje("🖐️ Falta fecha de inicio de la rutina")
@@ -76,7 +70,7 @@ function CrearRutina() {
     }
 
     // Elimina una nueva rutina 
-    const eliminar = async(id) => {
+    const eliminar = async (id) => {
 
     }
 
@@ -122,36 +116,42 @@ function CrearRutina() {
 
             <br />
             <div>
-                <h5 style={{ marginBottom: "25px" }}><u>Listado de rutinas</u></h5>
-                { !tabla ? 
+                <h5 style={{ marginBottom: "25px", color: "red" }}>
+                    <u>Rutinas</u>
+                </h5>
+
                 <table className="table" style={{ color: "white" }}>
                     <thead>
                         <tr>
-                            <th scope="col">Fecha de finalización</th>
-                            <th scope="col">Fecha de inicio</th>
+                            <th scope="col" className="text-center">Fecha de finalización</th>
+                            <th scope="col" className="text-center">Fecha de inicio</th>
                             {/* Modificar */}
-                            <th scope="col"></th>
-                             {/* Ver */}
-                             <th scope="col"></th>
+                            <th scope="col" className="text-center">Ver rutina</th>
+                            {/* Ver */}
+                            <th scope="col" className="text-center">Agregar / Modificar ejercicios</th>
                             {/* Borrar */}
-                            <th scope="col"></th>
+                            <th scope="col" className="text-center">Eliminar rutina</th>
                         </tr>
                     </thead>
 
                     <tbody>
                         {store.rutinas.map((item, id) => (
                             <tr key={id}>
-                                <td>{item.fechafinalizacion.slice(5, 16)}</td>
-                                <td>{item.fechacomienzo.slice(5, 16)}</td>
-                                <td><i className="fa fa-eye"></i></td>
-                                <td><i className="fa fa-pen"></i></td>
-                                <td><i className="fa fa-trash"></i></td>
+                                <td className="text-center align-middle">{item.fechafinalizacion.slice(5, 16)}</td>
+                                <td className="text-center align-middle">{item.fechacomienzo.slice(5, 16)}</td>
+                                <td className="text-center align-middle"><i className="fa fa-eye"></i></td>
+                                <td className="text-center align-middle">
+                                    <Link to={"/AgregarEjerciciosRutina/" + item.idRutina}>
+                                        <i className="fa fa-pen" style={{ color: "white" }}></i>
+                                    </Link>
+                                </td>
+                                <td className="text-center align-middle"><i className="fa fa-trash"></i></td>
                             </tr>
                         ))}
                     </tbody>
                 </table>
-                : <p>No hay rutinas para este alumno</p>
-            }
+                {/* : <p>No hay rutinas para este alumno</p>
+            } */}
             </div>
 
             <ToastContainer />

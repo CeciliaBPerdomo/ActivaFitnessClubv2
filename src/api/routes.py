@@ -2408,3 +2408,67 @@ def get_rutina_usuario_id(rutina_idUsuario):
     }, id))
     
     return jsonify(results), 200
+
+#####################################################################################
+#####################################################################################
+###                                                                               ###
+###               Ejercicios de las RUTINAS                                       ###
+###                                                                               ###
+#####################################################################################
+#####################################################################################
+
+# Muestra los ejercicios de una rutina
+@api.route('/rutina_aux/<int:idRutina>', methods=['GET'])
+@jwt_required()
+def get_rutina_aux_rutina_id(idRutina):
+    ejercicios = db.session.query(RutinasAux, Rutina, Ejercicio, Tipoejercicio).filter_by(idrutina = idRutina).join(Rutina).join(Ejercicio).join(Tipoejercicio).all()
+
+    if ejercicios is None: 
+        return jsonify({"msg": "Rutina: " + str(idRutina) + " no encontrada."}), 400
+    
+    if ejercicios == []: 
+        return jsonify({"msg": "Rutina: " + str(idRutina) + " no encontrada."}), 400
+
+    results = list(map(lambda rutina: {
+        # RutinaAux
+        "id": rutina[0].id,
+        "serie": rutina[0].serie,
+        "carga": rutina[0].carga,
+        "repeticiones": rutina[0].repeticiones,
+        "semana": rutina[0].semana,
+
+        # Rutina
+        "idRutina" : rutina[1].id,
+        "fechacomienzo": rutina[1].fechacomienzo,
+        "fechafinalizacion": rutina[1].fechafinalizacion,
+
+        # Ejercicios
+        "idEjercicio": rutina[2].id,
+        "nombreEjercicio": rutina[2].nombre,
+
+        #Tipo de ejercicio
+        "idTipoEj": rutina[3].id, 
+        "descripcionTipoEj": rutina[3].descripcion
+    }, ejercicios))
+    
+    return jsonify(results), 200
+
+# Alta de los ejercicios de una rutina
+@api.route('/rutina_aux', methods=['POST'])
+@jwt_required()
+def add_rutina_aux():
+    body = json.loads(request.data)
+
+    new = RutinasAux(
+        serie = body["serie"],
+        carga = body["carga"],
+        repeticiones = body["repeticiones"],
+        semana = body["semana"],
+        idrutina = body["idrutina"],
+        idejercicio = body["idejercicio"],
+    )
+
+    db.session.add(new)
+    db.session.commit()
+
+    return jsonify(new.serialize()), 200

@@ -44,7 +44,8 @@ const getState = ({ getStore, getActions, setStore }) => {
       ventasMensuales: [],
       clima: {},
       rutinas: [],
-      rutina: {}
+      rutina: {},
+      ejercicios_rutina: []
     },
 
     actions: {
@@ -2973,6 +2974,51 @@ const getState = ({ getStore, getActions, setStore }) => {
 
         setStore({ rutinas: resultados });
         return true
+      },
+
+      ////////////////////////////////////
+      //  Rutinas con ejercicios       ///
+      ////////////////////////////////////
+
+      // Obtener ejercicios segun rutina
+      obtenerRutina_IdRutina: async (idRutina) => {
+        try {
+          const response = await axios.get(direccion + "/api/rutina_aux/" + idRutina, {
+            headers: {
+              Authorization: "Bearer " + localStorage.getItem("Token"),
+            },
+          });
+          setStore({ ejercicios_rutina: response.data });
+          if (response.status === 200) {
+            return true;
+          }
+        } catch (error) {
+          console.error(
+            "Error " + error.response.status + ": " + error.response.statusText,
+          );
+          return false;
+        }
+      },
+
+      /* Agrega ejercicios a la rutina */
+      agregarEjercicios: async (serie, carga, repeticiones, semana, idrutina, idejercicio) => {
+        try {
+          const response = await axios.post(direccion + "/api/rutina_aux", {
+            serie, carga, repeticiones, semana, idrutina, idejercicio
+          }, {
+            headers: {
+              Authorization: "Bearer " + localStorage.getItem("Token"),
+            },
+          });
+          if (response.status === 200) {
+            return true;
+          }
+        } catch (error) {
+          console.error(
+            "Error " + error.response.status + ": " + error.response.statusText,
+          );
+          return false;
+        }
       },
 
     },

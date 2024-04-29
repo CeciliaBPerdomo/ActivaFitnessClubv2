@@ -7,7 +7,6 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Swal from 'sweetalert2'
 
-
 function EjerciciosPorTipo() {
     const { store, actions } = useContext(Context);
     const [idTipo, setIdTipo] = useState("")
@@ -83,14 +82,9 @@ function EjerciciosPorTipo() {
                             <thead>
                                 <tr>
                                     <th></th>
-                                    <th>Nombre
-
-                                    </th>
-
+                                    <th>Nombre</th>
                                     <th>Descripción</th>
-                                    <th>Tipo
-
-                                    </th>
+                                   
                                     {/* <th scope="col"></th>
                             <th scope="col"></th>
                             <th scope="col"></th> */}
@@ -104,7 +98,6 @@ function EjerciciosPorTipo() {
                                         </td>
                                         <td className="align-middle text-center">{item.nombre}</td>
                                         <td className="align-middle">{item.descripcion}</td>
-                                        <td className="align-middle text-center">{item.descripcionTipo}</td>
                                         {/* <td className="align-middle text-center">
                                     <Link to={"/individualEjercicio/" + item.id} style={{ color: "white" }}>
                                         <i className="fa fa-eye"></i>

@@ -10,6 +10,7 @@ function AgregarEjerciciosRutina() {
 
     const [idTipo, setIdTipo] = useState("")
     const [resp, setResp] = useState(false)
+
     const [idEjercicio, setIdEjercicio] = useState("")
     const [cantidadSeries, setCantidadSeries] = useState("")
     const [carga, setCarga] = useState("")
@@ -18,6 +19,7 @@ function AgregarEjerciciosRutina() {
 
     useEffect(() => {
         actions.obtenerTipoDeEjercicios();
+        actions.obtenerRutina_IdRutina(params.theid)
     }, [])
 
     // Buscar los ejercicios por tipo
@@ -45,7 +47,10 @@ function AgregarEjerciciosRutina() {
         e.preventDefault()
         let resp = chequeo()
         if (resp) {
-            console.log("Hola")
+            let result = await actions.agregarEjercicios(cantidadSeries, carga, repeticiones, semana, params.theid, idEjercicio)
+            if(result) {
+                actions.obtenerRutina_IdRutina(params.theid)
+            }
         }
     }
 
@@ -64,32 +69,32 @@ function AgregarEjerciciosRutina() {
             });
         }
 
-        if (idEjercicio == ""){
+        if (idEjercicio == "") {
             mensaje("Debes seleccionar el ejercicio")
             return false
         }
 
-        if (cantidadSeries == ""){
+        if (cantidadSeries == "") {
             mensaje("Debes ingresar la cantidad de series")
             return false
         }
 
-        if (carga == ""){
+        if (carga == "") {
             mensaje("Debes ingresar la cantidad de carga")
             return false
         }
 
-        if (repeticiones == ""){
+        if (repeticiones == "") {
             mensaje("Debes ingresar la cantidad de repeticiones")
             return false
         }
 
-        if (semana == ""){
+        if (semana == "") {
             mensaje("Debes ingresar la semana")
             return false
         }
 
-        if(semana != "" && repeticiones != "" && carga !="" && cantidadSeries !="" && idEjercicio != ""){
+        if (semana != "" && repeticiones != "" && carga != "" && cantidadSeries != "" && idEjercicio != "") {
             return true
         }
     }
@@ -104,6 +109,7 @@ function AgregarEjerciciosRutina() {
                 <br />
             </div>
 
+            {/* Tipo de ejercicios */}
             <div className="row">
                 <div className="col-3">
                     <p className="align-middle">
@@ -130,9 +136,13 @@ function AgregarEjerciciosRutina() {
                 </div>
                 <hr />
 
+                {/* Ingresar informacion respecto a los ejercicios */}
                 <div>
                     {!resp ?
-                        <p>Debe selecionar el tipo de ejercicio</p>
+                        <div>
+                            <p>Debe selecionar el tipo de ejercicio</p>
+                            <hr />
+                        </div>
                         :
                         <div>
                             <div className="row">
@@ -231,6 +241,40 @@ function AgregarEjerciciosRutina() {
                             </div>
                         </div>
                     }
+                </div>
+
+                {/* Rutina */}
+                <div>
+                    <h5 style={{ paddingTop: "25px", color: "red" }}>Rutina</h5>
+                    <hr />
+
+                    <table className="table" style={{ color: "white" }}>
+                        <thead>
+                            <tr>
+                                <th scope="col" className="text-center align-middle">Semana</th>
+                                <th scope="col" className="text-center align-middle">Tipo Ejercicio</th>
+                                <th scope="col" className="text-center align-middle">Ejercicio</th>
+                                <th scope="col" className="text-center align-middle">Series</th>
+                                <th scope="col" className="text-center align-middle">Repeticiones</th>
+                                <th scope="col" className="text-center align-middle">Carga</th>
+                                <th scope="col"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {store.ejercicios_rutina.map((item) => (
+                                <tr key={item.id}>
+                                    <th className="text-center align-middle">{item.semana}</th>
+                                    <th className="text-center align-middle">{item.descripcionTipoEj}</th>
+                                    <th className="text-center align-middle">{item.nombreEjercicio}</th>
+                                    <th className="text-center align-middle">{item.serie}</th>
+                                    <th className="text-center align-middle">{item.repeticiones}</th>
+                                    <th className="text-center align-middle">{item.carga}</th>
+                                    <th className="text-center align-middle"><i className="fa fa-trash"></i></th>
+                                </tr>
+                            ))}
+                        </tbody>
+
+                    </table>
                 </div>
             </div>
             <ToastContainer />

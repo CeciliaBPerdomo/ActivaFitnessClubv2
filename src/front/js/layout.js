@@ -104,6 +104,7 @@ import FacturacionxMetodo from "./component/caja_diaria/FacturacionxMetodo.jsx";
 
 // Rutinas
 import AgregarEjerciciosRutina from "../js/component/rutinas/agregarEjerciciosRutina.jsx"
+import VerEjerciciosRutina from "./component/rutinas/VerRutinas.jsx";
 
 
 //create your first component
@@ -217,6 +218,8 @@ const Layout = () => {
                         {/* Rutinas */}
                         <Route element={<CrearRutina />} path="/nueva_rutina/:theid" />
                         <Route element={<AgregarEjerciciosRutina />} path="AgregarEjerciciosRutina/:theid" />
+                        <Route element={<VerEjerciciosRutina />} path="VerEjerciciosRutina/:theid" />
+                        
 
                         <Route element={<h1>Not found!</h1>} />
                     </Routes>

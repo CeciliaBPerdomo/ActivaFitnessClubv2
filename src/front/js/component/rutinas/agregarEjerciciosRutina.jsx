@@ -3,6 +3,7 @@ import { Context } from "../../store/appContext";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Ejercicios_Rutina from "./ejercicios_rutina.jsx";
 
 function AgregarEjerciciosRutina() {
     const { store, actions } = useContext(Context);
@@ -247,34 +248,7 @@ function AgregarEjerciciosRutina() {
                 <div>
                     <h5 style={{ paddingTop: "25px", color: "red" }}>Rutina</h5>
                     <hr />
-
-                    <table className="table" style={{ color: "white" }}>
-                        <thead>
-                            <tr>
-                                <th scope="col" className="text-center align-middle">Semana</th>
-                                <th scope="col" className="text-center align-middle">Tipo Ejercicio</th>
-                                <th scope="col" className="text-center align-middle">Ejercicio</th>
-                                <th scope="col" className="text-center align-middle">Series</th>
-                                <th scope="col" className="text-center align-middle">Repeticiones</th>
-                                <th scope="col" className="text-center align-middle">Carga</th>
-                                <th scope="col"></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {store.ejercicios_rutina.map((item) => (
-                                <tr key={item.id}>
-                                    <th className="text-center align-middle">{item.semana}</th>
-                                    <th className="text-center align-middle">{item.descripcionTipoEj}</th>
-                                    <th className="text-center align-middle">{item.nombreEjercicio}</th>
-                                    <th className="text-center align-middle">{item.serie}</th>
-                                    <th className="text-center align-middle">{item.repeticiones}</th>
-                                    <th className="text-center align-middle">{item.carga}</th>
-                                    <th className="text-center align-middle"><i className="fa fa-trash"></i></th>
-                                </tr>
-                            ))}
-                        </tbody>
-
-                    </table>
+                    <Ejercicios_Rutina ejercicios={store.ejercicios_rutina}/>
                 </div>
             </div>
             <ToastContainer />

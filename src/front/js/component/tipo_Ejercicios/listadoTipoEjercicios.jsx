@@ -42,8 +42,6 @@ function ListadoTipoEjercicios() {
                     )
             }
         })
-
-
     }
 
     // Buscador de tipo de ejercicio

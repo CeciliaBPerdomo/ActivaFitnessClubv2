@@ -2947,9 +2947,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       obtenerRutina_IdUsuario: async (idUsuario) => {
         try {
           const response = await axios.get(direccion + "/api/rutina_usuario/" + idUsuario, {
-            headers: {
-              Authorization: "Bearer " + localStorage.getItem("Token"),
-            },
+            headers: { Authorization: "Bearer " + localStorage.getItem("Token")},
           });
           setStore({ rutinas: response.data });
           if (response.status === 200) {

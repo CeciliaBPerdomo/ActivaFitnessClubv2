@@ -49,7 +49,7 @@ function AgregarEjerciciosRutina() {
         let resp = chequeo()
         if (resp) {
             let result = await actions.agregarEjercicios(cantidadSeries, carga, repeticiones, semana, params.theid, idEjercicio)
-            if(result) {
+            if (result) {
                 actions.obtenerRutina_IdRutina(params.theid)
             }
         }
@@ -248,9 +248,15 @@ function AgregarEjerciciosRutina() {
                 <div>
                     <h5 style={{ paddingTop: "25px", color: "red" }}>Rutina</h5>
                     <hr />
-                    <Ejercicios_Rutina ejercicios={store.ejercicios_rutina}/>
+                    <Ejercicios_Rutina ejercicios={store.ejercicios_rutina} />
                 </div>
             </div>
+            <div>
+                <button className="btn btn-outline-danger float-end">
+                    <i className="fa fa-file-excel"></i>
+                </button>
+            </div>
+            <br />
             <ToastContainer />
         </div>
     )

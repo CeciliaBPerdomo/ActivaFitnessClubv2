@@ -25,7 +25,6 @@ function CrearRutina() {
         setIdUsuario(params.theid) // Para guardar el id de usuario en la rutina
     }, []);
 
-
     // Crea una nueva rutina
     const guardar = async (e) => {
         e.preventDefault()
@@ -87,7 +86,7 @@ function CrearRutina() {
             cancelButtonText: 'No!'
         }).then((result) => {
             if (result.isConfirmed) {
-                actions.borrarRutina(id),
+                eliminar(),
                     Swal.fire({
                         position: 'top-end',
                         title: 'Borrado!',
@@ -98,6 +97,13 @@ function CrearRutina() {
                     
             }
         })
+
+        const eliminar = async () => {
+            let resp = await actions.borrarRutina(id)
+            if (resp){
+                await actions.obtenerRutina_IdUsuario(idUsuario)
+            }
+        }
     }
 
     return (
@@ -142,9 +148,7 @@ function CrearRutina() {
 
             <br />
             <div>
-                <h5 style={{ marginBottom: "25px", color: "red" }}>
-                    <u>Rutinas</u>
-                </h5>
+                <h5 style={{ marginBottom: "25px", color: "red" }}><u>Rutinas</u></h5>
 
                 <table className="table" style={{ color: "white" }}>
                     <thead>
@@ -177,7 +181,7 @@ function CrearRutina() {
                                 </td>
                                 <td className="text-center align-middle">
                                     <i className="fa fa-trash" 
-                                    // onClick={(e) => eliminar(e, item.idRutina)}
+                                    onClick={(e) => eliminar(e, item.idRutina)}
                                     ></i>
                                 </td>
                             </tr>

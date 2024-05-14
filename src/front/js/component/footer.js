@@ -11,7 +11,7 @@ export const Footer = () => (
 				Activa Fitness Club
 				</b>
 				<br/>
-				v. 1.01.04 (22/04/2024)
+				v. 1.01.05 (14/05/2024)
 				{/* Version 1.0 --> 2023
 				Version 1.01 --> 2024 */}
 			</div>

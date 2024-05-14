@@ -97,6 +97,7 @@
 		"react-router-dom": "^6.3.0",
 		"react-toastify": "^9.1.1",
 		"sweetalert": "^2.1.2",
-		"sweetalert2": "^11.7.32"
+		"sweetalert2": "^11.7.32",
+		"write-excel-file": "^2.0.1"
 	}
 }

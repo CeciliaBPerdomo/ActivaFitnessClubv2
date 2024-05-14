@@ -5,6 +5,7 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Ejercicios_Rutina from "./ejercicios_rutina.jsx";
 
+
 function AgregarEjerciciosRutina() {
     const { store, actions } = useContext(Context);
     const params = useParams();
@@ -100,6 +101,7 @@ function AgregarEjerciciosRutina() {
         }
     }
 
+   
     return (
         <div className="container">
             <div>
@@ -251,11 +253,7 @@ function AgregarEjerciciosRutina() {
                     <Ejercicios_Rutina ejercicios={store.ejercicios_rutina} />
                 </div>
             </div>
-            <div>
-                <button className="btn btn-outline-danger float-end">
-                    <i className="fa fa-file-excel"></i>
-                </button>
-            </div>
+           
             <br />
             <ToastContainer />
         </div>

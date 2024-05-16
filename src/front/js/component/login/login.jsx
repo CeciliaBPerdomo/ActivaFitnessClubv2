@@ -28,7 +28,11 @@ export const InicioSesion = () => {
         await actions.loginAdministrador(email, password)       
 
         if (store.auth === true) {
-            navegacion("/homeAdministrador")
+            if (store.usuarioLogueado.rol == "Administrador"){
+                navegacion("/homeAdministrador")
+            } else {
+                navegacion("/homeAlumno")
+            }
         } else {
             toast.error("Error al ingresar el usuario", {
                 position: toast.POSITION.TOP_RIGHT,

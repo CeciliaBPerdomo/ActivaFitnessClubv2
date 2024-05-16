@@ -1,11 +1,12 @@
 import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import ScrollToTop from "./component/scrollToTop";
+import injectContext from "./store/appContext";
 
 // Home
 import { Home } from "./pages/home";
 import { HomeAdministrador } from "./pages/homeAdministrador.jsx"
-import injectContext from "./store/appContext";
+import { HomeAlumno } from "./pages/HomeAlumno/homeAlumno.jsx";
 
 import { Navbar } from "./component/navbar";
 import { Footer } from "./component/footer";
@@ -107,6 +108,7 @@ import AgregarEjerciciosRutina from "../js/component/rutinas/agregarEjerciciosRu
 import VerEjerciciosRutina from "./component/rutinas/VerRutinas.jsx";
 
 
+
 //create your first component
 const Layout = () => {
     //the basename is used when your project is published in a subdirectory and not in the root of the domain
@@ -122,6 +124,7 @@ const Layout = () => {
                         {/* Homes */}
                         <Route element={<Home />} path="/" />
                         <Route element={<HomeAdministrador />} path="/homeAdministrador" />
+                        <Route element={<HomeAlumno />} path="/homeAlumno" />
 
                         {/* Cuotas */}
                         <Route element={<CrearCuota />} path="/CrearCuota" />

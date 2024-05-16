@@ -45,7 +45,8 @@ const getState = ({ getStore, getActions, setStore }) => {
       clima: {},
       rutinas: [],
       rutina: {},
-      ejercicios_rutina: []
+      ejercicios_rutina: [], 
+      usuarioLogueado: {}
     },
 
     actions: {
@@ -1967,21 +1968,16 @@ const getState = ({ getStore, getActions, setStore }) => {
           // Si todo sale color de rosas
           if (resp.status === 200) {
             const data = resp.data;
-            if (data.user.rol === "Administrador") {
+            if (data.user.rol === "Administrador" || data.user.rol === "Alumno") {
               localStorage.setItem("Token", data.access_token);
-              setStore({
-                auth: true,
-              });
+              setStore({ auth: true });
+              setStore({ usuarioLogueado: data.user })
             } else {
-              setStore({
-                auth: false,
-              });
+              setStore({ auth: false });
             }
           } else if (resp.status === 404) {
             // Usuario no existe
-            setStore({
-              auth: false,
-            });
+            setStore({ auth: false });
           }
         } catch (error) {
           console.log(error);

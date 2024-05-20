@@ -8,10 +8,10 @@ export const Footer = () => (
   		<div className="row row-cols-1 row-cols-sm-2 row-cols-md-4" style={{margin: "10px"}}>
 			<div className="col">
 				<b>
-				Activa Fitness Club
+				💪 Activa Fitness Club
 				</b>
 				<br/>
-				v. 1.01.05 (14/05/2024)
+				Versión: 1.01.06 (20/05/2024)
 				{/* Version 1.0 --> 2023
 				Version 1.01 --> 2024 */}
 			</div>

@@ -124,7 +124,7 @@ const Layout = () => {
                         {/* Homes */}
                         <Route element={<Home />} path="/" />
                         <Route element={<HomeAdministrador />} path="/homeAdministrador" />
-                        <Route element={<HomeAlumno />} path="/homeAlumno" />
+                        <Route element={<HomeAlumno />} path="/homeAlumno/:idAlumno" />
 
                         {/* Cuotas */}
                         <Route element={<CrearCuota />} path="/CrearCuota" />

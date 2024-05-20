@@ -45,8 +45,9 @@ const getState = ({ getStore, getActions, setStore }) => {
       clima: {},
       rutinas: [],
       rutina: {},
-      ejercicios_rutina: [], 
-      usuarioLogueado: {}
+      ejercicios_rutina: [],
+      usuarioLogueado: {},
+      estadoDatosPersonales: "invisible"
     },
 
     actions: {
@@ -455,13 +456,9 @@ const getState = ({ getStore, getActions, setStore }) => {
       obtenerAlumnos: async () => {
         try {
           const response = await axios.get(direccion + "/api/alumnos", {
-            headers: {
-              Authorization: "Bearer " + localStorage.getItem("Token"),
-            },
+            headers: { Authorization: "Bearer " + localStorage.getItem("Token") },
           });
-          setStore({
-            alumnos: response.data,
-          });
+          setStore({ alumnos: response.data });
           return true
         } catch (error) {
           if (error.code === "ERR_BAD_REQUEST") {
@@ -1987,9 +1984,8 @@ const getState = ({ getStore, getActions, setStore }) => {
       // Inicio de se sesion
       logOut: () => {
         localStorage.removeItem("Token");
-        setStore({
-          auth: false,
-        });
+        setStore({ auth: false })
+        setStore({ estadoDatosPersonales: "invisible" })
       },
 
       ////////////////////////////////////
@@ -2943,7 +2939,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       obtenerRutina_IdUsuario: async (idUsuario) => {
         try {
           const response = await axios.get(direccion + "/api/rutina_usuario/" + idUsuario, {
-            headers: { Authorization: "Bearer " + localStorage.getItem("Token")},
+            headers: { Authorization: "Bearer " + localStorage.getItem("Token") },
           });
           setStore({ rutinas: response.data });
           if (response.status === 200) {
@@ -3014,6 +3010,16 @@ const getState = ({ getStore, getActions, setStore }) => {
           return false;
         }
       },
+
+      ////////////////////////////////////
+      //  Visualizar componentes      ///
+      ////////////////////////////////////
+
+      visualizarComponentes: (cual) => {
+        if (cual == "Personales") {
+          setStore({ estadoDatosPersonales: "visible" })
+        }
+      }
 
     },
   };

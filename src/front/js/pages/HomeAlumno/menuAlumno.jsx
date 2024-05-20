@@ -1,27 +1,66 @@
-import React from "react";
+import React, { useContext } from "react";
+import { Context } from "../../store/appContext";
 
 // Mis datos, mis mensualidades, mis rutinas 
 // Productos disponibles para comprar on-line
 
+
+
 export const MenuAlumno = () => {
+    const { actions, store } = useContext(Context)
+
+    const estadoDatosPersonales = () => {
+        actions.visualizarComponentes("Personales")
+    }
 
     return (
         <div className="container">
-            <p style={{ fontSize: "15px", marginLeft: "10px", color: "red" }}>
-                Mis datos personales
-            </p>
 
-            <p style={{ fontSize: "15px", marginLeft: "10px", color: "red" }}>
-                Mis pagos mensuales
-            </p>
+            <div className="row" style={{marginBottom: "10px"}}>
+                <div className="col">
+                    <button
+                        className="btn btn-outline-danger"
+                        onClick={estadoDatosPersonales}
+                        style={{ fontSize: "15px", marginLeft: "10px", color: "red", width: "180px"}}
+                    >
+                        Mis datos personales
+                    </button>
+                </div>
+            </div>
 
-            <p style={{ fontSize: "15px", marginLeft: "10px", color: "red" }}>
-                Mis rutinas
-            </p>
+            <div className="row" style={{marginBottom: "10px"}}>
+                <div className="col">
+                    <button
+                        className="btn btn-outline-danger"
+                        style={{ fontSize: "15px", marginLeft: "10px", color: "red", width: "180px" }}
+                    >
+                        Mis pagos mensuales
+                    </button>
+                </div>
+            </div>
 
-            <p style={{ fontSize: "15px", marginLeft: "10px", color: "red" }}>
-                Tienda
-            </p>
+            <div className="row" style={{marginBottom: "10px"}}>
+                <div className="col">
+                    <button
+                        className="btn btn-outline-danger"
+                        style={{ fontSize: "15px", marginLeft: "10px", color: "red", width: "180px" }}
+                    >
+                        Mis rutinas
+                    </button>
+                </div>
+            </div>
+
+            <div className="row">
+                <div className="col">
+                    <button
+                        className="btn btn-outline-danger"
+                        style={{ fontSize: "15px", marginLeft: "10px", color: "red", width: "180px" }}
+                    >
+                        Tienda
+                    </button>
+                </div>
+
+            </div>
         </div>
     )
 }

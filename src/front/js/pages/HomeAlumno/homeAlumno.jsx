@@ -1,16 +1,28 @@
 import React, { useContext, useEffect } from "react";
 import { Context } from "../../store/appContext";
 import { MenuAlumno } from "./menuAlumno.jsx";
+import { useParams } from "react-router-dom";
 
 // Fecha
 import moment from "moment";
+import DatosPersonales from "./datosPersonales.js";
 
 export const HomeAlumno = () => {
+    const params = useParams()
     const { actions, store } = useContext(Context)
 
     useEffect(() => {
         actions.clima()
+
+        if (params.idAlumno) {
+            obtenerAlumno();
+        }
+        
     }, [])
+
+    const obtenerAlumno = async () => {
+        await actions.obtenerAlumnoId(params.idAlumno)
+    }
 
     return (
         <div className="container">
@@ -35,8 +47,11 @@ export const HomeAlumno = () => {
                     </div>
                     <hr />
                     <h3 style={{ color: "red" }}>
-                        Hola, {store.usuarioLogueado.nombre}
+                        Hola, { store.alumno[0]?.nombre }
                     </h3>
+                    <br />
+
+                    <DatosPersonales alumno={store.alumno}/>
                 </div>
             </div>
 

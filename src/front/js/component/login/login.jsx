@@ -31,7 +31,7 @@ export const InicioSesion = () => {
             if (store.usuarioLogueado.rol == "Administrador"){
                 navegacion("/homeAdministrador")
             } else {
-                navegacion("/homeAlumno")
+                navegacion(`/homeAlumno/${store.usuarioLogueado.id}`)
             }
         } else {
             toast.error("Error al ingresar el usuario", {

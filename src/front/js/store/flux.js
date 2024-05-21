@@ -47,7 +47,8 @@ const getState = ({ getStore, getActions, setStore }) => {
       rutina: {},
       ejercicios_rutina: [],
       usuarioLogueado: {},
-      estadoDatosPersonales: "invisible"
+      estadoDatosPersonales: "invisible",
+      estadoPagosPersonales: "invisible"
     },
 
     actions: {
@@ -1986,6 +1987,7 @@ const getState = ({ getStore, getActions, setStore }) => {
         localStorage.removeItem("Token");
         setStore({ auth: false })
         setStore({ estadoDatosPersonales: "invisible" })
+        setStore({ estadoPagosPersonales: "invisible"})
       },
 
       ////////////////////////////////////
@@ -3018,6 +3020,10 @@ const getState = ({ getStore, getActions, setStore }) => {
       visualizarComponentes: (cual) => {
         if (cual == "Personales") {
           setStore({ estadoDatosPersonales: "visible" })
+          setStore({estadoPagosPersonales: "invisible"})
+        } else if (cual == "Pagos") {
+          setStore({estadoPagosPersonales: "visible"})
+          setStore({ estadoDatosPersonales: "invisible" })
         }
       }
 

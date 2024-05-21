@@ -1,11 +1,12 @@
 import React, { useContext, useEffect } from "react";
 import { Context } from "../../store/appContext";
-import { MenuAlumno } from "./menuAlumno.jsx";
 import { useParams } from "react-router-dom";
-
 // Fecha
 import moment from "moment";
+
+import { MenuAlumno } from "./menuAlumno.jsx";
 import DatosPersonales from "./datosPersonales.js";
+import PagosMensualesAlumnos from "./mensualidades.js"
 
 export const HomeAlumno = () => {
     const params = useParams()
@@ -52,6 +53,7 @@ export const HomeAlumno = () => {
                     <br />
 
                     <DatosPersonales alumno={store.alumno}/>
+                    <PagosMensualesAlumnos />
                 </div>
             </div>
 

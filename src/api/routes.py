@@ -715,7 +715,7 @@ def get_mensualidadid(mensualidad_id):
 @api.route('/mensualidadesAlumno/<int:idusuario>', methods=['GET'])
 @jwt_required()
 def pago_mensualidad_id(idusuario):
-    pago = Mensualidades.query.filter_by(idusuario=idusuario).all()
+    pago = Mensualidades.query.order_by(desc(Mensualidades.factura)).filter_by(idusuario=idusuario).all()
     results = list(map(lambda x: {**x.serializeMetodo(), **x.serialize()}, pago))
 
     if results is None: 

@@ -11,9 +11,11 @@ export const Footer = () => (
 				💪 Activa Fitness Club
 				</b>
 				<br/>
-				Versión: 1.01.06 (20/05/2024)
+				Versión: 2.05.22 (22/05/2024)
 				{/* Version 1.0 --> 2023
-				Version 1.01 --> 2024 */}
+				Version 2.01 --> 2024 
+				el segundo digito corresponde al mes, el ultimo al dia
+				*/}
 			</div>
 			<div className="col"></div>
 			<div className="col"></div>

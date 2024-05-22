@@ -41,6 +41,7 @@ export const MenuAlumno = () => {
             <div className="row" style={{ marginBottom: "10px" }}>
                 <div className="col">
                     <button
+                        onClick={() => estadoDatosPersonales("Rutinas")}
                         className="btn btn-outline-danger"
                         style={{ fontSize: "15px", marginLeft: "10px", color: "red", width: "180px" }}
                     >
@@ -52,6 +53,7 @@ export const MenuAlumno = () => {
             <div className="row">
                 <div className="col">
                     <button
+                        onClick={() => estadoDatosPersonales("Tienda")}
                         className="btn btn-outline-danger"
                         style={{ fontSize: "15px", marginLeft: "10px", color: "red", width: "180px" }}
                     >

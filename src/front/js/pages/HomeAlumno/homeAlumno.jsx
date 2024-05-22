@@ -7,6 +7,8 @@ import moment from "moment";
 import { MenuAlumno } from "./menuAlumno.jsx";
 import DatosPersonales from "./datosPersonales.js";
 import PagosMensualesAlumnos from "./mensualidades.js"
+import RutinaAlumno from "./misRutinas.js";
+import TiendaProductos from "./tiendaProductos.js";
 
 export const HomeAlumno = () => {
     const params = useParams()
@@ -53,7 +55,9 @@ export const HomeAlumno = () => {
                     <br />
 
                     <DatosPersonales alumno={store.alumno}/>
-                    <PagosMensualesAlumnos />
+                    <PagosMensualesAlumnos id={params.idAlumno}/>
+                    <RutinaAlumno id={params.idAlumno} />
+                    <TiendaProductos />
                 </div>
             </div>
 

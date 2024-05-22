@@ -48,7 +48,9 @@ const getState = ({ getStore, getActions, setStore }) => {
       ejercicios_rutina: [],
       usuarioLogueado: {},
       estadoDatosPersonales: "invisible",
-      estadoPagosPersonales: "invisible"
+      estadoPagosPersonales: "invisible",
+      estadoRutinas: "invisible",
+      estadoTienda: "invisible"
     },
 
     actions: {
@@ -983,23 +985,16 @@ const getState = ({ getStore, getActions, setStore }) => {
       obtenerMensualidadId: async (id) => {
         try {
           const response = await axios.get(
-            direccion + "/api/mensualidades/" + id,
-            {
-              headers: {
-                Authorization: "Bearer " + localStorage.getItem("Token"),
-              },
+            direccion + "/api/mensualidades/" + id, {
+              headers: { Authorization: "Bearer " + localStorage.getItem("Token") },
             },
           );
-          setStore({
-            pago: response.data,
-          });
+          setStore({ pago: response.data });
           if (response.status === 200) {
             return true;
           }
         } catch (error) {
-          console.error(
-            "Error " + error.response.status + ": " + error.response.statusText,
-          );
+          console.error( "Error " + error.response.status + ": " + error.response.statusText );
           return false;
         }
       },
@@ -1008,23 +1003,16 @@ const getState = ({ getStore, getActions, setStore }) => {
       obtenerMensualidadIdUsuario: async (id) => {
         try {
           const response = await axios.get(
-            direccion + "/api/mensualidadesAlumno/" + id,
-            {
-              headers: {
-                Authorization: "Bearer " + localStorage.getItem("Token"),
-              },
+            direccion + "/api/mensualidadesAlumno/" + id, {
+              headers: { Authorization: "Bearer " + localStorage.getItem("Token")},
             },
           );
-          setStore({
-            pagos: response.data,
-          });
+          setStore({ pagos: response.data });
           if (response.status === 200) {
             return true;
           }
         } catch (error) {
-          console.error(
-            "Error " + error.response.status + ": " + error.response.statusText,
-          );
+          console.error( "Error " + error.response.status + ": " + error.response.statusText);
           return false;
         }
       },
@@ -1987,7 +1975,8 @@ const getState = ({ getStore, getActions, setStore }) => {
         localStorage.removeItem("Token");
         setStore({ auth: false })
         setStore({ estadoDatosPersonales: "invisible" })
-        setStore({ estadoPagosPersonales: "invisible"})
+        setStore({ estadoPagosPersonales: "invisible" })
+        setStore({ estadoRutinas: "invisible"})
       },
 
       ////////////////////////////////////
@@ -3020,10 +3009,24 @@ const getState = ({ getStore, getActions, setStore }) => {
       visualizarComponentes: (cual) => {
         if (cual == "Personales") {
           setStore({ estadoDatosPersonales: "visible" })
-          setStore({estadoPagosPersonales: "invisible"})
+          setStore({ estadoPagosPersonales: "invisible"})
+          setStore({ estadoRutinas: "invisible"})
+          setStore({ estadoTienda: "invisible"})
         } else if (cual == "Pagos") {
           setStore({estadoPagosPersonales: "visible"})
           setStore({ estadoDatosPersonales: "invisible" })
+          setStore({ estadoRutinas: "invisible"})
+          setStore({ estadoTienda: "invisible"})
+        } else if (cual == "Rutinas") {
+          setStore({estadoPagosPersonales: "invisible"})
+          setStore({ estadoDatosPersonales: "invisible" })
+          setStore({ estadoRutinas: "visible"})
+          setStore({ estadoTienda: "invisible"})
+        } else if (cual == "Tienda") {
+          setStore({estadoPagosPersonales: "invisible"})
+          setStore({ estadoDatosPersonales: "invisible" })
+          setStore({ estadoRutinas: "invisible"})
+          setStore({ estadoTienda: "visible"})
         }
       }
 

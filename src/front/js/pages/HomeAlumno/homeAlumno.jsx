@@ -54,7 +54,7 @@ export const HomeAlumno = () => {
                     </h3>
                     <br />
 
-                    <DatosPersonales alumno={store.alumno}/>
+                    <DatosPersonales id={params.idAlumno} />
                     <PagosMensualesAlumnos id={params.idAlumno}/>
                     <RutinaAlumno id={params.idAlumno} />
                     <TiendaProductos />

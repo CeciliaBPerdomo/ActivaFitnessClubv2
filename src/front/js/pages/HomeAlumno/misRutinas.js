@@ -11,8 +11,8 @@ const RutinaAlumno = ({id}) => {
     return (
         <div 
         className={store.estadoRutinas}
-        style={{ marginTop: "-300px", 
-        marginBottom: "150px"
+        style={{ marginTop: "-380px", 
+        marginBottom: "250px"
      }}
         >
             <h5>Mis rutinas</h5>

@@ -7,11 +7,11 @@ const TiendaProductos = () => {
     return (
         <div 
         className={store.estadoTienda}
-        style={{marginTop: "-220px"}}
+        style={{marginTop: "-420px"}}
         >
             <h5>Tienda</h5>
             <hr />
-            <p>Estamos trabajando el ello</p>
+            <p>Estamos trabajando el ello, a la brevedad toda la info.</p>
         </div>
     )
 }

@@ -4,7 +4,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 
 export const AlumnoIndividual = () => {
   const { store, actions } = useContext(Context);
-  let navegacion = useNavigate();
+  // let navegacion = useNavigate();
   const params = useParams();
 
   useEffect(() => {

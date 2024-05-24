@@ -11,7 +11,7 @@ export const Footer = () => (
 				💪 Activa Fitness Club
 				</b>
 				<br/>
-				Versión: 2.05.22 (22/05/2024)
+				Versión: 2.05.24 (24/05/2024)
 				{/* Version 1.0 --> 2023
 				Version 2.01 --> 2024 
 				el segundo digito corresponde al mes, el ultimo al dia
@@ -19,8 +19,9 @@ export const Footer = () => (
 			</div>
 			<div className="col"></div>
 			<div className="col"></div>
-			<div className="col" style={{marginTop: "10px"}}>Desarrollado por 
-			<a href="https://ceciliaperdomo.vercel.app/" style={{textDecoration: "none", color: "white"}}> Cecilia Perdomo </a></div>
+			<div className="col" style={{marginTop: "10px"}}>Desarrollado por: 
+			<a href="https://ceciliaperdomo.vercel.app/" 
+			style={{textDecoration: "none", color: "white"}}> 👩‍💻Cecilia Perdomo </a></div>
   		</div>
 	</div>
 	</>

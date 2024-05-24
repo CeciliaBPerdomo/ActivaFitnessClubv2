@@ -5,10 +5,7 @@ const TiendaProductos = () => {
     const { actions, store } = useContext(Context)
 
     return (
-        <div 
-        className={store.estadoTienda}
-        style={{marginTop: "-420px"}}
-        >
+        <div className={store.estadoTienda} >
             <h5>Tienda</h5>
             <hr />
             <p>Estamos trabajando el ello, a la brevedad toda la info.</p>

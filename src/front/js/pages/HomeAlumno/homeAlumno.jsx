@@ -20,7 +20,7 @@ export const HomeAlumno = () => {
         if (params.idAlumno) {
             obtenerAlumno();
         }
-        
+
     }, [])
 
     const obtenerAlumno = async () => {
@@ -50,14 +50,26 @@ export const HomeAlumno = () => {
                     </div>
                     <hr />
                     <h3 style={{ color: "red" }}>
-                        Hola, { store.alumno[0]?.nombre }
+                        Hola, {store.alumno[0]?.nombre}
                     </h3>
                     <br />
 
-                    <DatosPersonales id={params.idAlumno} />
-                    <PagosMensualesAlumnos id={params.idAlumno}/>
-                    <RutinaAlumno id={params.idAlumno} />
-                    <TiendaProductos />
+                    <div style={{height: "500px"}}>
+                        <div style={{ marginTop: "-5px" }}>
+                            <DatosPersonales id={params.idAlumno} />
+                        </div>
+
+                        <div style={{ marginTop: "-480px" }}>
+                            <PagosMensualesAlumnos id={params.idAlumno} />
+                        </div>
+                        <div style={{ marginTop: "-235px" }}>
+                        <RutinaAlumno id={params.idAlumno} />
+                        </div>
+
+                        <div style={{ marginTop: "-205px" }}>
+                        <TiendaProductos />
+                        </div>
+                    </div>
                 </div>
             </div>
 

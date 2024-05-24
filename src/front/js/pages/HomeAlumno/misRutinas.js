@@ -9,12 +9,7 @@ const RutinaAlumno = ({id}) => {
     }, [])
 
     return (
-        <div 
-        className={store.estadoRutinas}
-        style={{ marginTop: "-380px", 
-        marginBottom: "250px"
-     }}
-        >
+        <div className={store.estadoRutinas} >
             <h5>Mis rutinas</h5>
             <hr />
 

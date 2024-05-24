@@ -11,7 +11,6 @@ const PagosMensualesAlumnos = ({ id }) => {
     return (
         <div
             className={store.estadoPagosPersonales}
-            style={{ marginTop: "-60px", marginBottom: "150px" }}
         >
             <h5>Mis pagos mensuales</h5>
             <hr />

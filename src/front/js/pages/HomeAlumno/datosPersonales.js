@@ -21,7 +21,7 @@ const DatosPersonales = ({ id }) => {
 
     return (
         <div
-        //className={store.estadoDatosPersonales}
+        className={store.estadoDatosPersonales}
         >
             <h5>Mi información personal</h5>
             <hr />

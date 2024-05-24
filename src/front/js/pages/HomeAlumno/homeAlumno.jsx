@@ -55,19 +55,21 @@ export const HomeAlumno = () => {
                     <br />
 
                     <div style={{height: "500px"}}>
+
                         <div style={{ marginTop: "-5px" }}>
                             <DatosPersonales id={params.idAlumno} />
                         </div>
 
-                        <div style={{ marginTop: "-480px" }}>
+                        <div style={{ marginTop: "-470px" }}>
                             <PagosMensualesAlumnos id={params.idAlumno} />
                         </div>
-                        <div style={{ marginTop: "-235px" }}>
-                        <RutinaAlumno id={params.idAlumno} />
+
+                        <div style={{ marginTop: "-115px" }}>
+                            <RutinaAlumno id={params.idAlumno} />
                         </div>
 
-                        <div style={{ marginTop: "-205px" }}>
-                        <TiendaProductos />
+                        <div style={{ marginTop: "-135px" }}>
+                            <TiendaProductos />
                         </div>
                     </div>
                 </div>

@@ -9,15 +9,10 @@ const DatosPersonales = ({ id }) => {
     }, [])
 
     /*
-    altura : ""
-   condicionesmedicas: ""
-   emergencias: ""
-   id : 3
-   idcuota: 1
+
    idmutualista : 1
    medicacion : ""
-   observaciones : ""
-   proximovencimiento  : "2024-04-02" */
+   observaciones : "" */
 
     return (
         <div
@@ -28,18 +23,22 @@ const DatosPersonales = ({ id }) => {
 
             <div className="card mb-3 border-danger mb-3" style={{ maxWidth: "740px", marginLeft: "30px", backgroundColor: "black" }}>
                 <div className="row g-0">
+                    {/* Nombre y apellido */}
                     <div className="card-header bg-danger"
                         style={{ color: "white", fontSize: "24px" }}>
                         {store.alumno[0]?.nombre} {store.alumno[0]?.apellido}
                     </div>
+
+                    {/* Foto */}
                     <div className="col-md-4 d-flex justify-content-center" style={{ padding: "12px" }}>
                         <img
                             src={store.alumno[0]?.foto}
-                            className="img-fluid rounded-circle"
+                            className="img-fluid rounded-circle align-middle"
                             alt={store.alumno[0]?.nombre}
-                            style={{ width: "100%" }}
+                            style={{ width: "100%", height: "70%" }}
                         />
                     </div>
+
                     <div className="col-md-8">
                         <div className="card-body">
                             <p className="card-text">
@@ -91,7 +90,7 @@ const DatosPersonales = ({ id }) => {
                                     </div>
                                 </div>
 
-                                {/* Mensualidad */}
+                                {/* Mensualidad, fecha de ingreso */}
                                 <div className="row">
                                     <div className="col-5 border border-1" style={{ padding: "8px" }}>
                                         Mensualidad: ${store.alumno[0]?.cuotasInfo.precio}
@@ -101,10 +100,52 @@ const DatosPersonales = ({ id }) => {
                                     </div>
                                 </div>
 
+                                {/* Vencimiento mensualidad */}
+                                <div className="row">
+                                    <div className="col-11 border border-1" style={{ padding: "8px" }}>
+                                        Vencimiento mensualidad: {store.alumno[0]?.proximovencimiento}
+                                    </div>
+                                </div>
+
                                  {/* Motivo */}
                                  <div className="row">
                                     <div className="col-11 border border-1" style={{ padding: "8px" }}>
                                         Motivo: {store.alumno[0]?.motivoentrenamiento}
+                                    </div>
+                                </div>
+
+                                {/* Condiciones médicas */}
+                                <div className="row">
+                                    <div className="col-11 border border-1" style={{ padding: "8px" }}>
+                                        Condiciones médicas: {store.alumno[0]?.condicionesmedicas}
+                                    </div>
+                                </div>
+
+                                {/* Emergencia */}
+                                <div className="row">
+                                    <div className="col-11 border border-1" style={{ padding: "8px" }}>
+                                        En caso de emergencia: {store.alumno[0]?.emergencias}
+                                    </div>
+                                </div>
+
+                                 {/* Mutualista */}
+                                 <div className="row">
+                                    <div className="col-11 border border-1" style={{ padding: "8px" }}>
+                                        Mutualista: {store.alumno[0]?.idmutualista}
+                                    </div>
+                                </div>
+
+                                 {/* Medicacion */}
+                                 <div className="row">
+                                    <div className="col-11 border border-1" style={{ padding: "8px" }}>
+                                        Medicacion: {store.alumno[0]?.medicacion}
+                                    </div>
+                                </div>
+
+                                 {/* Observaciones */}
+                                 <div className="row">
+                                    <div className="col-11 border border-1" style={{ padding: "8px" }}>
+                                        Comentarios: {store.alumno[0]?.observaciones}
                                     </div>
                                 </div>
                             </p>

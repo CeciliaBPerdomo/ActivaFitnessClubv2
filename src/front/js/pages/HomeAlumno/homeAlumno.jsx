@@ -48,13 +48,13 @@ export const HomeAlumno = () => {
                             </p> : null
                         }
                     </div>
-                    <hr />
+                    
                     <h3 style={{ color: "red" }}>
                         Hola, {store.alumno[0]?.nombre}
                     </h3>
                     <br />
 
-                    <div style={{height: "500px"}}>
+                    <div style={{height: "700px"}}>
 
                         <div style={{ marginTop: "-5px" }}>
                             <DatosPersonales id={params.idAlumno} />

@@ -19,7 +19,7 @@ export const HomeAlumno = () => {
 
         if (params.idAlumno) {
             obtenerAlumno();
-            //actions.visualizarComponentes("Personales")
+            actions.visualizarComponentes("Personales")
         }
 
     }, [])

@@ -19,6 +19,7 @@ export const HomeAlumno = () => {
 
         if (params.idAlumno) {
             obtenerAlumno();
+            actions.visualizarComponentes("Personales")
         }
 
     }, [])
@@ -54,7 +55,7 @@ export const HomeAlumno = () => {
                     </h3>
                     <br />
 
-                    <div style={{height: "700px"}}>
+                    <div style={{height: "750px"}}>
 
                         <div style={{ marginTop: "-5px" }}>
                             <DatosPersonales id={params.idAlumno} />

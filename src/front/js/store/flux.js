@@ -47,7 +47,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       rutina: {},
       ejercicios_rutina: [],
       usuarioLogueado: {},
-      estadoDatosPersonales: "visible",
+      estadoDatosPersonales: "invisible",
       estadoPagosPersonales: "invisible",
       estadoRutinas: "invisible",
       estadoTienda: "invisible"

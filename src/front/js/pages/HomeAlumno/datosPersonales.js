@@ -1,5 +1,6 @@
 import React, { useContext, useEffect } from "react";
 import { Context } from "../../store/appContext";
+import ActualizarDatos from "./actualizarDatos";
 
 const DatosPersonales = ({ id }) => {
     const { actions, store } = useContext(Context)
@@ -7,12 +8,6 @@ const DatosPersonales = ({ id }) => {
     useEffect(() => {
         actions.obtenerAlumnoId(id)
     }, [])
-
-    /*
-
-   idmutualista : 1
-   medicacion : ""
-   observaciones : "" */
 
     return (
         <div
@@ -30,12 +25,17 @@ const DatosPersonales = ({ id }) => {
                     </div>
 
                     {/* Foto */}
-                    <div className="col-md-4 d-flex justify-content-center" style={{ padding: "12px" }}>
+                    <div className="col" 
+                    style={{ 
+                        padding: "12px", 
+                        marginTop: "80px"
+                    }}
+                    >
                         <img
                             src={store.alumno[0]?.foto}
-                            className="img-fluid rounded-circle align-middle"
+                            className="img-fluid rounded-circle" 
                             alt={store.alumno[0]?.nombre}
-                            style={{ width: "100%", height: "70%" }}
+                            style={{ width: "450px", height: "300px" }}
                         />
                     </div>
 
@@ -151,6 +151,10 @@ const DatosPersonales = ({ id }) => {
                             </p>
                         </div>
                     </div>
+                </div>
+
+                <div style={{padding: "15px"}}>
+                    <ActualizarDatos />
                 </div>
             </div>
         </div>

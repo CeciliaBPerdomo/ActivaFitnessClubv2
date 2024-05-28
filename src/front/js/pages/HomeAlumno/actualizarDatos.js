@@ -1,6 +1,9 @@
-import React from "react";
+import React, { useContext, useEffect } from "react"; 
+import { Context } from "../../store/appContext";
 
 const ActualizarDatos = () => {
+    const { actions, store } = useContext(Context)
+    
     return (
         <>
             {/* // <!-- Button trigger modal --> */}

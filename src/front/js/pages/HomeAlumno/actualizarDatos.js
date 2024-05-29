@@ -45,6 +45,17 @@ const ActualizarDatos = () => {
                                     />
                                 </div>
 
+                                <div className="mb-4">
+                                    <label className="mb-2">Dirección:</label>
+                                    <input
+                                        type="text"
+                                        className="form-control"
+                                        placeholder="Tu dirección"
+                                    // value={direccion}
+                                    // onChange={(e) => setDireccion(e.target.value)}
+                                    />
+                                </div>
+                                
                                 <div className="row mb-4">
                                     <div className="col">
                                         <label className="mb-2">Cédula:</label>
@@ -129,17 +140,6 @@ const ActualizarDatos = () => {
                                         // onChange={(e) => setDireccion(e.target.value)}
                                         />
                                     </div>
-                                </div>
-
-                                <div className="mb-4">
-                                    <label className="mb-2">Dirección:</label>
-                                    <input
-                                        type="text"
-                                        className="form-control"
-                                        placeholder="Tu dirección"
-                                    // value={direccion}
-                                    // onChange={(e) => setDireccion(e.target.value)}
-                                    />
                                 </div>
 
                             </div>

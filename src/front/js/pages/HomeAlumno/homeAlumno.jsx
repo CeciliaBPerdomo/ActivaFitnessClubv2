@@ -66,11 +66,11 @@ export const HomeAlumno = () => {
                             <PagosMensualesAlumnos id={params.idAlumno} />
                         </div>
 
-                        <div style={{ marginTop: "-215px" }}>
+                        <div style={{ marginTop: "-185px" }}>
                             <RutinaAlumno id={params.idAlumno} />
                         </div>
 
-                        <div style={{ marginTop: "-200px" }}>
+                        <div style={{ marginTop: "-180px" }}>
                             <TiendaProductos />
                         </div>
                     </div>

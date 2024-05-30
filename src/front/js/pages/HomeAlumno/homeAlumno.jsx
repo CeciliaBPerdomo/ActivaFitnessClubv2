@@ -62,15 +62,15 @@ export const HomeAlumno = () => {
                             <DatosPersonales id={params.idAlumno} />
                         </div>
 
-                        <div style={{ marginTop: "-800px" }}>
+                        <div style={{ marginTop: "-820px" }}>
                             <PagosMensualesAlumnos id={params.idAlumno} />
                         </div>
 
-                        <div style={{ marginTop: "-210px" }}>
+                        <div style={{ marginTop: "-195px" }}>
                             <RutinaAlumno id={params.idAlumno} />
                         </div>
 
-                        <div style={{ marginTop: "-210px" }}>
+                        <div style={{ marginTop: "-180px" }}>
                             <TiendaProductos />
                         </div>
                     </div>

@@ -21,6 +21,7 @@ const RutinaAlumno = ({id}) => {
                             <th scope="col" className="text-center">Fecha de inicio </th>
                             <th scope="col" className="text-center">Ver ejercicios</th>
                             <th scope="col" className="text-center"></th>
+                            <th scope="col" className="text-center"></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -29,6 +30,7 @@ const RutinaAlumno = ({id}) => {
                                 <td className="text-center">{item.fechafinalizacion.slice(5, 16)}</td>
                                 <td className="text-center">{item.fechacomienzo.slice(5, 16)}</td>
                                 <td className="text-center"><i className="fa fa-eye"></i></td>
+                                <td className="text-center"><i className="fa fa-file-pdf"></i></td>
                                 <td className="text-center"></td>
                             </tr>
                         ))}

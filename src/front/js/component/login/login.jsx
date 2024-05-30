@@ -113,10 +113,7 @@ export const InicioSesion = () => {
 
                         {/* Imagen */}
                         <div className="col">
-                            <img src={Login} 
-                            style={{height: "560px",
-                            borderRadius: "100px"
-                            }} />
+                            <img src={Login} style={{height: "560px", borderRadius: "100px"}} />
                         </div>
                     </div>
                 </div>

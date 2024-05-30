@@ -50,7 +50,8 @@ const getState = ({ getStore, getActions, setStore }) => {
       estadoDatosPersonales: "invisible",
       estadoPagosPersonales: "invisible",
       estadoRutinas: "invisible",
-      estadoTienda: "invisible"
+      estadoTienda: "invisible", 
+      datos_alumno: []
     },
 
     actions: {
@@ -567,17 +568,10 @@ const getState = ({ getStore, getActions, setStore }) => {
       // Obtener alumno por id
       obtenerAlumnoId: async (id) => {
         try {
-          const response = await axios.get(
-            direccion + "/api/alumnos/" + id,
-            {
-              headers: {
-                Authorization: "Bearer " + localStorage.getItem("Token"),
-              },
-            },
+          const response = await axios.get( direccion + "/api/alumnos/" + id,
+            { headers: { Authorization: "Bearer " + localStorage.getItem("Token") }},
           );
-          setStore({
-            alumno: response.data,
-          });
+          setStore({ alumno: response.data });
         } catch (error) {
           if (error.code === "ERR_BAD_REQUEST") {
             console.log(error.response.data.msg);
@@ -585,6 +579,19 @@ const getState = ({ getStore, getActions, setStore }) => {
         }
       },
 
+      obtenerDatosAlumno_byId: async (id) => {
+        try {
+          const response = await axios.get( direccion + "/api/alumnos_mutual/" + id,
+            { headers: { Authorization: "Bearer " + localStorage.getItem("Token") }},
+          );
+          setStore({ datos_alumno: response.data });
+        } catch (error) {
+          if (error.code === "ERR_BAD_REQUEST") {
+            console.log(error.response.data.msg);
+          }
+        }
+      },
+ 
       // Modificar Alumno
       modificarAlumno: async (
         id,

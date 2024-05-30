@@ -145,19 +145,6 @@ export const CrearAlumno = () => {
 
         <form>
           <div className="row">
-            {/* Cedula */}
-            <div className="col">
-              <label htmlFor="cedula" style={{ marginBottom: "10px" }}>
-                Cédula <label style={{color: "red"}}>(Obligatorio)</label>:
-              </label>
-              <input
-                type="text"
-                className="form-control"
-                placeholder="Cédula (sin puntos ni guiones)"
-                value={cedula}
-                onChange={(e) => setCedula(e.target.value)}
-              />
-            </div>
 
             {/* Nombre */}
             <div className="col">
@@ -184,6 +171,20 @@ export const CrearAlumno = () => {
                 placeholder="Apellido"
                 value={apellido}
                 onChange={(e) => setApellido(e.target.value)}
+              />
+            </div>
+
+             {/* Cedula */}
+             <div className="col">
+              <label htmlFor="cedula" style={{ marginBottom: "10px" }}>
+                Cédula <label style={{color: "red"}}>(Obligatorio)</label>:
+              </label>
+              <input
+                type="text"
+                className="form-control"
+                placeholder="Cédula (sin puntos ni guiones)"
+                value={cedula}
+                onChange={(e) => setCedula(e.target.value)}
               />
             </div>
           </div>

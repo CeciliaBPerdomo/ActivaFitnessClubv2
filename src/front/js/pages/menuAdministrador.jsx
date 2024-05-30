@@ -60,11 +60,12 @@ export const MenuAdministrador = () => {
 
                 {/* Rutinas */}
                 <div className="accordion accordion-flush border border-1 border-danger" id="accordionFlushExample">
+                     {/* Tipo de ejercicios */}
+                     <TipoEjercicios />
+                     
                     {/* Ejercicios */}
                     <Ejercicios />
 
-                     {/* Tipo de ejercicios */}
-                     <TipoEjercicios />
                 </div>
                 <br />
 

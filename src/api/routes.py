@@ -366,13 +366,62 @@ def deleteAlumno(alumno_id):
 # Muestra el alumno por id
 @api.route('/alumnos/<int:alumno_id>', methods=['GET'])
 @jwt_required()
-def get_alumnoind(alumno_id):
+def get_alumno_byId(alumno_id):
     alumno = Usuarios.query.filter_by(id=alumno_id).all()
-    results = list(map(lambda x: {**x.serializeCuotas(), **x.serialize()}, alumno))
 
-    if results is None: 
-        response_body = {"msg": "Usuario no encontrado"}
-        return jsonify(response_body), 400
+    if alumno is None: 
+        return jsonify({"msg": "Usuario no encontrado"}), 400
+    
+    if alumno == []: 
+        return jsonify({"msg": "Usuario no encontrado"}), 400
+
+    results = list(map(lambda x: {**x.serializeCuotas(), **x.serialize()}, alumno))
+    return jsonify(results), 200
+
+# Muestra el alumno por id
+@api.route('/alumnos_mutual/<int:alumno_id>', methods=['GET'])
+@jwt_required()
+def get_alumno_mutual_byId(alumno_id):
+    alumno = db.session.query(Usuarios, Mutualista, Cuota).filter_by(id=alumno_id).join(Mutualista).join(Cuota).all()
+
+    if alumno is None: 
+        return jsonify({"msg": "Usuario no encontrado"}), 400
+    
+    if alumno == []: 
+        return jsonify({"msg": "Usuario no encontrado"}), 400
+    
+    results = list(map(lambda socio: {
+        # Info alumno
+        "idAlumno": socio[0].id,
+        "nombre": socio[0].nombre,
+        "apellido": socio[0].apellido,
+        "cedula": socio[0].cedula,
+        "direccion": socio[0].direccion,
+        "email": socio[0].email,
+        "fechanacimiento": socio[0].fechanacimiento, 
+        "condicionesmedicas": socio[0].condicionesmedicas, 
+        "medicacion": socio[0].medicacion,
+        "emergencias": socio[0].emergencias,
+        "rol": socio[0].rol, 
+        "motivoentrenamiento": socio[0].motivoentrenamiento,
+        "observaciones": socio[0].observaciones,
+        "foto": socio[0].foto, 
+        "celular": socio[0].celular,
+        "peso": socio[0].peso,
+        "altura": socio[0].altura, 
+        "fechaingreso": socio[0].fechaingreso,
+        "genero": socio[0].genero,
+        "proximovencimiento": socio[0].proximovencimiento,
+
+        # Info Mutualista
+        "idMutualista": socio[1].id,
+        "nombreMutualista": socio[1].nombre,
+
+        #Info Cuotas
+        "idCuota": socio[2].id, 
+        "descripcionCuota": socio[2].descripcion, 
+        "precioCuota": socio[2].precio
+    }, alumno))
 
     return jsonify(results), 200
 

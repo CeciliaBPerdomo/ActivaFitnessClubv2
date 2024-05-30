@@ -12,7 +12,7 @@ const PagosMensualesAlumnos = ({ id }) => {
         <div
             className={store.estadoPagosPersonales}
         >
-            <h5>Mis pagos mensuales</h5>
+            <h5>Tus pagos mensuales</h5>
             <hr />
 
             <div style={{ marginTop: "35px" }}>

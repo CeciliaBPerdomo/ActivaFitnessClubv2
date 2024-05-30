@@ -14,7 +14,7 @@ const DatosPersonales = ({ id }) => {
     return (
 
         <div className={store.estadoDatosPersonales}>
-            <h5>Mi información personal</h5>
+            <h5>Tu información personal</h5>
             <hr />
 
             <div className="card mb-3 border-danger mb-3" style={{ maxWidth: "740px", marginLeft: "30px", backgroundColor: "black" }}>

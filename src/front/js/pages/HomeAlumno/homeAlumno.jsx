@@ -49,11 +49,11 @@ export const HomeAlumno = () => {
                             </p> : null
                         }
                     </div>
-                    <hr />
                     
-                    <h3 style={{ color: "red" }}>
+                    <h3 style={{ color: "red", marginTop: "-50px" }}>
                         Hola 👋 {store.alumno[0]?.nombre}
                     </h3>
+                    <hr />
                     <br />
 
                     <div style={{height: "820px"}}>
@@ -66,7 +66,7 @@ export const HomeAlumno = () => {
                             <PagosMensualesAlumnos id={params.idAlumno} />
                         </div>
 
-                        <div style={{ marginTop: "-165px" }}>
+                        <div style={{ marginTop: "-160px" }}>
                             <RutinaAlumno id={params.idAlumno} />
                         </div>
 

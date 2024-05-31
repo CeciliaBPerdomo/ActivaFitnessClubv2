@@ -3,6 +3,7 @@ import { Context } from "../../store/appContext";
 
 import ActualizarDatos from "./actualizarDatos";
 import ActualizarDatosMedicos from "./actualizarDatosMedicos.jsx";
+import ActualizarFoto from "./actualizarFoto.js";
 
 const DatosPersonales = ({ id }) => {
     const { actions, store } = useContext(Context)
@@ -38,6 +39,8 @@ const DatosPersonales = ({ id }) => {
                             alt={store.datos_alumno[0]?.nombre}
                             style={{ width: "450px", height: "300px" }}
                         />
+
+                        <ActualizarFoto id={id} />
                     </div>
 
                     <div className="col-md-8">
@@ -90,39 +93,10 @@ const DatosPersonales = ({ id }) => {
                                 </div>
                             </div>
 
-                            {/* Modalidad de entrenamiento */}
-                            <div className="row">
-                                <div className="col-11 border border-1" style={{ padding: "8px" }}>
-                                    Modalidad: {store.datos_alumno[0]?.descripcionCuota}
-                                </div>
-                            </div>
-
-                            {/* Mensualidad, fecha de ingreso */}
-                            <div className="row">
-                                <div className="col-5 border border-1" style={{ padding: "8px" }}>
-                                    Mensualidad: ${store.datos_alumno[0]?.precioCuota}
-                                </div>
-                                <div className="col-6 border border-1" style={{ padding: "8px" }}>
-                                    Fecha ingreso: {store.datos_alumno[0]?.fechaingreso}
-                                </div>
-                            </div>
-
-                            {/* Vencimiento mensualidad */}
-                            <div className="row">
-                                <div className="col-11 border border-1" style={{ padding: "8px" }}>
-                                    Vencimiento mensualidad: {store.datos_alumno[0]?.proximovencimiento}
-                                </div>
-                            </div>
-
-                            <div className="row" style={{ marginBottom: "12px", marginTop: "12px" }}>
-                                <div className="col-11">
-                                </div>
-                            </div>
-
                             {/* Motivo */}
                             <div className="row">
                                 <div className="col-11 border border-1" style={{ padding: "8px" }}>
-                                    Motivo: {store.datos_alumno[0]?.motivoentrenamiento}
+                                    Motivo entrenamiento: {store.datos_alumno[0]?.motivoentrenamiento}
                                 </div>
                             </div>
 
@@ -165,6 +139,35 @@ const DatosPersonales = ({ id }) => {
                             <div className="row" style={{ marginBottom: "12px", marginTop: "12px" }}>
                                 <div className="col-11">
                                     <ActualizarDatosMedicos id={id} />
+                                </div>
+                            </div>
+
+ {/* Modalidad de entrenamiento */}
+ <div className="row">
+                                <div className="col-11 border border-1" style={{ padding: "8px" }}>
+                                    Modalidad: {store.datos_alumno[0]?.descripcionCuota}
+                                </div>
+                            </div>
+
+                            {/* Mensualidad, fecha de ingreso */}
+                            <div className="row">
+                                <div className="col-5 border border-1" style={{ padding: "8px" }}>
+                                    Mensualidad: ${store.datos_alumno[0]?.precioCuota}
+                                </div>
+                                <div className="col-6 border border-1" style={{ padding: "8px" }}>
+                                    Fecha ingreso: {store.datos_alumno[0]?.fechaingreso}
+                                </div>
+                            </div>
+
+                            {/* Vencimiento mensualidad */}
+                            <div className="row">
+                                <div className="col-11 border border-1" style={{ padding: "8px" }}>
+                                    Vencimiento mensualidad: {store.datos_alumno[0]?.proximovencimiento}
+                                </div>
+                            </div>
+
+                            <div className="row" style={{ marginBottom: "12px", marginTop: "12px" }}>
+                                <div className="col-11">
                                 </div>
                             </div>
 

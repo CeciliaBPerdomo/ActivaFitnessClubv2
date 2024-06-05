@@ -502,6 +502,82 @@ def usersModif_porId(user_id):
     response_body = {"msg": "Usuario modificado"}
     return jsonify(response_body), 200
 
+# Modifica un usuario por id
+@api.route('/alumnos_datospersonales/<int:user_id>', methods=['PUT'])
+#@jwt_required()
+def usersModif_datospersonales_porId(user_id):
+    usuario = Usuarios.query.filter_by(id=user_id).first()
+    body = json.loads(request.data)
+
+    if usuario is None:
+        return jsonify({"msg": "No existe el usuario"}), 400    
+
+    if "cedula" in body:
+        usuario.cedula =  body["cedula"]
+       # usuario.password = body["cedula"]
+
+    if "nombre" in body: 
+        usuario.nombre = body["nombre"]
+
+    if "apellido" in body:
+        usuario.apellido = body["apellido"]
+
+    if "direccion" in body: 
+        usuario.direccion = body["direccion"]
+    
+    if "celular" in body:
+        usuario.celular = body["celular"]
+    
+    if "email" in body:
+        usuario.email = body["email"]
+
+    if "genero" in body:
+        usuario.genero = body["genero"]
+
+    if "fechanamiento" in body:
+        usuario.fechanacimiento = body["fechanacimiento"]
+    
+    if "peso" in body: 
+        usuario.peso = body["peso"]
+    
+    if "altura" in body:
+        usuario.altura = body["altura"]
+
+    db.session.commit()
+    return jsonify({"msg": "Alumno: " + body["nombre"] + " " + body["apellido"] + " modificado"}), 200
+
+
+# Modifica los datos medicos de un usuario por id
+@api.route('/alumnos_datosmedicos/<int:user_id>', methods=['PUT'])
+@jwt_required()
+def usersModif_datos_medicos_porId(user_id):
+    usuario = Usuarios.query.filter_by(id=user_id).first()
+    body = json.loads(request.data)
+
+    if usuario is None:
+        return jsonify({"msg": "No existe el usuario"}), 400    
+
+    if "idmutualista" in body: 
+        usuario.idmutualista = body["idmutualista"]
+    
+    if "condicionesmedicas" in body:
+        usuario.condicionesmedicas=body["condicionesmedicas"]
+    
+    if "medicacion" in body:
+        usuario.medicacion = body["medicacion"]
+    
+    if "emergencias" in body:
+        usuario.emergencias = body["emergencias"]
+    
+    if "motivoentrenamiento" in body:
+        usuario.motivoentrenamiento = body["motivoentrenamiento"]
+    
+    if "observaciones" in body:
+        usuario.observaciones = body["observaciones"]
+
+    db.session.commit()
+    return jsonify({"msg": "Usuario modificado"}), 200
+
 # Muestra los alumnos ordenados en forma descendente (de mayor a menor)
 @api.route('/alumnos/desc', methods=['GET'])
 @jwt_required()

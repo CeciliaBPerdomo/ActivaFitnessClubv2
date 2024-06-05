@@ -35,6 +35,13 @@ const ActualizarDatos = ({ id }) => {
         fetchData();
     }, [])
 
+
+    const actualizarDatos = async (e) => {
+        e.preventDefault()
+        await actions.modificarAlumno (id, nombre, apellido, direccion, cedula, celular, correo, genero, fecha, peso, altura )
+        await actions.obtenerDatosAlumno_byId(id)
+    }
+
     return (
         <>
             {/* Boton de actualizar */}
@@ -43,7 +50,7 @@ const ActualizarDatos = ({ id }) => {
             </button>
 
             {/* Modal */}
-            <div className="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div className="modal fade" id="exampleModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div className="modal-dialog border border-1 border-danger rounded-3" >
                     <div className="modal-content">
 
@@ -188,7 +195,7 @@ const ActualizarDatos = ({ id }) => {
                         </div>
                         {/* Botones */}
                         <div className="modal-footer" style={{ backgroundColor: "black" }}>
-                            <button type="button" className="btn btn-outline-danger">Actualizar</button>
+                            <button type="button" className="btn btn-outline-danger" onClick={(e) => actualizarDatos(e)} data-bs-dismiss="modal">Actualizar</button>
                             <button type="button" className="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
                         </div>
                     </div>

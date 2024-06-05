@@ -661,6 +661,52 @@ const getState = ({ getStore, getActions, setStore }) => {
         }
       },
 
+      // Modificar alumno segun datos personales
+      modificarAlumno: async (
+        id,
+        nombre,
+        apellido,
+        direccionAlumno,
+        cedula,
+        celular,
+        email,
+        genero,
+        fechanacimiento,
+        peso,
+        altura
+      ) => {
+        try {
+          const response = await axios.put(direccion + "/api/alumnos_datospersonales/" + id, {
+            id: id,
+            cedula: cedula,
+            nombre: nombre,
+            apellido: apellido,
+            direccion: direccionAlumno,
+            email: email,
+            fechanacimiento: fechanacimiento,
+            celular: celular,
+            peso: peso,
+            altura: altura,
+            genero: genero,
+          }, {
+            headers: { Authorization: "Bearer " + localStorage.getItem("Token")},
+          });
+          if (response.status === 200) {
+            return true;
+          }
+        } catch (error) {
+          if (error.code === "ERR_BAD_REQUEST") {
+            console.log(error.response.data.msg);
+            return false;
+          } else {
+            console.error("Error: " + error.response.status + ": " + error.response.statusText );
+            return false;
+          }
+        }
+      },
+
+      // Modificar alumno segun datos medicos alumnos_datosmedicos
+
       // Modificar vencimiento proxima cuota
       proximoVencimiento: async (id, fecha) => {
         try {

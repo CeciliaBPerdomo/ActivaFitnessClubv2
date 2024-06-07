@@ -23,7 +23,7 @@ export const CrearAlumno = () => {
   const [emergencias, setEmergencias] = useState("");
   const [motivo, setMotivo] = useState("");
   const [cuota, setCuota] = useState("");
-  const [rol, setRol] = useState("");
+  const [rol, setRol] = useState("Alumno");
   const [activo, setActivo] = useState("");
   const [observaciones, setObservaciones] = useState("");
   const [ingreso, setIngreso] = useState("");
@@ -35,95 +35,82 @@ export const CrearAlumno = () => {
   }, []);
 
   const guardar = async (e) => {
-      e.preventDefault();
+    e.preventDefault();
 
-        // if (foto !== "") {
-        //   const formData = new FormData()
-        //   formData.append('image', foto)
-          
-        //    let imagenLink = await actions.guardarImagen(formData)
-        //    console.log(imagenLink)
-        // }
+    // if (foto !== "") {
+    //   const formData = new FormData()
+    //   formData.append('image', foto)
 
-      if (cedula !== "" && nombre !=="" && apellido !== "" && direccion !=="" && activo !=="" && mutualista !=="" && email !=="" && cuota !==""){ 
-       
-        // Crear link de imgur para las imagenes
-       
-       
-        let resultado = await actions.crearAlumnos(
-          cedula,
-          nombre,
-          apellido,
-          direccion,
-          celular,
-          fechanacimiento,
-          peso,
-          altura,
-          email,
-          mutualista,
-          condiciones,
-          medicacion,
-          emergencias,
-          motivo,
-          cuota,
-          rol,
-          activo,
-          observaciones,
-          ingreso,
-          foto,
-        )
-    
-        if (resultado === true) {    
-          toast.success("💪 Guardado con éxito", {
-            position: toast.POSITION.TOP_RIGHT,
-            autoClose: 1000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "dark",
+    //    let imagenLink = await actions.guardarImagen(formData)
+    //    console.log(imagenLink)
+    // }
+
+    if (cedula !== "" && nombre !== "" && apellido !== "" && direccion !== "" && activo !== "" && mutualista !== "" && email !== "" && cuota !== "") {
+
+      // Crear link de imgur para las imagenes
+
+
+      let resultado = await actions.crearAlumnos(
+        cedula,
+        nombre,
+        apellido,
+        direccion,
+        celular,
+        fechanacimiento,
+        peso,
+        altura,
+        email,
+        mutualista,
+        condiciones,
+        medicacion,
+        emergencias,
+        motivo,
+        cuota,
+        rol,
+        activo,
+        observaciones,
+        ingreso,
+        foto,
+      )
+
+      if (resultado === true) {
+        toast.success("💪 Guardado con éxito", {
+          position: toast.POSITION.TOP_RIGHT,
+          autoClose: 1000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
         });
 
-          await actions.suscripcion(email)
+        await actions.suscripcion(email)
 
-          setCedula("")
-          setNombre("")
-          setApellido("")
-          setDireccion("")
-          setCelular("")
-          setFechaNacimiento("")
-          setActivo("") // Genero
-          setPeso("")
-          setAltura("")
-          setIngreso("")
-          setEmail("")
-          setFoto("")
-          setMutualista("")
-          setCondiciones("")
-          setMedicacion("")
-          setEmergencias("")
-          setMotivo("")
-          setCuota("")
-          setRol("" )
-          setObservaciones("")
+        setCedula("")
+        setNombre("")
+        setApellido("")
+        setDireccion("")
+        setCelular("")
+        setFechaNacimiento("")
+        setActivo("") // Genero
+        setPeso("")
+        setAltura("")
+        setIngreso("")
+        setEmail("")
+        setFoto("")
+        setMutualista("")
+        setCondiciones("")
+        setMedicacion("")
+        setEmergencias("")
+        setMotivo("")
+        setCuota("")
+        setRol("")
+        setObservaciones("")
 
         // Problemas para guardar
-        } else {
-          toast.error("No se puede guardar", {
-            position: toast.POSITION.TOP_RIGHT,
-            autoClose: 1000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "dark",
-          });
-        }
-    // Si faltan datos
       } else {
-        toast.error("Faltan completar datos", {
+        toast.error("No se puede guardar", {
           position: toast.POSITION.TOP_RIGHT,
           autoClose: 1000,
           hideProgressBar: false,
@@ -134,23 +121,36 @@ export const CrearAlumno = () => {
           theme: "dark",
         });
       }
+      // Si faltan datos
+    } else {
+      toast.error("Faltan completar datos", {
+        position: toast.POSITION.TOP_RIGHT,
+        autoClose: 1000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
+    }
   };
 
   return (
     <>
       <div className="container">
-        <h3 style={{ marginBottom: "25px" }}>Ingresar alumnos</h3>
+        <h3 style={{ marginBottom: "10px" }}>Ingresar alumnos
+          <span style={{ fontSize: "16px" }}>  ➤ Datos obligatorios</span>
+        </h3>
         <hr />
         <br />
 
-        <form>
+        <form className="border border-1 border-danger" style={{ padding: "10px" }}>
+          {/* Nombre, Apellido y cedula */}
           <div className="row">
-
             {/* Nombre */}
             <div className="col">
-              <label htmlFor="nombre" style={{ marginBottom: "10px" }}>
-                Nombre <label style={{color: "red"}}>(Obligatorio)</label>:
-              </label>
+              <label htmlFor="nombre" style={{ marginBottom: "10px" }}>Nombre:</label>
               <input
                 type="text"
                 className="form-control"
@@ -163,7 +163,7 @@ export const CrearAlumno = () => {
             {/* Apellido */}
             <div className="col">
               <label htmlFor="apellido" style={{ marginBottom: "10px" }}>
-                Apellido <label style={{color: "red"}}>(Obligatorio)</label>:
+                Apellido:
               </label>
               <input
                 type="text"
@@ -174,10 +174,10 @@ export const CrearAlumno = () => {
               />
             </div>
 
-             {/* Cedula */}
-             <div className="col">
+            {/* Cedula */}
+            <div className="col">
               <label htmlFor="cedula" style={{ marginBottom: "10px" }}>
-                Cédula <label style={{color: "red"}}>(Obligatorio)</label>:
+                Cédula:
               </label>
               <input
                 type="text"
@@ -188,13 +188,14 @@ export const CrearAlumno = () => {
               />
             </div>
           </div>
-
           <br />
+
+          {/* Direccion */}
           <div className="row">
             {/* Direccion */}
             <div className="col">
               <label htmlFor="direccion" style={{ marginBottom: "10px" }}>
-                Dirección <label style={{color: "red"}}>(Obligatorio)</label>:
+                Dirección:
               </label>
               <input
                 type="text"
@@ -204,7 +205,11 @@ export const CrearAlumno = () => {
                 onChange={(e) => setDireccion(e.target.value)}
               />
             </div>
+          </div>
+          <br />
 
+          {/* Celular, fecha de nacimiento, fecha de ingreso */}
+          <div className="row">
             {/* Celular */}
             <div className="col">
               <label htmlFor="Celular" style={{ marginBottom: "10px" }}>
@@ -232,55 +237,6 @@ export const CrearAlumno = () => {
                 onChange={(e) => setFechaNacimiento(e.target.value)}
               />
             </div>
-          </div>
-
-          <br />
-          <div className="row">
-
-            {/* Genero */}
-            <div className="col">
-              <label htmlFor="Estado" style={{ marginBottom: "10px" }}>
-                Género <label style={{color: "red"}}>(Obligatorio)</label>:
-              </label>
-              <select
-                className="form-select"
-                aria-label="Default select example"
-                value={activo}
-                onChange={(e) => setActivo(e.target.value)}
-              >
-                <option>Género</option>
-                <option value="Femenino">Femenino</option>
-                <option value="Masculino">Masculino</option>
-              </select>
-            </div>
-
-            {/* Peso */}
-            <div className="col">
-              <label htmlFor="Peso" style={{ marginBottom: "10px" }}>
-                Peso:
-              </label>
-              <input
-                type="text"
-                className="form-control"
-                placeholder="Peso"
-                value={peso}
-                onChange={(e) => setPeso(e.target.value)}
-              />
-            </div>
-
-            {/* Altura */}
-            <div className="col">
-              <label htmlFor="Altura" style={{ marginBottom: "10px" }}>
-                Altura:
-              </label>
-              <input
-                type="text"
-                className="form-control"
-                placeholder="Altura"
-                value={altura}
-                onChange={(e) => setAltura(e.target.value)}
-              />
-            </div>
 
             {/* Fecha de ingreso */}
             <div className="col">
@@ -296,13 +252,31 @@ export const CrearAlumno = () => {
               />
             </div>
           </div>
-
           <br />
+
+          {/* Correo electronico, genero */}
           <div className="row">
+            {/* Genero */}
+            <div className="col-4">
+              <label htmlFor="Estado" style={{ marginBottom: "10px" }}>
+                Género:
+              </label>
+              <select
+                className="form-select"
+                aria-label="Default select example"
+                value={activo}
+                onChange={(e) => setActivo(e.target.value)}
+              >
+                <option>Género</option>
+                <option value="Femenino">Femenino</option>
+                <option value="Masculino">Masculino</option>
+              </select>
+            </div>
+
             {/* E-mail */}
             <div className="col">
               <label htmlFor="mail" style={{ marginBottom: "10px" }}>
-                Correo electrónico <label style={{color: "red"}}>(Obligatorio)</label>:
+                Correo electrónico:
               </label>
               <input
                 type="text"
@@ -312,25 +286,15 @@ export const CrearAlumno = () => {
                 onChange={(e) => setEmail(e.target.value)}
               />
             </div>
+          </div>
+          <br />
 
-            {/* Foto */}
-            <div className="col">
-              <label htmlFor="foto" style={{ marginBottom: "10px" }}>
-                Foto:
-              </label>
-              <input
-                type="text"
-                className="form-control"
-                placeholder="Foto (URL)"
-                value={foto}
-                onChange={(e) => setFoto(e.target.value)}
-              />
-            </div>
-
+          {/* Mutualista, Condiciones medicas, Modalidad, Rol */}
+          <div className="row">
             {/* Mutualista */}
             <div className="col">
               <label htmlFor="mutualista" style={{ marginBottom: "10px" }}>
-                Mutualista <label style={{color: "red"}}>(Obligatorio)</label>:
+                Mutualista:
               </label>
               <select
                 className="form-select"
@@ -344,10 +308,7 @@ export const CrearAlumno = () => {
                 ))}
               </select>
             </div>
-          </div>
 
-          <br />
-          <div className="row">
             {/* Condiciones medicas */}
             <div className="col">
               <label htmlFor="condiciones" style={{ marginBottom: "10px" }}>
@@ -362,55 +323,10 @@ export const CrearAlumno = () => {
               />
             </div>
 
-            {/* Medicaciones */}
-            <div className="col">
-              <label htmlFor="medicacion" style={{ marginBottom: "10px" }}>
-                Medicación:
-              </label>
-              <input
-                type="text"
-                className="form-control"
-                placeholder="Si toma algún médicamento"
-                value={medicacion}
-                onChange={(e) => setMedicacion(e.target.value)}
-              />
-            </div>
-
-            {/* Emergencias */}
-            <div className="col">
-              <label htmlFor="emergencias" style={{ marginBottom: "10px" }}>
-                Emergencias:
-              </label>
-              <input
-                type="text"
-                className="form-control"
-                placeholder="Telefono en caso de emergencia"
-                value={emergencias}
-                onChange={(e) => setEmergencias(e.target.value)}
-              />
-            </div>
-          </div>
-
-          <br />
-          <div className="row">
-            {/* Motivo */}
-            <div className="col">
-              <label htmlFor="motivo" style={{ marginBottom: "10px" }}>
-                Motivo del entrenamiento:
-              </label>
-              <input
-                type="text"
-                className="form-control"
-                placeholder="Motivo del entrenamiento"
-                value={motivo}
-                onChange={(e) => setMotivo(e.target.value)}
-              />
-            </div>
-
             {/* Modalidad */}
             <div className="col">
               <label htmlFor="entrenamiento" style={{ marginBottom: "10px" }}>
-                Modalidad <label style={{color: "red"}}>(Obligatorio)</label>:
+                Modalidad:
               </label>
               <select
                 className="form-select"
@@ -431,7 +347,7 @@ export const CrearAlumno = () => {
             </div>
 
             {/* Rol */}
-            <div className="col">
+            <div className="col-2">
               <label htmlFor="rol" style={{ marginBottom: "10px" }}>
                 Rol:
               </label>
@@ -446,41 +362,22 @@ export const CrearAlumno = () => {
                 <option value="Administrador">Administrador</option>
               </select>
             </div>
-
-            
           </div>
-
           <br />
-          <div className="row">
-            {/* Observaciones */}
-            <div className="col">
-              <label htmlFor="observaciones" style={{ marginBottom: "10px" }}>
-                Observaciones:
-              </label>
-              <input
-                type="text"
-                className="form-control"
-                placeholder="Observaciones"
-                value={observaciones}
-                onChange={(e) => setObservaciones(e.target.value)}
-              />
-            </div>
-          </div>
+        </form >
 
-          <br />
-          <div style={{ marginTop: "15px", marginBottom: "75px" }}>
-            <button
-              type="submit"
-              className="btn btn-outline-danger float-end w-25"
-              onClick={(e) => guardar(e)}
-            >
-              Agregar
-            </button>
-          </div>
-        </form>
-
+        <div className="guardar" 
+        style={{ marginTop: "15px", marginBottom: "75px" }}>
+          <button
+            type="button"
+            className="btn btn-outline-success float-end w-25"
+            onClick={(e) => guardar(e)}
+          >
+            Agregar alumno
+          </button>
+        </div>
         <ToastContainer />
-      </div>
+      </div >
     </>
   );
 };

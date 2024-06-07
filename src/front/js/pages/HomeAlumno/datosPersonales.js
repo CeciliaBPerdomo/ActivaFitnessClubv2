@@ -12,6 +12,7 @@ const DatosPersonales = ({ id }) => {
         actions.obtenerDatosAlumno_byId(id)
     }, [])
 
+    // console.log(store.datos_alumno)
     return (
 
         <div className={store.estadoDatosPersonales}>
@@ -89,7 +90,7 @@ const DatosPersonales = ({ id }) => {
                             {/* Boton para actualizar los datos personales */}
                             <div className="row" style={{ marginBottom: "12px", marginTop: "12px" }}>
                                 <div className="col-11">
-                                    <ActualizarDatos id={id} />
+                                    <ActualizarDatos id={id} idMutual={store.datos_alumno}/>
                                 </div>
                             </div>
 
@@ -142,8 +143,8 @@ const DatosPersonales = ({ id }) => {
                                 </div>
                             </div>
 
- {/* Modalidad de entrenamiento */}
- <div className="row">
+                            {/* Modalidad de entrenamiento */}
+                            <div className="row">
                                 <div className="col-11 border border-1" style={{ padding: "8px" }}>
                                     Modalidad: {store.datos_alumno[0]?.descripcionCuota}
                                 </div>

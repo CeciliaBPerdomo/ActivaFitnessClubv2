@@ -706,7 +706,33 @@ const getState = ({ getStore, getActions, setStore }) => {
       },
 
       // Modificar alumno segun datos medicos alumnos_datosmedicos
+      modificarAlumno: async ( id, motivo, condiciones, emergencia, idMutualista, medicacion, observaciones) => {
+        try {
+          const response = await axios.put(direccion + "/api/alumnos_datosmedicos/" + id, {
+            id: id,
+            idmutualista: idMutualista, 
+            condicionesmedicas: condiciones,
+            medicacion: medicacion, 
+            emergencias: emergencia, 
+            motivoentrenamiento: motivo, 
+            observaciones: observaciones
 
+          }, {
+            headers: { Authorization: "Bearer " + localStorage.getItem("Token")},
+          });
+          if (response.status === 200) {
+            return true;
+          }
+        } catch (error) {
+          if (error.code === "ERR_BAD_REQUEST") {
+            console.log(error.response.data.msg);
+            return false;
+          } else {
+            console.error("Error: " + error.response.status + ": " + error.response.statusText );
+            return false;
+          }
+        }
+      },
       // Modificar vencimiento proxima cuota
       proximoVencimiento: async (id, fecha) => {
         try {

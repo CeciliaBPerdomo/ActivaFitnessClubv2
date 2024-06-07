@@ -4,33 +4,40 @@ import { Context } from "../../store/appContext";
 const ActualizarDatosMedicos = ({ id }) => {
     const { actions, store } = useContext(Context)
 
-    const [ motivo, setMotivo ] = useState("")
-    const [ condiciones, setCondiciones ] = useState("")
-    const [ emergencia, setEmergencia] = useState("")
-    const [ idMutualista, setidMutualista ] = useState("")
-    const [ mutualista, setMutualista ] = useState("")
-    const [ medicacion, setMedicacion ] = useState("")
-    const [ observaciones, setObservaciones ] = useState("")
+    const [motivo, setMotivo] = useState("")
+    const [condiciones, setCondiciones] = useState("")
+    const [emergencia, setEmergencia] = useState("")
+    const [idMutualista, setidMutualista] = useState("")
+    const [mutualista, setMutualista] = useState("")
+    const [medicacion, setMedicacion] = useState("")
+    const [observaciones, setObservaciones] = useState("")
 
     useEffect(() => {
-        const fetchData = async () => {
-            await actions.obtenerDatosAlumno_byId(id);
-
-            setMotivo(store.datos_alumno[0].motivoentrenamiento)
-            setCondiciones(store.datos_alumno[0].condicionesmedicas)
-            setEmergencia(store.datos_alumno[0].emergencias)
-            setMutualista(store.datos_alumno[0].nombreMutualista)
-            setidMutualista(store.datos_alumno[0].idMutualista)
-            setMedicacion(store.datos_alumno[0].medicacion)
-            setObservaciones(store.datos_alumno[0].observaciones)
-        };
-
         fetchData();
+        fetchMutualista()
     }, [])
+
+    const fetchData = async () => {
+        await actions.obtenerDatosAlumno_byId(id);
+
+        setMotivo(store.datos_alumno[0].motivoentrenamiento)
+        setCondiciones(store.datos_alumno[0].condicionesmedicas)
+        setEmergencia(store.datos_alumno[0].emergencias)
+        setMutualista(store.datos_alumno[0].nombreMutualista)
+        setidMutualista(store.datos_alumno[0].idMutualista)
+        setMedicacion(store.datos_alumno[0].medicacion)
+        setObservaciones(store.datos_alumno[0].observaciones)
+    };
+
+
+    const fetchMutualista = async () => {
+        await actions.obtenerMutualistas()
+    }
+
 
     const actualizarDatos = async (e) => {
         e.preventDefault()
-        await actions.modificarAlumno(id)
+        await actions.modificarAlumno(id, motivo, condiciones, emergencia, parseInt(idMutualista), medicacion, observaciones)
         await actions.obtenerDatosAlumno_byId(id)
     }
 
@@ -68,12 +75,74 @@ const ActualizarDatosMedicos = ({ id }) => {
                                         onChange={(e) => setMotivo(e.target.value)}
                                     />
                                 </div>
+
+                                {/* Condiciones medicas */}
+                                <div className="mb-4">
+                                    <label className="mb-2">Condiciones médicas:</label>
+                                    <input
+                                        type="text"
+                                        className="form-control"
+                                        value={condiciones}
+                                        onChange={(e) => setCondiciones(e.target.value)}
+                                    />
+                                </div>
+
+                                {/* Emergencias */}
+                                <div className="mb-4">
+                                    <label className="mb-2">Emergencias:</label>
+                                    <input
+                                    maxLength={15}
+                                        type="text"
+                                        className="form-control"
+                                        value={emergencia}
+                                        onChange={(e) => setEmergencia(e.target.value)}
+                                    />
+                                </div>
+
+                                {/* Mutualista */}
+                                <div className="mb-4">
+                                    <label className="mb-2">Mutualista:</label>
+                                    <select
+                                        className="form-select"
+                                        aria-label="Default select example"
+                                        defaultValue={mutualista}
+                                        onChange={(e) => setidMutualista(e.target.value)}
+                                    >
+                                        <option selected>{mutualista}</option>
+                                        {store.mutualistas.map((item, id) => (
+                                            <option key={id} value={item.id}>{item.nombre}</option>
+                                        ))}
+                                    </select>
+                                </div>
+
+                                {/* Medicacion */}
+                                <div className="mb-4">
+                                    <label className="mb-2">Medicación:</label>
+                                    <input
+                                        type="text"
+                                        className="form-control"
+                                        value={medicacion}
+                                        onChange={(e) => setMedicacion(e.target.value)}
+                                    />
+                                </div>
+
+                                {/* Comentarios */}
+                                <div className="mb-4">
+                                    <label className="mb-2">Comentarios:</label>
+                                    <input
+                                        type="text"
+                                        className="form-control"
+                                        value={observaciones}
+                                        onChange={(e) => setObservaciones(e.target.value)}
+                                    />
+                                </div>
+
                             </div>
                         </div>
 
                         {/* Botones */}
                         <div className="modal-footer" style={{ backgroundColor: "black" }}>
-                            <button type="button" className="btn btn-outline-danger" data-bs-dismiss="modal">Actualizar</button>
+                            <button type="button" onClick={(e) => actualizarDatos(e)} className="btn btn-outline-danger" data-bs-dismiss="modal">Actualizar</button>
                             <button type="button" className="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
                         </div>
 

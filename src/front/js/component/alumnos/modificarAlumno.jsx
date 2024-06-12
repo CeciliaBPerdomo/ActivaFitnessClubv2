@@ -36,7 +36,6 @@ export const ModificarAlumno = () => {
     info();
   }, []);
 
-
   const info = async () => {
     let resp = await actions.obtenerDatosAlumno_byId(theid);
 
@@ -61,7 +60,7 @@ export const ModificarAlumno = () => {
       setAltura(store.datos_alumno[0]?.altura)
       setMedicacion(store.datos_alumno[0]?.medicacion)
       setEmergencias(store.datos_alumno[0]?.emergencias)
-      setMotivo(store.datos_alumno[0]?.motivo)
+      setMotivo(store.datos_alumno[0]?.motivoentrenamiento)
       setObservaciones(store.datos_alumno[0]?.observaciones)
       setFoto(store.datos_alumno[0]?.foto)
 

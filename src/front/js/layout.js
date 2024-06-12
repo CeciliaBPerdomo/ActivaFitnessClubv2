@@ -35,6 +35,7 @@ import { CrearAlumno } from "./component/alumnos/crearAlumno.jsx"
 import { ListaAlumnos } from "./component/alumnos/listaAlumnos.jsx"
 import { AlumnoIndividual } from "./component/alumnos/alumnoIndividual.jsx"
 import { ModificarAlumno } from "./component/alumnos/modificarAlumno.jsx"
+import { InfoAdicional } from "./component/alumnos/crearAlumnoInfoOpcional.js";
 
 // Mensualidades
 import { ListadoMensualidades } from "./component/mensualidades/ListadoMensualidades.jsx"
@@ -147,6 +148,7 @@ const Layout = () => {
                         <Route element={<ListaAlumnos />} path="/ListadoAlumnos" />
                         <Route element={<AlumnoIndividual />} path="/AlumnoIndividual/:theid/:theidMutualista" />
                         <Route element={<ModificarAlumno />} path="/ModificarAlumno/:theid" />
+                        <Route element={<InfoAdicional />} path="/infoAdicional/:id" />
 
                         {/* Mensualidades */}
                         <Route element={<CrearMensualidad />} path="/CrearMensualidad" />

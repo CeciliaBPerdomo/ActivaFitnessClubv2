@@ -308,9 +308,15 @@ def getAlumos():
 @jwt_required()
 def addAlumnos():
     body = json.loads(request.data)
-
     queryNewAlumno = Usuarios.query.filter_by(cedula=body["cedula"]).first()
 
+    if queryNewAlumno:
+        return jsonify({"msg": "La cédula ya fue ingresada anteriormente"}), 404
+    
+    queryMail = Usuarios.query.filter_by(email=body["email"]).first()
+    if queryMail:
+        return jsonify({"msg": "El correo electrónico ya fue ingresado anteriormente"}), 404
+    
     #Password
     pw_hash = current_app.bcrypt.generate_password_hash(body["cedula"]).decode("utf-8")
     
@@ -343,9 +349,7 @@ def addAlumnos():
         db.session.commit()
 
         return jsonify(new_alumno.serialize()), 200
-    
-    response_body = {"msg": "Este usuario ya existente"}
-    return jsonify(response_body), 400
+    return jsonify({"msg": "Este usuario ya existente"}), 400
 
 # Elimina un alumno
 @api.route('/alumnos/<int:alumno_id>', methods=['DELETE'])
@@ -438,7 +442,10 @@ def usersModif_porId(user_id):
 
     if "cedula" in body:
         usuario.cedula =  body["cedula"]
-       # usuario.password = body["cedula"]
+        
+        #Actualiza la contraseña para que sea la cedula
+        pw_hash = current_app.bcrypt.generate_password_hash(body["cedula"]).decode("utf-8")
+        usuario.password = pw_hash
 
     if "nombre" in body: 
         usuario.nombre = body["nombre"]

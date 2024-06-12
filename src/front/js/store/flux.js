@@ -51,7 +51,8 @@ const getState = ({ getStore, getActions, setStore }) => {
       estadoPagosPersonales: "invisible",
       estadoRutinas: "invisible",
       estadoTienda: "invisible", 
-      datos_alumno: []
+      datos_alumno: [],
+      msgErrores: ""
     },
 
     actions: {
@@ -518,14 +519,15 @@ const getState = ({ getStore, getActions, setStore }) => {
             idcuota: idcuota,
             idmutualista: idmutualista,
           }, {
-            headers: {
-              Authorization: "Bearer " + localStorage.getItem("Token"),
-            },
+            headers: { Authorization: "Bearer " + localStorage.getItem("Token")},
           });
           if (response.status === 200) {
+            setStore({alumno: response.data})
             return true;
-          }
+          } 
         } catch (error) {
+          setStore({msgErrores: error.response.data.msg})
+          console.log(error.response.data.msg)
           console.error(
             "Error " + error.response.status + ": " + error.response.statusText,
           );
@@ -585,9 +587,79 @@ const getState = ({ getStore, getActions, setStore }) => {
             { headers: { Authorization: "Bearer " + localStorage.getItem("Token") }},
           );
           setStore({ datos_alumno: response.data });
+          return true
         } catch (error) {
           if (error.code === "ERR_BAD_REQUEST") {
             console.log(error.response.data.msg);
+          }
+        }
+      },
+
+      // Modificar Alumno
+      modificarAlumno_desdeAdmin: async (
+        id,
+        cedula,
+        nombre,
+        apellido,
+        direccionAlumno,
+        celular,
+        fechanacimiento,
+        peso,
+        altura,
+        email,
+        idmutualista,
+        condicionesmedicas,
+        medicacion,
+        emergencias,
+        motivoentrenamiento,
+        idcuota,
+        rol,
+        genero,
+        observaciones,
+        fechaingreso,
+        foto,
+      ) => {
+        try {
+          const response = await axios.put(direccion + "/api/alumnos/" + id, {
+            id: id,
+            cedula: cedula,
+            nombre: nombre,
+            apellido: apellido,
+            direccion: direccionAlumno,
+            email: email,
+            fechanacimiento: fechanacimiento,
+            condicionesmedicas: condicionesmedicas,
+            medicacion: medicacion,
+            emergencias: emergencias,
+            rol: rol,
+            motivoentrenamiento: motivoentrenamiento,
+            observaciones: observaciones,
+            foto: foto,
+            celular: celular,
+            peso: peso,
+            altura: altura,
+            fechaingreso: fechaingreso,
+            genero: genero,
+            idcuota: idcuota,
+            idmutualista: idmutualista,
+          }, {
+            headers: {
+              Authorization: "Bearer " + localStorage.getItem("Token"),
+            },
+          });
+          if (response.status === 200) {
+            return true;
+          }
+        } catch (error) {
+          if (error.code === "ERR_BAD_REQUEST") {
+            console.log(error.response.data.msg);
+            return false;
+          } else {
+            console.error(
+              "Error " + error.response.status + ": " +
+              error.response.statusText,
+            );
+            return false;
           }
         }
       },

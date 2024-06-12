@@ -6,71 +6,78 @@ import "react-toastify/dist/ReactToastify.css";
 
 export const ModificarAlumno = () => {
   const { store, actions } = useContext(Context);
-  const params = useParams();
+  const { theid, theidMutualista } = useParams();
 
-  const [cedula, setCedula] = useState(store.alumno[0]?.cedula);
-  const [nombre, setNombre] = useState(store.alumno[0]?.nombre);
-  const [apellido, setApellido] = useState(store.alumno[0]?.apellido);
-  const [direccion, setDireccion] = useState(store.alumno[0]?.direccion);
-  const [celular, setCelular] = useState(store.alumno[0]?.celular);
-  const [fechanacimiento, setFechaNacimiento] = useState(
-    store.alumno[0]?.fechanacimiento,
-  );
-  const [peso, setPeso] = useState(store.alumno[0]?.peso);
-  const [altura, setAltura] = useState(store.alumno[0]?.altura);
-  const [email, setEmail] = useState(store.alumno[0]?.email);
-  const [mutualista, setMutualista] = useState(store.alumno[0]?.idmutualista);
-  const [condiciones, setCondiciones] = useState(
-    store.alumno[0]?.condicionesmedicas,
-  );
-  const [medicacion, setMedicacion] = useState(store.alumno[0]?.medicacion);
-  const [emergencias, setEmergencias] = useState(store.alumno[0]?.emergencias);
-  const [motivo, setMotivo] = useState(store.alumno[0]?.motivo);
-  const [cuota, setCuota] = useState(store.alumno[0]?.idcuota);
-  const [rol, setRol] = useState(store.alumno[0]?.rol);
-  const [activo, setActivo] = useState(store.alumno[0]?.activo); // Genero
-  const [observaciones, setObservaciones] = useState(
-    store.alumno[0]?.observaciones,
-  );
-  const [ingreso, setIngreso] = useState(store.alumno[0]?.fechaingreso);
-  const [foto, setFoto] = useState(store.alumno[0]?.foto);
+  const [cedula, setCedula] = useState("");
+  const [nombre, setNombre] = useState("");
+  const [apellido, setApellido] = useState("");
+  const [direccion, setDireccion] = useState("");
+  const [celular, setCelular] = useState("");
+  const [fechanacimiento, setFechaNacimiento] = useState("");
+  const [peso, setPeso] = useState("");
+  const [altura, setAltura] = useState("");
+  const [email, setEmail] = useState("");
+  const [mutualista, setMutualista] = useState("");
+  const [condiciones, setCondiciones] = useState("");
+  const [medicacion, setMedicacion] = useState("");
+  const [emergencias, setEmergencias] = useState("");
+  const [motivo, setMotivo] = useState("");
+  const [cuota, setCuota] = useState("");
+  const [rol, setRol] = useState("");
+  const [genero, setGenero] = useState(""); // Genero
+  const [observaciones, setObservaciones] = useState("");
+  const [ingreso, setIngreso] = useState("");
+  const [foto, setFoto] = useState("");
+
+  const [nombreMutualista, setNombreMutualista] = useState("")
+  const [modalidad, setModalidad] = useState("")
 
   useEffect(() => {
-    const info = async () => {
-      await actions.obtenerAlumnoId(parseInt(params.theid));
-    };
-
-    actions.obtenerMutualistas();
-    actions.obtenerMutualistaId(parseInt(params.theidMutualista));
-
     info();
   }, []);
 
+
+  const info = async () => {
+    let resp = await actions.obtenerDatosAlumno_byId(theid);
+
+    if (resp) {
+      setCedula(store.datos_alumno[0]?.cedula)
+      setNombre(store.datos_alumno[0]?.nombre)
+      setApellido(store.datos_alumno[0]?.apellido)
+      setCedula(store.datos_alumno[0]?.cedula)
+      setCelular(store.datos_alumno[0]?.celular)
+      setDireccion(store.datos_alumno[0]?.direccion)
+
+      setFechaNacimiento(store.datos_alumno[0]?.fechanacimiento)
+      setIngreso(store.datos_alumno[0]?.fechaingreso)
+      setGenero(store.datos_alumno[0]?.genero)
+      setEmail(store.datos_alumno[0]?.email)
+      setMutualista(store.datos_alumno[0]?.idMutualista)
+      setCondiciones(store.datos_alumno[0]?.condicionesmedicas)
+      setCuota(store.datos_alumno[0]?.idCuota) //Modalidad de entrenamiento
+      setRol(store.datos_alumno[0]?.rol)
+
+      setPeso(store.datos_alumno[0]?.peso)
+      setAltura(store.datos_alumno[0]?.altura)
+      setMedicacion(store.datos_alumno[0]?.medicacion)
+      setEmergencias(store.datos_alumno[0]?.emergencias)
+      setMotivo(store.datos_alumno[0]?.motivo)
+      setObservaciones(store.datos_alumno[0]?.observaciones)
+      setFoto(store.datos_alumno[0]?.foto)
+
+      setNombreMutualista(store.datos_alumno[0]?.nombreMutualista)
+      setModalidad(store.datos_alumno[0]?.descripcionCuota) 
+    }
+
+    await actions.obtenerMutualistas();
+  };
+
   const modificar = async (e) => {
     e.preventDefault()
-    let id = parseInt(params.theid)
 
-    let resultado = await actions.modificarAlumno(id,
-      cedula,
-      nombre,
-      apellido,
-      direccion,
-      celular,
-      fechanacimiento,
-      peso,
-      altura,
-      email,
-      mutualista,
-      condiciones,
-      medicacion,
-      emergencias,
-      motivo,
-      cuota,
-      rol,
-      activo,
-      observaciones,
-      ingreso,
-      foto)
+    let resultado = await actions.modificarAlumno_desdeAdmin(theid, cedula, nombre, apellido,
+      direccion, celular, fechanacimiento, peso, altura, email, mutualista, condiciones, medicacion,
+      emergencias, motivo, cuota, rol, genero, observaciones, ingreso, foto)
 
     if (resultado === true) {
       toast.success("💪 Modificación realizada con éxito", {
@@ -107,22 +114,10 @@ export const ModificarAlumno = () => {
         <hr />
         <br />
 
-        <form>
-          <div className="row">
-            {/* Cedula */}
-            <div className="col">
-              <label htmlFor="cedula" style={{ marginBottom: "10px" }}>
-                Cédula:
-              </label>
-              <input
-                type="text"
-                className="form-control"
-                placeholder="Cédula (sin puntos ni guiones)"
-                defaultValue={store.alumno[0]?.cedula}
-                onChange={(e) => setCedula(e.target.value)}
-              />
-            </div>
+        <form className="border border-1 border-danger" style={{ padding: "10px" }}>
 
+          {/* Nombre, Apellido, Cedula */}
+          <div className="row">
             {/* Nombre */}
             <div className="col">
               <label htmlFor="nombre" style={{ marginBottom: "10px" }}>
@@ -132,7 +127,7 @@ export const ModificarAlumno = () => {
                 type="text"
                 className="form-control"
                 placeholder="Nombre"
-                defaultValue={store.alumno[0]?.nombre}
+                value={nombre}
                 onChange={(e) => setNombre(e.target.value)}
               />
             </div>
@@ -146,13 +141,28 @@ export const ModificarAlumno = () => {
                 type="text"
                 className="form-control"
                 placeholder="Apellido"
-                defaultValue={store.alumno[0]?.apellido}
+                value={apellido}
                 onChange={(e) => setApellido(e.target.value)}
               />
             </div>
-          </div>
 
+            {/* Cedula */}
+            <div className="col">
+              <label htmlFor="cedula" style={{ marginBottom: "10px" }}>
+                Cédula:
+              </label>
+              <input
+                type="text"
+                className="form-control"
+                placeholder="Cédula (sin puntos ni guiones)"
+                value={cedula}
+                onChange={(e) => setCedula(e.target.value)}
+              />
+            </div>
+          </div>
           <br />
+
+          {/* Direccion, Celular, Fecha de nacimento */}
           <div className="row">
             {/* Direccion */}
             <div className="col">
@@ -163,7 +173,7 @@ export const ModificarAlumno = () => {
                 type="text"
                 className="form-control"
                 placeholder="Dirección"
-                defaultValue={store.alumno[0]?.direccion}
+                value={direccion}
                 onChange={(e) => setDireccion(e.target.value)}
               />
             </div>
@@ -177,7 +187,7 @@ export const ModificarAlumno = () => {
                 type="text"
                 className="form-control"
                 placeholder="Celular"
-                defaultValue={store.alumno[0]?.celular}
+                value={celular}
                 onChange={(e) => setCelular(e.target.value)}
               />
             </div>
@@ -191,13 +201,14 @@ export const ModificarAlumno = () => {
                 type="date"
                 className="form-control"
                 placeholder="Fecha de nacimiento"
-                defaultValue={store.alumno[0]?.fechanacimiento}
+                value={fechanacimiento}
                 onChange={(e) => setFechaNacimiento(e.target.value)}
               />
             </div>
           </div>
-
           <br />
+
+          {/* Genero, Peso, Altura y fecha de ingreso */}
           <div className="row">
             {/* Genero */}
             <div className="col">
@@ -207,10 +218,10 @@ export const ModificarAlumno = () => {
               <select
                 className="form-select"
                 aria-label="Default select example"
-                defaultValue={store.alumno[0]?.activo}
-                onChange={(e) => setActivo(e.target.value)}
+                value={genero}
+                onChange={(e) => setGenero(e.target.value)}
               >
-                <option>{store.alumno[0]?.activo}</option>
+                <option>{store.alumno[0]?.genero}</option>
                 <option value="Femenino">Femenino</option>
                 <option value="Masculino">Masculino</option>
               </select>
@@ -225,7 +236,7 @@ export const ModificarAlumno = () => {
                 type="text"
                 className="form-control"
                 placeholder="Peso"
-                defaultValue={store.alumno[0]?.peso}
+                value={peso}
                 onChange={(e) => setPeso(e.target.value)}
               />
             </div>
@@ -239,7 +250,7 @@ export const ModificarAlumno = () => {
                 type="text"
                 className="form-control"
                 placeholder="Altura"
-                defaultValue={store.alumno[0]?.altura}
+                value={altura}
                 onChange={(e) => setAltura(e.target.value)}
               />
             </div>
@@ -253,13 +264,14 @@ export const ModificarAlumno = () => {
                 type="date"
                 className="form-control"
                 placeholder="Fecha de ingreso"
-                defaultValue={store.alumno[0]?.fechaingreso}
+                value={ingreso}
                 onChange={(e) => setIngreso(e.target.value)}
               />
             </div>
           </div>
-
           <br />
+
+          {/* Email, foto, mutualista */}
           <div className="row">
             {/* E-mail */}
             <div className="col">
@@ -270,7 +282,7 @@ export const ModificarAlumno = () => {
                 type="text"
                 className="form-control"
                 placeholder="Correo electrónico"
-                defaultValue={store.alumno[0]?.email}
+                value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
             </div>
@@ -284,7 +296,7 @@ export const ModificarAlumno = () => {
                 type="text"
                 className="form-control"
                 placeholder="Foto (URL)"
-                defaultValue={store.alumno[0]?.foto}
+                value={foto}
                 onChange={(e) => setFoto(e.target.value)}
               />
             </div>
@@ -297,18 +309,19 @@ export const ModificarAlumno = () => {
               <select
                 className="form-select"
                 aria-label="Default select example"
-                defaultValue={store.alumno[0]?.idmutualista}
+                value={mutualista}
                 onChange={(e) => setMutualista(e.target.value)}
               >
-                <option selected>{store.alumno[0]?.idmutualista}</option>
+                <option selected>{nombreMutualista}</option>
                 {store.mutualistas.map((item, id) => (
                   <option key={id} value={item.id}>{item.nombre}</option>
                 ))}
               </select>
             </div>
           </div>
-
           <br />
+
+          {/* Condiciones medicas, medicacion, emergencias */}
           <div className="row">
             {/* Condiciones medicas */}
             <div className="col">
@@ -319,7 +332,7 @@ export const ModificarAlumno = () => {
                 type="text"
                 className="form-control"
                 placeholder="Condiciones médicas"
-                defaultValue={store.alumno[0]?.condicionesmedicas}
+                value={condiciones}
                 onChange={(e) => setCondiciones(e.target.value)}
               />
             </div>
@@ -333,7 +346,7 @@ export const ModificarAlumno = () => {
                 type="text"
                 className="form-control"
                 placeholder="Si toma algún médicamento"
-                defaultValue={store.alumno[0]?.medicacion}
+                value={medicacion}
                 onChange={(e) => setMedicacion(e.target.value)}
               />
             </div>
@@ -347,13 +360,14 @@ export const ModificarAlumno = () => {
                 type="text"
                 className="form-control"
                 placeholder="Telefono en caso de emergencia"
-                defaultValue={store.alumno[0]?.emergencias}
+                value={emergencias}
                 onChange={(e) => setEmergencias(e.target.value)}
               />
             </div>
           </div>
-
           <br />
+
+          {/* Motivo del entrenamiento, modalidad, rol */}
           <div className="row">
             {/* Motivo */}
             <div className="col">
@@ -364,7 +378,7 @@ export const ModificarAlumno = () => {
                 type="text"
                 className="form-control"
                 placeholder="Motivo del entrenamiento"
-                defaultValue={store.alumno[0]?.motivoentrenamiento}
+                value={motivo}
                 onChange={(e) => setMotivo(e.target.value)}
               />
             </div>
@@ -377,10 +391,10 @@ export const ModificarAlumno = () => {
               <select
                 className="form-select"
                 aria-label="Default select example"
-                defaultValue={store.alumno[0]?.cuotasInfo.descripcion}
+                value={cuota}
                 onChange={(e) => setCuota(e.target.value)}
               >
-                <option>{store.alumno[0]?.cuotasInfo.descripcion}</option>
+                <option>{modalidad}</option>
                 {store.cuotas.map((item, id) => (
                   <option
                     key={id}
@@ -400,7 +414,7 @@ export const ModificarAlumno = () => {
               <select
                 className="form-select"
                 aria-label="Default select example"
-                defaultValue={store.alumno[0]?.rol}
+                value={rol}
                 onChange={(e) => setRol(e.target.value)}
               >
                 <option value="Alumno">Alumno</option>
@@ -410,8 +424,9 @@ export const ModificarAlumno = () => {
 
 
           </div>
-
           <br />
+
+          {/* Observaciones */}
           <div className="row">
             {/* Observaciones */}
             <div className="col">
@@ -422,23 +437,24 @@ export const ModificarAlumno = () => {
                 type="text"
                 className="form-control"
                 placeholder="Observaciones"
-                defaultValue={store.alumno[0]?.observaciones}
+                value={observaciones}
                 onChange={(e) => setObservaciones(e.target.value)}
               />
             </div>
           </div>
-
-          <br />
-          <div style={{ marginTop: "15px" }}>
-            <button
-              type="submit"
-              className="btn btn-outline-danger float-end w-25"
-              onClick={(e) => modificar(e)}
-            >
-              Modificar
-            </button>
-          </div>
         </form>
+
+        {/* Boton de actualizar info*/}
+        <div style={{ marginTop: "15px" }}>
+          <button
+            type="submit"
+            className="btn btn-outline-danger float-end w-25"
+            onClick={(e) => modificar(e)}
+          >
+            Modificar info alumno
+          </button>
+        </div>
+
       </div>
       <ToastContainer />
       <br />

@@ -1,8 +1,13 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Context } from "../../store/appContext";
 import { Link } from "react-router-dom";
+
+// Alertas 
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Swal from 'sweetalert2'
+
+// Hora
 import moment from "moment";
 
 export const ListaAlumnos = () => {
@@ -13,33 +18,35 @@ export const ListaAlumnos = () => {
     actions.obtenerAlumnos();
   }, []);
 
-  const borrar = async (e, id) => {
+  const borrar = async (e, item) => {
     e.preventDefault();
-    let resultado = await actions.borrarAlumno(id)
 
-    if (resultado === true) {
-      toast.success("🤚 Borrado con éxito", {
-        position: toast.POSITION.TOP_RIGHT,
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "dark",
-      });
-    } else {
-      toast.error("🤚 No se puede borrar", {
-        position: toast.POSITION.TOP_RIGHT,
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "dark",
-      });
-    }
+    Swal.fire({
+      position: 'center',
+      showClass: { popup: 'animate__animated animate__fadeInDown' },
+      hideClass: { popup: 'animate__animated animate__fadeOutUp' },
+      title: `¿Estás seguro?`,
+      text: `No podrás recuperar la info de ${item.nombre} ${item.apellido} luego!`,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Si, borralo!',
+      cancelButtonText: 'No!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        actions.borrarAlumno(item.id),
+          Swal.fire({
+            position: 'center',
+            title: 'Borrado!',
+            text: `El/La alumno/a ${item.nombre} ${item.apellido} ha sido eliminado/a`,
+            icon: 'success'
+          }
+          )
+      }
+    })
+
+
   };
 
   // Buscador
@@ -59,7 +66,7 @@ export const ListaAlumnos = () => {
           <input
             type="text"
             className="form-control "
-            placeholder = "Buscar alumno..."
+            placeholder="Buscar alumno..."
             onChange={(e) => setBusqueda(e.target.value)}
             value={busqueda}
           />
@@ -83,20 +90,20 @@ export const ListaAlumnos = () => {
               <tr>
                 <th scope="col">Fecha de ingreso</th>
                 <th scope="col">Nombre
-                <button type="button" 
-                    className="btn btn-outline-danger btn-sm" 
-                    style={{marginLeft: "5px", fontSize: "12px"}}
+                  <button type="button"
+                    className="btn btn-outline-danger btn-sm"
+                    style={{ marginLeft: "5px", fontSize: "12px" }}
                     onClick={() => actions.ordenarAlumnosDesc()}
                   >
-                       ↑ 
+                    ↑
                   </button>
-                  
-                  <button type="button" 
-                    className="btn btn-outline-danger btn-sm" 
-                    style={{marginLeft: "5px", fontSize: "12px"}}
+
+                  <button type="button"
+                    className="btn btn-outline-danger btn-sm"
+                    style={{ marginLeft: "5px", fontSize: "12px" }}
                     onClick={() => actions.ordenarAlumnosAsc()}
                   >
-                     ↓ 
+                    ↓
                   </button>
                 </th>
                 <th scope="col">Dirección</th>
@@ -116,7 +123,7 @@ export const ListaAlumnos = () => {
                   <td className="align-middle">{item.nombre} {item.apellido}</td>
                   <td className="align-middle">{item.direccion}</td>
                   <td className="align-middle">{item.cuotasInfo.descripcion}</td>
-                  <td className="text-center align-middle"> 
+                  <td className="text-center align-middle">
                     <Link
                       to={"/AlumnoIndividual/" + item.id +
                         "/" + item.idmutualista}
@@ -131,13 +138,13 @@ export const ListaAlumnos = () => {
                     </Link>
                   </td>
                   <td className="text-center align-middle">
-                  <Link to={"/nueva_rutina/" + item.id} style={{ color: "white" }}>
-                    <i className="fa fa-dumbbell"></i>
+                    <Link to={"/nueva_rutina/" + item.id} style={{ color: "white" }}>
+                      <i className="fa fa-dumbbell"></i>
                     </Link>
                   </td>
                   <td className="text-center align-middle">
                     <Link to={"/ingresar_ventas_por_alumno/" + item.id} style={{ color: "white" }}>
-                    <i className="fa fa-cart-plus"></i>
+                      <i className="fa fa-cart-plus"></i>
                     </Link>
                   </td>
                   <td className="text-center align-middle">
@@ -151,7 +158,7 @@ export const ListaAlumnos = () => {
                   <td className="text-center align-middle">
                     <i
                       className="fa fa-trash"
-                      onClick={(e) => borrar(e, item.id)}
+                      onClick={(e) => borrar(e, item)}
                     >
                     </i>
                   </td>

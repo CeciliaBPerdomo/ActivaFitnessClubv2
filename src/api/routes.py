@@ -21,6 +21,9 @@ from flask_jwt_extended import create_access_token
 from flask_jwt_extended import get_jwt_identity
 from flask_jwt_extended import jwt_required
 
+# Encriptacion de contraseña
+import bcrypt
+
 api = Blueprint('api', __name__)
 
 @api.route('/hello', methods=['POST', 'GET'])
@@ -444,7 +447,7 @@ def usersModif_porId(user_id):
         usuario.cedula =  body["cedula"]
         
         #Actualiza la contraseña para que sea la cedula
-        pw_hash = current_app.bcrypt.generate_password_hash(body["cedula"]).decode("utf-8")
+        pw_hash = current_app.bcrypt.generate_password_hash(body["password"]).decode("utf-8")
         usuario.password = pw_hash
 
     if "nombre" in body: 

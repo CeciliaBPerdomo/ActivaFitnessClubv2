@@ -642,6 +642,7 @@ const getState = ({ getStore, getActions, setStore }) => {
             genero: genero,
             idcuota: idcuota,
             idmutualista: idmutualista,
+            password: cedula.toString()
           }, {
             headers: {
               Authorization: "Bearer " + localStorage.getItem("Token"),

@@ -15,6 +15,18 @@ const ActualizarDatos = ({ id }) => {
     const [genero, setGenero] = useState("")
     const [fecha, setFecha] = useState("")
 
+    const [motivo, setMotivo] = useState("")
+    const [condiciones, setCondiciones] = useState("")
+    const [emergencia, setEmergencia] = useState("")
+    const [idMutualista, setidMutualista] = useState("")
+    const [medicacion, setMedicacion] = useState("")
+    const [observaciones, setObservaciones] = useState("")
+
+    const [idCuota, setIdCuota] = useState("")
+    const [rol, setRol] = useState("")
+    const [fechaIngreso, setFechaIngreso] = useState("")
+    const [foto, setFoto] = useState("")
+
 
     useEffect(() => {
         const fetchData = async () => {
@@ -30,6 +42,18 @@ const ActualizarDatos = ({ id }) => {
             setAltura(store.datos_alumno[0].altura)
             setGenero(store.datos_alumno[0].genero)
             setFecha(store.datos_alumno[0].fechanacimiento)
+
+            setMotivo(store.datos_alumno[0].motivoentrenamiento)
+            setCondiciones(store.datos_alumno[0].condicionesmedicas)
+            setEmergencia(store.datos_alumno[0].emergencias)
+            setidMutualista(store.datos_alumno[0].idMutualista)
+            setMedicacion(store.datos_alumno[0].medicacion)
+            setObservaciones(store.datos_alumno[0].observaciones)
+
+            setIdCuota(store.datos_alumno[0].idCuota)
+            setRol(store.datos_alumno[0].rol)
+            setFechaIngreso(store.datos_alumno[0].fechaingreso)
+            setFoto(store.datos_alumno[0].foto)
         };
 
         fetchData();
@@ -38,7 +62,10 @@ const ActualizarDatos = ({ id }) => {
 
     const actualizarDatos = async (e) => {
         e.preventDefault()
-        await actions.modificarAlumno (id, nombre, apellido, direccion, cedula, celular, correo, genero, fecha, peso, altura )
+        await actions.modificarAlumno_desdeAdmin(id, cedula, nombre, apellido,
+            direccion, celular, fecha, peso, altura, correo,
+            idMutualista, condiciones, medicacion, emergencia, motivo,
+            idCuota, rol, genero, observaciones, fechaIngreso, foto)
         await actions.obtenerDatosAlumno_byId(id)
     }
 

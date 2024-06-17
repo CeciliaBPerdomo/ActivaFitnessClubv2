@@ -12,6 +12,22 @@ const ActualizarDatosMedicos = ({ id }) => {
     const [medicacion, setMedicacion] = useState("")
     const [observaciones, setObservaciones] = useState("")
 
+    const [nombre, setNombre] = useState("")
+    const [apellido, setApellido] = useState("")
+    const [direccion, setDireccion] = useState("")
+    const [cedula, setCedula] = useState("")
+    const [celular, setCelular] = useState("")
+    const [correo, setCorreo] = useState("")
+    const [peso, setPeso] = useState("")
+    const [altura, setAltura] = useState("")
+    const [genero, setGenero] = useState("")
+    const [fecha, setFecha] = useState("")
+
+    const [idCuota, setIdCuota] = useState("")
+    const [rol, setRol] = useState("")
+    const [fechaIngreso, setFechaIngreso] = useState("")
+    const [foto, setFoto] = useState("")
+
     useEffect(() => {
         fetchData();
         fetchMutualista()
@@ -27,6 +43,22 @@ const ActualizarDatosMedicos = ({ id }) => {
         setidMutualista(store.datos_alumno[0].idMutualista)
         setMedicacion(store.datos_alumno[0].medicacion)
         setObservaciones(store.datos_alumno[0].observaciones)
+
+        setNombre(store.datos_alumno[0].nombre)
+        setApellido(store.datos_alumno[0].apellido)
+        setDireccion(store.datos_alumno[0].direccion)
+        setCedula(store.datos_alumno[0].cedula)
+        setCelular(store.datos_alumno[0].celular)
+        setCorreo(store.datos_alumno[0].email)
+        setPeso(store.datos_alumno[0].peso)
+        setAltura(store.datos_alumno[0].altura)
+        setGenero(store.datos_alumno[0].genero)
+        setFecha(store.datos_alumno[0].fechanacimiento)
+
+        setIdCuota(store.datos_alumno[0].idCuota)
+        setRol(store.datos_alumno[0].rol)
+        setFechaIngreso(store.datos_alumno[0].fechaingreso)
+        setFoto(store.datos_alumno[0].foto)
     };
 
 
@@ -37,7 +69,10 @@ const ActualizarDatosMedicos = ({ id }) => {
 
     const actualizarDatos = async (e) => {
         e.preventDefault()
-        await actions.modificarAlumno(id, motivo, condiciones, emergencia, parseInt(idMutualista), medicacion, observaciones)
+        await actions.modificarAlumno_desdeAdmin(id, cedula, nombre, apellido,
+            direccion, celular, fecha, peso, altura, correo,
+            idMutualista, condiciones, medicacion, emergencia, motivo,
+            idCuota, rol, genero, observaciones, fechaIngreso, foto)
         await actions.obtenerDatosAlumno_byId(id)
     }
 
@@ -91,7 +126,7 @@ const ActualizarDatosMedicos = ({ id }) => {
                                 <div className="mb-4">
                                     <label className="mb-2">Emergencias:</label>
                                     <input
-                                    maxLength={15}
+                                        maxLength={15}
                                         type="text"
                                         className="form-control"
                                         value={emergencia}

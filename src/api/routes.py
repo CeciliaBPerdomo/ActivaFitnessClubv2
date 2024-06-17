@@ -524,7 +524,9 @@ def usersModif_datospersonales_porId(user_id):
 
     if "cedula" in body:
         usuario.cedula =  body["cedula"]
-       # usuario.password = body["cedula"]
+        #Actualiza la contraseña para que sea la cedula
+        pw_hash = current_app.bcrypt.generate_password_hash(body["password"]).decode("utf-8")
+        usuario.password = pw_hash
 
     if "nombre" in body: 
         usuario.nombre = body["nombre"]

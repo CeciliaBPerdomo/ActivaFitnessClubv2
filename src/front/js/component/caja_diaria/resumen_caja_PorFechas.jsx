@@ -13,7 +13,7 @@ import { jsPDF } from "jspdf";
 import activa from "../../../img/LogoSinFondo.png"
 import autoTable from 'jspdf-autotable'
 
-// Calculos
+// Calculos para el pdf
 let CantidadAlumnos = 0
 let montoTotal = 0
 
@@ -135,6 +135,24 @@ export const ResumenCajaDiariaPorFecha = () => {
         let fechaF = fechaFin.slice(0, 10)
         await actions.ordenarMensualidades(fechaI, fechaF, ordenar, tipo)
     }
+
+    // Calcular la cantidad de alumnos antes de renderizar
+    const cantidad_Alumnos = store.movimientosDiarios?.length;
+    const monto_Total = store.movimientosDiarios.reduce((total, item) => total + parseFloat(item.monto), 0);
+
+    // Filtrar pagos por método y calcular totales por cada uno
+    const pagosEfectivo = store.movimientosDiarios.filter(pago => pago.metodo === "Efectivo $");
+    const pagosDeposito = store.movimientosDiarios.filter(pago => pago.metodo.includes("Transferencia BBVA"));
+    const pagosDepositoBROU = store.movimientosDiarios.filter(pago => pago.metodo.includes("Transferencia BROU"));
+    const pagosPOS = store.movimientosDiarios.filter(pago => pago.metodo.includes("POS"));
+
+    const totalEfectivo = pagosEfectivo.reduce((total, pago) => total + parseFloat(pago.monto), 0);
+    const totalDepositoBBVA = pagosDeposito.reduce((total, pago) => total + parseFloat(pago.monto), 0);
+    const totalDepositoBROU = pagosDepositoBROU.reduce((total, pago) => total + parseFloat(pago.monto), 0);
+    const totalDepositoPOS = pagosPOS.reduce((total, pago) => total + parseFloat(pago.monto), 0);
+
+
+    console.log(store.movimientosDiarios)
 
     return (
         <>
@@ -280,6 +298,20 @@ export const ResumenCajaDiariaPorFecha = () => {
                         </tbody>
                     </table>
                 </div>
+                <br />
+
+                {cantidad_Alumnos > 0 ?
+                    <div className="row border border-1 border-danger text-end" style={{ padding: "10px" }}>
+                        <span>Cantidad de alumnos: <b>{cantidad_Alumnos}</b></span>
+                        <p>Pago total: $<b>{monto_Total}</b></p>
+
+                        <hr />
+                        {totalEfectivo > 0 ? <span>Pago total en efectivo: $ <b>{totalEfectivo}</b></span> : null}
+                        {totalDepositoBBVA > 0 ? <span>Transferencias en BBVA $ <b>{totalDepositoBBVA}</b></span> : null}
+                        {totalDepositoBROU > 0 ? <span>Transferencias en BROU $ <b>{totalDepositoBROU}</b></span> : null}
+                        {totalDepositoPOS > 0 ? <span>POS $ {totalDepositoPOS}</span> : null}
+                    </div>
+                    : null}
 
                 <br />
                 <div>

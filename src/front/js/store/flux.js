@@ -50,7 +50,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       estadoDatosPersonales: "invisible",
       estadoPagosPersonales: "invisible",
       estadoRutinas: "invisible",
-      estadoTienda: "invisible", 
+      estadoTienda: "invisible",
       datos_alumno: [],
       msgErrores: ""
     },
@@ -519,14 +519,14 @@ const getState = ({ getStore, getActions, setStore }) => {
             idcuota: idcuota,
             idmutualista: idmutualista,
           }, {
-            headers: { Authorization: "Bearer " + localStorage.getItem("Token")},
+            headers: { Authorization: "Bearer " + localStorage.getItem("Token") },
           });
           if (response.status === 200) {
-            setStore({alumno: response.data})
+            setStore({ alumno: response.data })
             return true;
-          } 
+          }
         } catch (error) {
-          setStore({msgErrores: error.response.data.msg})
+          setStore({ msgErrores: error.response.data.msg })
           console.log(error.response.data.msg)
           console.error(
             "Error " + error.response.status + ": " + error.response.statusText,
@@ -570,8 +570,8 @@ const getState = ({ getStore, getActions, setStore }) => {
       // Obtener alumno por id
       obtenerAlumnoId: async (id) => {
         try {
-          const response = await axios.get( direccion + "/api/alumnos/" + id,
-            { headers: { Authorization: "Bearer " + localStorage.getItem("Token") }},
+          const response = await axios.get(direccion + "/api/alumnos/" + id,
+            { headers: { Authorization: "Bearer " + localStorage.getItem("Token") } },
           );
           setStore({ alumno: response.data });
         } catch (error) {
@@ -583,8 +583,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 
       obtenerDatosAlumno_byId: async (id) => {
         try {
-          const response = await axios.get( direccion + "/api/alumnos_mutual/" + id,
-            { headers: { Authorization: "Bearer " + localStorage.getItem("Token") }},
+          const response = await axios.get(direccion + "/api/alumnos_mutual/" + id,
+            { headers: { Authorization: "Bearer " + localStorage.getItem("Token") } },
           );
           setStore({ datos_alumno: response.data });
           return true
@@ -596,7 +596,58 @@ const getState = ({ getStore, getActions, setStore }) => {
       },
 
       // Modificar Alumno
-      modificarAlumno_desdeAdmin: async (
+      modificarAlumno_desdeAdmin: async (id, cedula, nombre, apellido,
+        direccionAlumno, celular, fechanacimiento, peso, altura, email,
+        idmutualista, condicionesmedicas, medicacion, emergencias, motivoentrenamiento,
+        idcuota, rol, genero, observaciones, fechaingreso, foto) => {
+        try {
+          const response = await axios.put(direccion + "/api/alumnos/" + id, {
+            id: id,
+            cedula: cedula,
+            nombre: nombre,
+            apellido: apellido,
+            direccion: direccionAlumno,
+            email: email,
+            fechanacimiento: fechanacimiento,
+            condicionesmedicas: condicionesmedicas,
+            medicacion: medicacion,
+            emergencias: emergencias,
+            rol: rol,
+            motivoentrenamiento: motivoentrenamiento,
+            observaciones: observaciones,
+            foto: foto,
+            celular: celular,
+            peso: peso,
+            altura: altura,
+            fechaingreso: fechaingreso,
+            genero: genero,
+            idcuota: idcuota,
+            idmutualista: idmutualista,
+            password: cedula.toString()
+          }, {
+            headers: {
+              Authorization: "Bearer " + localStorage.getItem("Token"),
+            },
+          });
+          if (response.status === 200) {
+            return true;
+          }
+        } catch (error) {
+          if (error.code === "ERR_BAD_REQUEST") {
+            console.log(error.response.data.msg);
+            return false;
+          } else {
+            console.error(
+              "Error " + error.response.status + ": " +
+              error.response.statusText,
+            );
+            return false;
+          }
+        }
+      },
+
+      // Modificar Alumno
+      modificarAlumno: async (
         id,
         cedula,
         nombre,
@@ -664,148 +715,70 @@ const getState = ({ getStore, getActions, setStore }) => {
           }
         }
       },
- 
-      // Modificar Alumno
-      modificarAlumno: async (
-        id,
-        cedula,
-        nombre,
-        apellido,
-        direccionAlumno,
-        celular,
-        fechanacimiento,
-        peso,
-        altura,
-        email,
-        idmutualista,
-        condicionesmedicas,
-        medicacion,
-        emergencias,
-        motivoentrenamiento,
-        idcuota,
-        rol,
-        genero,
-        observaciones,
-        fechaingreso,
-        foto,
-      ) => {
-        try {
-          const response = await axios.put(direccion + "/api/alumnos/" + id, {
-            id: id,
-            cedula: cedula,
-            nombre: nombre,
-            apellido: apellido,
-            direccion: direccionAlumno,
-            email: email,
-            fechanacimiento: fechanacimiento,
-            condicionesmedicas: condicionesmedicas,
-            medicacion: medicacion,
-            emergencias: emergencias,
-            rol: rol,
-            motivoentrenamiento: motivoentrenamiento,
-            observaciones: observaciones,
-            foto: foto,
-            celular: celular,
-            peso: peso,
-            altura: altura,
-            fechaingreso: fechaingreso,
-            genero: genero,
-            idcuota: idcuota,
-            idmutualista: idmutualista,
-          }, {
-            headers: {
-              Authorization: "Bearer " + localStorage.getItem("Token"),
-            },
-          });
-          if (response.status === 200) {
-            return true;
-          }
-        } catch (error) {
-          if (error.code === "ERR_BAD_REQUEST") {
-            console.log(error.response.data.msg);
-            return false;
-          } else {
-            console.error(
-              "Error " + error.response.status + ": " +
-              error.response.statusText,
-            );
-            return false;
-          }
-        }
-      },
 
       // Modificar alumno segun datos personales
-      modificarAlumno: async (
-        id,
-        nombre,
-        apellido,
-        direccionAlumno,
-        cedula,
-        celular,
-        email,
-        genero,
-        fechanacimiento,
-        peso,
-        altura
-      ) => {
-        try {
-          const response = await axios.put(direccion + "/api/alumnos_datospersonales/" + id, {
-            id: id,
-            cedula: cedula,
-            nombre: nombre,
-            apellido: apellido,
-            direccion: direccionAlumno,
-            email: email,
-            fechanacimiento: fechanacimiento,
-            celular: celular,
-            peso: peso,
-            altura: altura,
-            genero: genero,
-          }, {
-            headers: { Authorization: "Bearer " + localStorage.getItem("Token")},
-          });
-          if (response.status === 200) {
-            return true;
-          }
-        } catch (error) {
-          if (error.code === "ERR_BAD_REQUEST") {
-            console.log(error.response.data.msg);
-            return false;
-          } else {
-            console.error("Error: " + error.response.status + ": " + error.response.statusText );
-            return false;
-          }
-        }
-      },
+      // modificarAlumno: async ( id, nombre, apellido, direccionAlumno, cedula,
+      //   celular, email, genero, fechanacimiento, peso, altura ) => {
+      //   try {
+      //     const response = await axios.put(direccion + "/api/alumnos_datospersonales/" + id, {
+      //       id: id,
+      //       cedula: cedula,
+      //       nombre: nombre,
+      //       apellido: apellido,
+      //       direccion: direccionAlumno,
+      //       email: email,
+      //       fechanacimiento: fechanacimiento,
+      //       celular: celular,
+      //       peso: peso,
+      //       altura: altura,
+      //       genero: genero,
+      //       password: cedula.toString()
+      //     }, {
+      //       headers: { Authorization: "Bearer " + localStorage.getItem("Token")},
+      //     });
+      //     if (response.status === 200) {
+      //       return true;
+      //     }
+      //   } catch (error) {
+      //     if (error.code === "ERR_BAD_REQUEST") {
+      //       console.log(error.response.data.msg);
+      //       return false;
+      //     } else {
+      //       console.error("Error: " + error.response.status + ": " + error.response.statusText );
+      //       return false;
+      //     }
+      //   }
+      // },
 
       // Modificar alumno segun datos medicos alumnos_datosmedicos
-      modificarAlumno: async ( id, motivo, condiciones, emergencia, idMutualista, medicacion, observaciones) => {
-        try {
-          const response = await axios.put(direccion + "/api/alumnos_datosmedicos/" + id, {
-            id: id,
-            idmutualista: idMutualista, 
-            condicionesmedicas: condiciones,
-            medicacion: medicacion, 
-            emergencias: emergencia, 
-            motivoentrenamiento: motivo, 
-            observaciones: observaciones
+      // modificarAlumno: async ( id, motivo, condiciones, emergencia, idMutualista, medicacion, observaciones) => {
+      //   try {
+      //     const response = await axios.put(direccion + "/api/alumnos_datosmedicos/" + id, {
+      //       id: id,
+      //       idmutualista: idMutualista, 
+      //       condicionesmedicas: condiciones,
+      //       medicacion: medicacion, 
+      //       emergencias: emergencia, 
+      //       motivoentrenamiento: motivo, 
+      //       observaciones: observaciones
 
-          }, {
-            headers: { Authorization: "Bearer " + localStorage.getItem("Token")},
-          });
-          if (response.status === 200) {
-            return true;
-          }
-        } catch (error) {
-          if (error.code === "ERR_BAD_REQUEST") {
-            console.log(error.response.data.msg);
-            return false;
-          } else {
-            console.error("Error: " + error.response.status + ": " + error.response.statusText );
-            return false;
-          }
-        }
-      },
+      //     }, {
+      //       headers: { Authorization: "Bearer " + localStorage.getItem("Token")},
+      //     });
+      //     if (response.status === 200) {
+      //       return true;
+      //     }
+      //   } catch (error) {
+      //     if (error.code === "ERR_BAD_REQUEST") {
+      //       console.log(error.response.data.msg);
+      //       return false;
+      //     } else {
+      //       console.error("Error: " + error.response.status + ": " + error.response.statusText );
+      //       return false;
+      //     }
+      //   }
+      // },
+
       // Modificar vencimiento proxima cuota
       proximoVencimiento: async (id, fecha) => {
         try {
@@ -838,53 +811,45 @@ const getState = ({ getStore, getActions, setStore }) => {
       },
 
       // Obtener los alumnos con cuotas pendientes
-      vencimientosPendientes: async (
-        fechaActual,
-      ) => {
+      vencimientosPendientes: async (fechaActual) => {
         try {
           const response = await axios.get(direccion + "/api/vencimientos/" + fechaActual,
-            {
-              headers: {
-                Authorization: "Bearer " + localStorage.getItem("Token"),
-              },
-            }
+            { headers: { Authorization: "Bearer " + localStorage.getItem("Token") } }
           );
           if (response.status === 200) {
             setStore({ vencimientos: response.data })
             return true;
           }
         } catch (error) {
-          console.error(
-            "Error " + error.response.status + ": " + error.response.statusText,
-          );
+          console.error( "Error " + error.response.status + ": " + error.response.statusText);
           return false;
         }
       },
 
       // Generar link de imgur
-      guardarImagen: async (imagen) => {
-        try {
-          const response = await fetch("https://api.imgur.com/3/upload", {
-            method: "POST",
-            headers: {
-              Authorization: "Client-ID " + process.env.IMGUR_CLIENT_ID,
-            },
-            body: imagen,
-          })
-          const data = await response.json()
-          console.log(data)
+      // guardarImagen: async (imagen) => {
+      //   try {
+      //     const response = await fetch("https://api.imgur.com/3/upload", {
+      //       method: "POST",
+      //       headers: {
+      //         Authorization: "Client-ID " + process.env.IMGUR_CLIENT_ID,
+      //       },
+      //       body: imagen,
+      //     })
+      //     const data = await response.json()
+      //     console.log(data)
 
-          if (data.status == 403) {
-            return data.data.error
-          }
+      //     if (data.status == 403) {
+      //       return data.data.error
+      //     }
 
-          const imagenLink = data.data.link
-          console.log(imagenLink)
-        } catch (err) {
-          console.error(data.data.error)
-          return false
-        }
-      },
+      //     const imagenLink = data.data.link
+      //     console.log(imagenLink)
+      //   } catch (err) {
+      //     console.error(data.data.error)
+      //     return false
+      //   }
+      // },
 
       // Ordena los alumnos de mayor a menor
       ordenarAlumnosDesc: async () => {
@@ -1138,15 +1103,15 @@ const getState = ({ getStore, getActions, setStore }) => {
         try {
           const response = await axios.get(
             direccion + "/api/mensualidades/" + id, {
-              headers: { Authorization: "Bearer " + localStorage.getItem("Token") },
-            },
+            headers: { Authorization: "Bearer " + localStorage.getItem("Token") },
+          },
           );
           setStore({ pago: response.data });
           if (response.status === 200) {
             return true;
           }
         } catch (error) {
-          console.error( "Error " + error.response.status + ": " + error.response.statusText );
+          console.error("Error " + error.response.status + ": " + error.response.statusText);
           return false;
         }
       },
@@ -1156,15 +1121,15 @@ const getState = ({ getStore, getActions, setStore }) => {
         try {
           const response = await axios.get(
             direccion + "/api/mensualidadesAlumno/" + id, {
-              headers: { Authorization: "Bearer " + localStorage.getItem("Token")},
-            },
+            headers: { Authorization: "Bearer " + localStorage.getItem("Token") },
+          },
           );
           setStore({ pagos: response.data });
           if (response.status === 200) {
             return true;
           }
         } catch (error) {
-          console.error( "Error " + error.response.status + ": " + error.response.statusText);
+          console.error("Error " + error.response.status + ": " + error.response.statusText);
           return false;
         }
       },
@@ -2128,7 +2093,7 @@ const getState = ({ getStore, getActions, setStore }) => {
         setStore({ auth: false })
         setStore({ estadoDatosPersonales: "invisible" })
         setStore({ estadoPagosPersonales: "invisible" })
-        setStore({ estadoRutinas: "invisible"})
+        setStore({ estadoRutinas: "invisible" })
       },
 
       ////////////////////////////////////
@@ -3161,24 +3126,24 @@ const getState = ({ getStore, getActions, setStore }) => {
       visualizarComponentes: (cual) => {
         if (cual == "Personales") {
           setStore({ estadoDatosPersonales: "visible" })
-          setStore({ estadoPagosPersonales: "invisible"})
-          setStore({ estadoRutinas: "invisible"})
-          setStore({ estadoTienda: "invisible"})
+          setStore({ estadoPagosPersonales: "invisible" })
+          setStore({ estadoRutinas: "invisible" })
+          setStore({ estadoTienda: "invisible" })
         } else if (cual == "Pagos") {
-          setStore({estadoPagosPersonales: "visible"})
+          setStore({ estadoPagosPersonales: "visible" })
           setStore({ estadoDatosPersonales: "invisible" })
-          setStore({ estadoRutinas: "invisible"})
-          setStore({ estadoTienda: "invisible"})
+          setStore({ estadoRutinas: "invisible" })
+          setStore({ estadoTienda: "invisible" })
         } else if (cual == "Rutinas") {
-          setStore({estadoPagosPersonales: "invisible"})
+          setStore({ estadoPagosPersonales: "invisible" })
           setStore({ estadoDatosPersonales: "invisible" })
-          setStore({ estadoRutinas: "visible"})
-          setStore({ estadoTienda: "invisible"})
+          setStore({ estadoRutinas: "visible" })
+          setStore({ estadoTienda: "invisible" })
         } else if (cual == "Tienda") {
-          setStore({estadoPagosPersonales: "invisible"})
+          setStore({ estadoPagosPersonales: "invisible" })
           setStore({ estadoDatosPersonales: "invisible" })
-          setStore({ estadoRutinas: "invisible"})
-          setStore({ estadoTienda: "visible"})
+          setStore({ estadoRutinas: "invisible" })
+          setStore({ estadoTienda: "visible" })
         }
       }
 
